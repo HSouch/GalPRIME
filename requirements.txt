@@ -1,0 +1,9 @@
+astropy~=4.3.1
+numpy~=1.21.0
+pebble~=4.6.1
+matplotlib~=3.1.1
+scipy~=1.7.1
+tbridge~=1.5.5
+tqdm~=4.36.1
+photutils~=1.2.0
+scikit-image~=0.15.0
