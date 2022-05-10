@@ -16,7 +16,23 @@ from photutils import Background2D, MedianBackground, BkgZoomInterpolator, make_
 
 def background_2D(img, mask, box_size, interp=None, filter_size=1,
                   exclude_percentile=90):
-    ''' Run photutils background with SigmaClip and MedianBackground'''
+    """ Run photutils background with SigmaClip and MedianBackground
+
+    :param img: The 2D input image
+    :type img: array_like (np.ndarray)
+    :param mask: The 2D image mask
+    :type mask: array_like (np.ndarray)
+    :param box_size: The size of the box used in the 2D background. It should be larger than
+        the largest objects in your image but still sufficiently small to capture large-scale
+        structure.
+    :type box_size: int, optional
+    :param filter_size: The window size of the median filter being applied to the background image. A
+        higher filter size will result in more smoothing to the background.
+    :type filter_size: int, optional
+    :param exclude_percentile: If the percentage of masked pixels in a box is above the exclude percentile,
+        it is not included in determining the 2D background.
+    :type exclude_percentile: float, optional
+    """
     if interp is None:
         interp = BkgZoomInterpolator()
     return Background2D(img, box_size,
@@ -29,9 +45,19 @@ def background_2D(img, mask, box_size, interp=None, filter_size=1,
 
 
 class SourceMask:
-    def __init__(self, img, nsigma=3., npixels=3, mask=None):
-        ''' Helper for making & dilating a source mask.
-             See Photutils docs for make_source_mask.'''
+    def __init__(self, img, nsigma=3., npixels=10, mask=None):
+        """ Helper for making & dilating a source mask.
+             See Photutils docs for make_source_mask.
+
+            :param img: The image that is to be masked
+            :type img: array_like (np.ndarray)
+            :param nsigma: The sigma detection threshold for the source mask, defaults to 3
+            :type nsigma: float, optional
+            :param npixels: The number of required pixels for a detection, defaults to 10
+            :type npixels: int, optional
+            :param mask: An already-suppled mask for objects in the image.
+            :type array_like (np.ndarray), optional
+        """
         self.img = img
         self.nsigma = nsigma
         self.npixels = npixels
@@ -41,7 +67,7 @@ class SourceMask:
             self.mask = mask
 
     def single(self, filter_fwhm=3., tophat_size=5., mask=None):
-        '''Mask on a single scale'''
+        """ Mask on a single scale """
         if mask is None:
             image = self.img
         else:
@@ -73,7 +99,7 @@ class SourceMask:
 
 
 def dilate_mask(mask, tophat_size):
-    """ Take a mask and make the masked regions bigger."""
+    """ Dilate a mask with a tophat kernel. """
     area = np.pi * tophat_size ** 2.
     kernel = Tophat2DKernel(tophat_size)
     dilated_mask = convolve(mask, kernel) >= 1. / area
@@ -90,6 +116,12 @@ def estimate_background(cutout, config, model_params=None):
         circle: uses a circular annuli
         sigclip (DEFAULT): measures the background using sigma-clipping.
 
+    :param cutout: The input cutout
+    :type cutout: array_like (np.ndarray)
+    :param config: The configuration file (generated with galprime.config)
+    :type config: dict
+    :param model_params: Input model params for the ellipse method
+    :type model_params: dict, optional
     """
     if config["BG_PARAMS"] == "ellipse" and model_params is not None:
         bg_mean, bg_median, bg_std = estimate_bg_elliptical_annulus(cutout,
@@ -119,6 +151,13 @@ def estimate_background_sigclip(cutout, nsigma=2, npixels=3, dilate_size=7):
 def estimate_bg_annulus(cutout, annulus_radius=50, annulus_width=10, dynamic=True, **kwargs):
     """
     Measure the background of a cutout using a circular annulus
+
+    :param annulus_radius: Radius of the inner component of the annulus, defaults to 50 pix
+    :type annulus_radius: int, optional
+    :param annulus_width: Width of the annulus, defaults to 10 pix
+    :type annulus_width: int, optional
+    :param dynamic: Automatically sets the size of the annulus to be as large as possible
+    :type dynamic: bool, optional
     """
 
     args = {"nsigma": 2, "npixels": 5, "dilate_size": 11, "sigclip_iters": 5}
@@ -187,7 +226,8 @@ def estimate_bg_elliptical_annulus(cutout, ellipticity=0, r_50=50, pa=0, width=2
 def estimate_background_set(cutouts):
     """
     Estimates the background values for a set of cutouts.
-    :param cutouts:
+    :param cutouts: A list of array_like cutouts
+    :type cutouts: array_like
     :return:
     """
     bg_means, bg_medians, bg_stds = [], [], []
