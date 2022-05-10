@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>galprime.isophote_l package &mdash; GalPRIME  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> GalPRIME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="galprime.html">galprime package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">GalPRIME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>galprime.isophote_l package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/galprime.isophote_l.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="galprime-isophote-l-package">
+<h1>galprime.isophote_l package<a class="headerlink" href="#galprime-isophote-l-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-galprime.isophote_l.ellipse">
+<span id="galprime-isophote-l-ellipse-module"></span><h2>galprime.isophote_l.ellipse module<a class="headerlink" href="#module-galprime.isophote_l.ellipse" title="Permalink to this headline">¶</a></h2>
+<p>This module provides a class to fit elliptical isophotes.</p>
+<dl class="class">
+<dt id="galprime.isophote_l.ellipse.Ellipse">
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.ellipse.</code><code class="sig-name descname">Ellipse</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">geometry=None</em>, <em class="sig-param">threshold=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to fit elliptical isophotes to a galaxy image.</p>
+<p>The isophotes in the image are measured using an iterative method
+described by <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1987MNRAS.226..747J/abstract">Jedrzejewski (1987; MNRAS  226, 747)</a>.
+See the <strong>Notes</strong> section below for details about the algorithm.</p>
+<dl>
+<dt>image<span class="classifier">2D <cite>~numpy.ndarray</cite></span></dt><dd><p>The image array.</p>
+</dd>
+<dt>geometry<span class="classifier"><cite>~photutils.isophote.EllipseGeometry</cite> instance or <cite>None</cite>, optional</span></dt><dd><p>The optional geometry that describes the first ellipse to be
+fitted.  If <cite>None</cite>, a default
+<cite>~photutils.isophote.EllipseGeometry</cite> instance is created
+centered on the image frame with ellipticity of 0.2 and a
+position angle of 90 degrees.</p>
+</dd>
+<dt>threshold<span class="classifier">float, optional</span></dt><dd><p>The threshold for the object centerer algorithm. By lowering
+this value the object centerer becomes less strict, in the sense
+that it will accept lower signal-to-noise data. If set to a very
+large value, the centerer is effectively shut off. In this case,
+either the geometry information supplied by the <code class="docutils literal notranslate"><span class="pre">geometry</span></code>
+parameter is used as is, or the fit algorithm will terminate
+prematurely. Note that once the object centerer runs
+successfully, the (x, y) coordinates in the <code class="docutils literal notranslate"><span class="pre">geometry</span></code>
+attribute (an <cite>~photutils.isophote.EllipseGeometry</cite> instance)
+are modified in place.  The default is 0.1</p>
+</dd>
+</dl>
+<p>The image is measured using an iterative method described by
+<a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1987MNRAS.226..747J/abstract">Jedrzejewski (1987; MNRAS  226, 747)</a>.
+Each isophote is fitted at a pre-defined, fixed semimajor axis
+length.  The algorithm starts from a first-guess elliptical isophote
+defined by approximate values for the (x, y) center coordinates,
+ellipticity, and position angle.  Using these values, the image is
+sampled along an elliptical path, producing a 1-dimensional function
+that describes the dependence of intensity (pixel value) with angle
+(E). The function is stored as a set of 1D numpy arrays. The
+harmonic content of this function is analyzed by least-squares
+fitting to the function:</p>
+<div class="math notranslate nohighlight">
+\[y  =  y0 + (A1 * \sin(E)) + (B1 * \cos(E)) + (A2 * \sin(2 * E))
++ (B2 * \cos(2 * E))\]</div>
+<p>Each one of the harmonic amplitudes (A1, B1, A2, and B2) is related
+to a specific ellipse geometric parameter in the sense that it
+conveys information regarding how much the parameter’s current value
+deviates from the “true” one. To compute this deviation, the image’s
+local radial gradient has to be taken into account too. The
+algorithm picks up the largest amplitude among the four, estimates
+the local gradient, and computes the corresponding increment in the
+associated ellipse parameter. That parameter is updated, and the
+image is resampled. This process is repeated until any one of the
+following criteria are met:</p>
+<ol class="arabic simple">
+<li><p>the largest harmonic amplitude is less than a given fraction of
+the rms residual of the intensity data around the harmonic fit.</p></li>
+<li><p>a user-specified maximum number of iterations is reached.</p></li>
+<li><p>more than a given fraction of the elliptical sample points have no
+valid data in then, either because they lie outside the image
+boundaries or because they were flagged out from the fit by
+sigma-clipping.</p></li>
+</ol>
+<p>In any case, a minimum number of iterations is always performed. If
+iterations stop because of reasons 2 or 3 above, then those ellipse
+parameters that generated the lowest absolute values for harmonic
+amplitudes will be used. At this point, the image data sample coming
+from the best fit ellipse is fitted by the following function:</p>
+<div class="math notranslate nohighlight">
+\[y  =  y0 + (An * sin(n * E)) + (Bn * cos(n * E))\]</div>
+<p>with <span class="math notranslate nohighlight">\(n = 3\)</span> and <span class="math notranslate nohighlight">\(n = 4\)</span>. The corresponding amplitudes
+(A3, B3, A4, and B4), divided by the semimajor axis length and local
+intensity gradient, measure the isophote’s deviations from perfect
+ellipticity (these amplitudes, divided by semimajor axis and
+gradient, are the actual quantities stored in the output
+<cite>~photutils.isophote.Isophote</cite> instance).</p>
+<p>The algorithm then measures the integrated intensity and the number
+of non-flagged pixels inside the elliptical isophote, and also
+inside the corresponding circle with same center and radius equal to
+the semimajor axis length. These parameters, their errors, other
+associated parameters, and auxiliary information, are stored in the
+<cite>~photutils.isophote.Isophote</cite> instance.</p>
+<p>Errors in intensity and local gradient are obtained directly from
+the rms scatter of intensity data along the fitted ellipse. Ellipse
+geometry errors are obtained from the errors in the coefficients of
+the first and second simultaneous harmonic fit. Third and fourth
+harmonic amplitude errors are obtained in the same way, but only
+after the first and second harmonics are subtracted from the raw
+data.  For more details, see the error analysis in <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1996ASPC..101..139B/abstract">Busko (1996;
+ASPC 101, 139)</a>.</p>
+<p>After fitting the ellipse that corresponds to a given value of the
+semimajor axis (by the process described above), the axis length is
+incremented/decremented following a pre-defined rule. At each step,
+the starting, first-guess, ellipse parameters are taken from the
+previously fitted ellipse that has the closest semimajor axis length
+to the current one. On low surface brightness regions (those having
+large radii), the small values of the image radial gradient can
+induce large corrections and meaningless values for the ellipse
+parameters.  The algorithm has the ability to stop increasing
+semimajor axis based on several criteria, including signal-to-noise
+ratio.</p>
+<p>See the <cite>~photutils.isophote.Isophote</cite> documentation for the meaning
+of the stop code reported after each fit.</p>
+<p>The fit algorithm provides a k-sigma clipping algorithm for cleaning
+deviant sample points at each isophote, thus improving convergence
+stability against any non-elliptical structure such as stars, spiral
+arms, HII regions, defects, etc.</p>
+<p>The fit algorithm has no way of finding where, in the input image
+frame, the galaxy to be measured is located. The center (x, y)
+coordinates need to be close to the actual center for the fit to
+work. An “object centerer” function helps to verify that the
+selected position can be used as starting point. This function scans
+a 10x10 window centered either on the (x, y) coordinates in the
+<cite>~photutils.isophote.EllipseGeometry</cite> instance passed to the
+constructor of the <cite>~photutils.isophote.Ellipse</cite> class, or, if any
+one of them, or both, are set to <cite>None</cite>, on the input image frame
+center. In case a successful acquisition takes place, the
+<cite>~photutils.isophote.EllipseGeometry</cite> instance is modified in place
+to reflect the solution of the object centerer algorithm.</p>
+<p>In some cases the object centerer algorithm may fail, even though
+there is enough signal-to-noise to start a fit (e.g., in objects
+with very high ellipticity). In those cases the sensitivity of the
+algorithm can be decreased by decreasing the value of the object
+centerer threshold parameter. The centerer works by looking to where
+a quantity akin to a signal-to-noise ratio is maximized within the
+10x10 window. The centerer can thus be shut off entirely by setting
+the threshold to a large value &gt;&gt; 1 (meaning, no location inside the
+search window will achieve that signal-to-noise ratio).</p>
+<p>A note of caution: the ellipse fitting algorithm was designed
+explicitly with an elliptical galaxy brightness distribution in
+mind. In particular, a well defined negative radial intensity
+gradient across the region being fitted is paramount for the
+achievement of stable solutions. Use of the algorithm in other types
+of images (e.g., planetary nebulae) may lead to inability to
+converge to any acceptable solution.</p>
+<dl class="method">
+<dt id="galprime.isophote_l.ellipse.Ellipse.fit_image">
+<code class="sig-name descname">fit_image</code><span class="sig-paren">(</span><em class="sig-param">sma0=None</em>, <em class="sig-param">minsma=0.0</em>, <em class="sig-param">maxsma=None</em>, <em class="sig-param">step=0.1</em>, <em class="sig-param">conver=0.05</em>, <em class="sig-param">minit=10</em>, <em class="sig-param">maxit=50</em>, <em class="sig-param">fflag=0.7</em>, <em class="sig-param">maxgerr=0.5</em>, <em class="sig-param">sclip=3.0</em>, <em class="sig-param">nclip=0</em>, <em class="sig-param">integrmode='bilinear'</em>, <em class="sig-param">linear=None</em>, <em class="sig-param">maxrit=None</em>, <em class="sig-param">fix_center=False</em>, <em class="sig-param">fix_pa=False</em>, <em class="sig-param">fix_eps=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.fit_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.fit_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit multiple isophotes to the image array.</p>
+<p>This method loops over each value of the semimajor axis (sma)
+length (constructed from the input parameters), fitting a single
+isophote at each sma.  The entire set of isophotes is returned
+in an <cite>~photutils.isophote.IsophoteList</cite> instance.</p>
+<p>Note that the fix_XXX parameters act in unison. Meaning, if one
+of them is set via this call, the others will assume their default
+(False) values. This effectively overrides any settings that are
+present in the internal <cite>~photutils.isophote.EllipseGeometry</cite>
+instance that is carried along as a property of this class. If an
+instance of <cite>~photutils.isophote.EllipseGeometry</cite> was passed to this
+class’ constructor, that instance will be effectively overriden by
+the fix_XXX parameters in this call.</p>
+<dl>
+<dt>sma0<span class="classifier">float, optional</span></dt><dd><p>The starting value for the semimajor axis length (pixels).
+This value must not be the minimum or maximum semimajor axis
+length, but something in between. The algorithm can’t start
+from the very center of the galaxy image because the
+modelling of elliptical isophotes on that region is poor and
+it will diverge very easily if not tied to other previously
+fit isophotes. It can’t start from the maximum value either
+because the maximum is not known beforehand, depending on
+signal-to-noise. The <code class="docutils literal notranslate"><span class="pre">sma0</span></code> value should be selected such
+that the corresponding isophote has a good signal-to-noise
+ratio and a clearly defined geometry. If set to <cite>None</cite> (the
+default), one of two actions will be taken:  if a
+<cite>~photutils.isophote.EllipseGeometry</cite> instance was input to
+the <cite>~photutils.isophote.Ellipse</cite> constructor, its <code class="docutils literal notranslate"><span class="pre">sma</span></code>
+value will be used.  Otherwise, a default value of 10. will
+be used.</p>
+</dd>
+<dt>minsma<span class="classifier">float, optional</span></dt><dd><p>The minimum value for the semimajor axis length (pixels).
+The default is 0.</p>
+</dd>
+<dt>maxsma<span class="classifier">float or <cite>None</cite>, optional</span></dt><dd><p>The maximum value for the semimajor axis length (pixels).
+When set to <cite>None</cite> (default), the algorithm will increase
+the semimajor axis until one of several conditions will
+cause it to stop and revert to fit ellipses with sma &lt;
+<code class="docutils literal notranslate"><span class="pre">sma0</span></code>.</p>
+</dd>
+<dt>step<span class="classifier">float, optional</span></dt><dd><p>The step value used to grow/shrink the semimajor axis length
+(pixels if <code class="docutils literal notranslate"><span class="pre">linear=True</span></code>, or a relative value if
+<code class="docutils literal notranslate"><span class="pre">linear=False</span></code>). See the <code class="docutils literal notranslate"><span class="pre">linear</span></code> parameter.  The
+default is 0.1.</p>
+</dd>
+<dt>conver<span class="classifier">float, optional</span></dt><dd><p>The main convergence criterion. Iterations stop when the
+largest harmonic amplitude becomes smaller (in absolute
+value) than <code class="docutils literal notranslate"><span class="pre">conver</span></code> times the harmonic fit rms.  The
+default is 0.05.</p>
+</dd>
+<dt>minit<span class="classifier">int, optional</span></dt><dd><p>The minimum number of iterations to perform. A minimum of 10
+(the default) iterations guarantees that, on average, 2
+iterations will be available for fitting each independent
+parameter (the four harmonic amplitudes and the intensity
+level). For the first isophote, the minimum number of
+iterations is 2 * <code class="docutils literal notranslate"><span class="pre">minit</span></code> to ensure that, even departing
+from not-so-good initial values, the algorithm has a better
+chance to converge to a sensible solution.</p>
+</dd>
+<dt>maxit<span class="classifier">int, optional</span></dt><dd><p>The maximum number of iterations to perform.  The default is
+50.</p>
+</dd>
+<dt>fflag<span class="classifier">float, optional</span></dt><dd><p>The acceptable fraction of flagged data points in the
+sample.  If the actual fraction of valid data points is
+smaller than this, the iterations will stop and the current
+<cite>~photutils.isophote.Isophote</cite> will be returned.  Flagged
+data points are points that either lie outside the image
+frame, are masked, or were rejected by sigma-clipping.  The
+default is 0.7.</p>
+</dd>
+<dt>maxgerr<span class="classifier">float, optional</span></dt><dd><p>The maximum acceptable relative error in the local radial
+intensity gradient. This is the main control for preventing
+ellipses to grow to regions of too low signal-to-noise
+ratio.  It specifies the maximum acceptable relative error
+in the local radial intensity gradient.  <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1996ASPC..101..139B/abstract">Busko (1996; ASPC
+101, 139)</a>
+showed that the fitting precision relates to that relative
+error.  The usual behavior of the gradient relative error is
+to increase with semimajor axis, being larger in outer,
+fainter regions of a galaxy image.  In the current
+implementation, the <code class="docutils literal notranslate"><span class="pre">maxgerr</span></code> criterion is triggered only
+when two consecutive isophotes exceed the value specified by
+the parameter. This prevents premature stopping caused by
+contamination such as stars and HII regions.</p>
+<p>A number of actions may happen when the gradient error
+exceeds <code class="docutils literal notranslate"><span class="pre">maxgerr</span></code> (or becomes non-significant and is set
+to <cite>None</cite>).  If the maximum semimajor axis specified by
+<code class="docutils literal notranslate"><span class="pre">maxsma</span></code> is set to <cite>None</cite>, semimajor axis growth is
+stopped and the algorithm proceeds inwards to the galaxy
+center. If <code class="docutils literal notranslate"><span class="pre">maxsma</span></code> is set to some finite value, and this
+value is larger than the current semimajor axis length, the
+algorithm enters non-iterative mode and proceeds outwards
+until reaching <code class="docutils literal notranslate"><span class="pre">maxsma</span></code>.  The default is 0.5.</p>
+</dd>
+<dt>sclip<span class="classifier">float, optional</span></dt><dd><p>The sigma-clip sigma value.  The default is 3.0.</p>
+</dd>
+<dt>nclip<span class="classifier">int, optional</span></dt><dd><p>The number of sigma-clip interations.  The default is 0,
+which means sigma-clipping is skipped.</p>
+</dd>
+<dt>integrmode<span class="classifier">{‘bilinear’, ‘nearest_neighbor’, ‘mean’, ‘median’}, optional</span></dt><dd><p>The area integration mode.  The default is ‘bilinear’.</p>
+</dd>
+<dt>linear<span class="classifier">bool, optional</span></dt><dd><p>The semimajor axis growing/shrinking mode. If <cite>False</cite>
+(default), the geometric growing mode is chosen, thus the
+semimajor axis length is increased by a factor of (1. +
+<code class="docutils literal notranslate"><span class="pre">step</span></code>), and the process is repeated until either the
+semimajor axis value reaches the value of parameter
+<code class="docutils literal notranslate"><span class="pre">maxsma</span></code>, or the last fitted ellipse has more than a given
+fraction of its sampled points flagged out (see <code class="docutils literal notranslate"><span class="pre">fflag</span></code>).
+The process then resumes from the first fitted ellipse (at
+<code class="docutils literal notranslate"><span class="pre">sma0</span></code>) inwards, in steps of (1./(1. + <code class="docutils literal notranslate"><span class="pre">step</span></code>)), until
+the semimajor axis length reaches the value <code class="docutils literal notranslate"><span class="pre">minsma</span></code>. In
+case of linear growing, the increment or decrement value is
+given directly by <code class="docutils literal notranslate"><span class="pre">step</span></code> in pixels.  If <code class="docutils literal notranslate"><span class="pre">maxsma</span></code> is set
+to <cite>None</cite>, the semimajor axis will grow until a low
+signal-to-noise criterion is met. See <code class="docutils literal notranslate"><span class="pre">maxgerr</span></code>.</p>
+</dd>
+<dt>maxrit<span class="classifier">float or <cite>None</cite>, optional</span></dt><dd><p>The maximum value of semimajor axis to perform an actual
+fit.  Whenever the current semimajor axis length is larger
+than <code class="docutils literal notranslate"><span class="pre">maxrit</span></code>, the isophotes will be extracted using the
+current geometry, without being fitted.  This non-iterative
+mode may be useful for sampling regions of very low surface
+brightness, where the algorithm may become unstable and
+unable to recover reliable geometry information.
+Non-iterative mode can also be entered automatically
+whenever the ellipticity exceeds 1.0 or the ellipse center
+crosses the image boundaries.  If <cite>None</cite> (default), then no
+maximum value is used.</p>
+</dd>
+<dt>fix_center<span class="classifier">bool, optional</span></dt><dd><p>Keep center of ellipse fixed during fit? The default is False.</p>
+</dd>
+<dt>fix_pa<span class="classifier">bool, optional</span></dt><dd><p>Keep position angle of semi-major axis of ellipse fixed during fit?
+The default is False.</p>
+</dd>
+<dt>fix_eps<span class="classifier">bool, optional</span></dt><dd><p>Keep ellipticity of ellipse fixed during fit? The default is False.</p>
+</dd>
+</dl>
+<dl>
+<dt>result<span class="classifier"><cite>~photutils.isophote.IsophoteList</cite> instance</span></dt><dd><p>A list-like object of <cite>~photutils.isophote.Isophote</cite>
+instances, sorted by increasing semimajor axis length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.ellipse.Ellipse.fit_isophote">
+<code class="sig-name descname">fit_isophote</code><span class="sig-paren">(</span><em class="sig-param">sma</em>, <em class="sig-param">step=0.1</em>, <em class="sig-param">conver=0.05</em>, <em class="sig-param">minit=10</em>, <em class="sig-param">maxit=50</em>, <em class="sig-param">fflag=0.7</em>, <em class="sig-param">maxgerr=0.5</em>, <em class="sig-param">sclip=3.0</em>, <em class="sig-param">nclip=0</em>, <em class="sig-param">integrmode='bilinear'</em>, <em class="sig-param">linear=False</em>, <em class="sig-param">maxrit=None</em>, <em class="sig-param">noniterate=False</em>, <em class="sig-param">going_inwards=False</em>, <em class="sig-param">isophote_list=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.fit_isophote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.fit_isophote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit a single isophote with a given semimajor axis length.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">step</span></code> and <code class="docutils literal notranslate"><span class="pre">linear</span></code> parameters are not used to actually
+grow or shrink the current fitting semimajor axis length.  They
+are necessary so the sampling algorithm can know where to start
+the gradient computation and also how to compute the elliptical
+sector areas (when area integration mode is selected).</p>
+<dl>
+<dt>sma<span class="classifier">float</span></dt><dd><p>The semimajor axis length (pixels).</p>
+</dd>
+<dt>step<span class="classifier">float, optional</span></dt><dd><p>The step value used to grow/shrink the semimajor axis length
+(pixels if <code class="docutils literal notranslate"><span class="pre">linear=True</span></code>, or a relative value if
+<code class="docutils literal notranslate"><span class="pre">linear=False</span></code>). See the <code class="docutils literal notranslate"><span class="pre">linear</span></code> parameter.  The
+default is 0.1.</p>
+</dd>
+<dt>conver<span class="classifier">float, optional</span></dt><dd><p>The main convergence criterion. Iterations stop when the
+largest harmonic amplitude becomes smaller (in absolute
+value) than <code class="docutils literal notranslate"><span class="pre">conver</span></code> times the harmonic fit rms.  The
+default is 0.05.</p>
+</dd>
+<dt>minit<span class="classifier">int, optional</span></dt><dd><p>The minimum number of iterations to perform. A minimum of 10
+(the default) iterations guarantees that, on average, 2
+iterations will be available for fitting each independent
+parameter (the four harmonic amplitudes and the intensity
+level). For the first isophote, the minimum number of
+iterations is 2 * <code class="docutils literal notranslate"><span class="pre">minit</span></code> to ensure that, even departing
+from not-so-good initial values, the algorithm has a better
+chance to converge to a sensible solution.</p>
+</dd>
+<dt>maxit<span class="classifier">int, optional</span></dt><dd><p>The maximum number of iterations to perform.  The default is
+50.</p>
+</dd>
+<dt>fflag<span class="classifier">float, optional</span></dt><dd><p>The acceptable fraction of flagged data points in the
+sample.  If the actual fraction of valid data points is
+smaller than this, the iterations will stop and the current
+<cite>~photutils.isophote.Isophote</cite> will be returned.  Flagged
+data points are points that either lie outside the image
+frame, are masked, or were rejected by sigma-clipping.  The
+default is 0.7.</p>
+</dd>
+<dt>maxgerr<span class="classifier">float, optional</span></dt><dd><p>The maximum acceptable relative error in the local radial
+intensity gradient.  When fitting a single isophote by
+itself this paramter doesn’t have any effect on the outcome.</p>
+</dd>
+<dt>sclip<span class="classifier">float, optional</span></dt><dd><p>The sigma-clip sigma value.  The default is 3.0.</p>
+</dd>
+<dt>nclip<span class="classifier">int, optional</span></dt><dd><p>The number of sigma-clip interations.  The default is 0,
+which means sigma-clipping is skipped.</p>
+</dd>
+<dt>integrmode<span class="classifier">{‘bilinear’, ‘nearest_neighbor’, ‘mean’, ‘median’}, optional</span></dt><dd><p>The area integration mode.  The default is ‘bilinear’.</p>
+</dd>
+<dt>linear<span class="classifier">bool, optional</span></dt><dd><p>The semimajor axis growing/shrinking mode.  When fitting
+just one isophote, this parameter is used only by the code
+that define the details of how elliptical arc segments
+(“sectors”) are extracted from the image when using area
+extraction modes (see the <code class="docutils literal notranslate"><span class="pre">integrmode</span></code> parameter).</p>
+</dd>
+<dt>maxrit<span class="classifier">float or <cite>None</cite>, optional</span></dt><dd><p>The maximum value of semimajor axis to perform an actual
+fit.  Whenever the current semimajor axis length is larger
+than <code class="docutils literal notranslate"><span class="pre">maxrit</span></code>, the isophotes will be extracted using the
+current geometry, without being fitted.  This non-iterative
+mode may be useful for sampling regions of very low surface
+brightness, where the algorithm may become unstable and
+unable to recover reliable geometry information.
+Non-iterative mode can also be entered automatically
+whenever the ellipticity exceeds 1.0 or the ellipse center
+crosses the image boundaries.  If <cite>None</cite> (default), then no
+maximum value is used.</p>
+</dd>
+<dt>noniterate<span class="classifier">bool, optional</span></dt><dd><p>Whether the fitting algorithm should be bypassed and an
+isophote should be extracted with the geometry taken
+directly from the most recent <cite>~photutils.isophote.Isophote</cite>
+instance stored in the <code class="docutils literal notranslate"><span class="pre">isophote_list</span></code> parameter.  This
+parameter is mainly used when running the method in a loop
+over different values of semimajor axis length, and we want
+to change from iterative to non-iterative mode somewhere
+along the sequence of isophotes. When set to <cite>True</cite>, this
+parameter overrides the behavior associated with parameter
+<code class="docutils literal notranslate"><span class="pre">maxrit</span></code>.  The default is <cite>False</cite>.</p>
+</dd>
+<dt>going_inwards<span class="classifier">bool, optional</span></dt><dd><p>Parameter to define the sense of SMA growth. When fitting
+just one isophote, this parameter is used only by the code
+that defines the details of how elliptical arc segments
+(“sectors”) are extracted from the image, when using area
+extraction modes (see the <code class="docutils literal notranslate"><span class="pre">integrmode</span></code> parameter).  The
+default is <cite>False</cite>.</p>
+</dd>
+<dt>isophote_list<span class="classifier">list or <cite>None</cite>, optional</span></dt><dd><p>If not <cite>None</cite> (the default), the fitted
+<cite>~photutils.isophote.Isophote</cite> instance is appended to this
+list. It must be created and managed by the caller.</p>
+</dd>
+</dl>
+<dl>
+<dt>result<span class="classifier"><cite>~photutils.isophote.Isophote</cite> instance</span></dt><dd><p>The fitted isophote. The fitted isophote is also appended to
+the input list input to the <code class="docutils literal notranslate"><span class="pre">isophote_list</span></code> parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.ellipse.Ellipse.set_threshold">
+<code class="sig-name descname">set_threshold</code><span class="sig-paren">(</span><em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.set_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.set_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the threshold value used by the centerer.</p>
+<dl class="simple">
+<dt>threshold<span class="classifier">float</span></dt><dd><p>The new threshold value to use.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-galprime.isophote_l.fitter">
+<span id="galprime-isophote-l-fitter-module"></span><h2>galprime.isophote_l.fitter module<a class="headerlink" href="#module-galprime.isophote_l.fitter" title="Permalink to this headline">¶</a></h2>
+<p>This module provides a class to fit ellipses.</p>
+<dl class="class">
+<dt id="galprime.isophote_l.fitter.EllipseFitter">
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.fitter.</code><code class="sig-name descname">EllipseFitter</code><span class="sig-paren">(</span><em class="sig-param">sample</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/fitter.html#EllipseFitter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.fitter.EllipseFitter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to fit ellipses.</p>
+<dl>
+<dt>sample<span class="classifier"><cite>~photutils.isophote.EllipseSample</cite> instance</span></dt><dd><p>The sample data to be fitted.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="galprime.isophote_l.fitter.EllipseFitter.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">conver=0.05</em>, <em class="sig-param">minit=10</em>, <em class="sig-param">maxit=50</em>, <em class="sig-param">fflag=0.7</em>, <em class="sig-param">maxgerr=0.5</em>, <em class="sig-param">going_inwards=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/fitter.html#EllipseFitter.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.fitter.EllipseFitter.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit an elliptical isophote.</p>
+<dl>
+<dt>conver<span class="classifier">float, optional</span></dt><dd><p>The main convergence criterion. Iterations stop when the
+largest harmonic amplitude becomes smaller (in absolute
+value) than <code class="docutils literal notranslate"><span class="pre">conver</span></code> times the harmonic fit rms.  The
+default is 0.05.</p>
+</dd>
+<dt>minit<span class="classifier">int, optional</span></dt><dd><p>The minimum number of iterations to perform. A minimum of 10
+(the default) iterations guarantees that, on average, 2
+iterations will be available for fitting each independent
+parameter (the four harmonic amplitudes and the intensity
+level). For the first isophote, the minimum number of
+iterations is 2 * <code class="docutils literal notranslate"><span class="pre">minit</span></code> to ensure that, even departing
+from not-so-good initial values, the algorithm has a better
+chance to converge to a sensible solution.</p>
+</dd>
+<dt>maxit<span class="classifier">int, optional</span></dt><dd><p>The maximum number of iterations to perform.  The default is
+50.</p>
+</dd>
+<dt>fflag<span class="classifier">float, optional</span></dt><dd><p>The acceptable fraction of flagged data points in the
+sample.  If the actual fraction of valid data points is
+smaller than this, the iterations will stop and the current
+<cite>~photutils.isophote.Isophote</cite> will be returned.  Flagged
+data points are points that either lie outside the image
+frame, are masked, or were rejected by sigma-clipping.  The
+default is 0.7.</p>
+</dd>
+<dt>maxgerr<span class="classifier">float, optional</span></dt><dd><p>The maximum acceptable relative error in the local radial
+intensity gradient. This is the main control for preventing
+ellipses to grow to regions of too low signal-to-noise
+ratio.  It specifies the maximum acceptable relative error
+in the local radial intensity gradient.  <a class="reference external" href="https://ui.adsabs.harvard.edu/abs/1996ASPC..101..139B/abstract">Busko (1996; ASPC
+101, 139)</a>
+showed that the fitting precision relates to that relative
+error.  The usual behavior of the gradient relative error is
+to increase with semimajor axis, being larger in outer,
+fainter regions of a galaxy image.  In the current
+implementation, the <code class="docutils literal notranslate"><span class="pre">maxgerr</span></code> criterion is triggered only
+when two consecutive isophotes exceed the value specified by
+the parameter. This prevents premature stopping caused by
+contamination such as stars and HII regions.</p>
+<p>A number of actions may happen when the gradient error
+exceeds <code class="docutils literal notranslate"><span class="pre">maxgerr</span></code> (or becomes non-significant and is set
+to <cite>None</cite>).  If the maximum semimajor axis specified by
+<code class="docutils literal notranslate"><span class="pre">maxsma</span></code> is set to <cite>None</cite>, semimajor axis growth is
+stopped and the algorithm proceeds inwards to the galaxy
+center. If <code class="docutils literal notranslate"><span class="pre">maxsma</span></code> is set to some finite value, and this
+value is larger than the current semimajor axis length, the
+algorithm enters non-iterative mode and proceeds outwards
+until reaching <code class="docutils literal notranslate"><span class="pre">maxsma</span></code>.  The default is 0.5.</p>
+</dd>
+<dt>going_inwards<span class="classifier">bool, optional</span></dt><dd><p>Parameter to define the sense of SMA growth. When fitting
+just one isophote, this parameter is used only by the code
+that defines the details of how elliptical arc segments
+(“sectors”) are extracted from the image, when using area
+extraction modes (see the <code class="docutils literal notranslate"><span class="pre">integrmode</span></code> parameter in the
+<cite>~photutils.isophote.EllipseSample</cite> class).  The default is
+<cite>False</cite>.</p>
+</dd>
+</dl>
+<dl>
+<dt>result<span class="classifier"><cite>~photutils.isophote.Isophote</cite> instance</span></dt><dd><p>The fitted isophote, which also contains fit status
+information.</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">photutils.isophote</span> <span class="kn">import</span> <span class="n">EllipseSample</span><span class="p">,</span> <span class="n">EllipseFitter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">EllipseSample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sma</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fitter</span> <span class="o">=</span> <span class="n">EllipseFitter</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">isophote</span> <span class="o">=</span> <span class="n">fitter</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-galprime.isophote_l.geometry">
+<span id="galprime-isophote-l-geometry-module"></span><h2>galprime.isophote_l.geometry module<a class="headerlink" href="#module-galprime.isophote_l.geometry" title="Permalink to this headline">¶</a></h2>
+<p>This module provides a container class to store parameters for the
+geometry of an ellipse.</p>
+<dl class="class">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry">
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.geometry.</code><code class="sig-name descname">EllipseGeometry</code><span class="sig-paren">(</span><em class="sig-param">x0</em>, <em class="sig-param">y0</em>, <em class="sig-param">sma</em>, <em class="sig-param">eps</em>, <em class="sig-param">pa</em>, <em class="sig-param">astep=0.1</em>, <em class="sig-param">linear_growth=False</em>, <em class="sig-param">fix_center=False</em>, <em class="sig-param">fix_pa=False</em>, <em class="sig-param">fix_eps=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container class to store parameters for the geometry of an ellipse.</p>
+<p>Parameters that describe the relationship of a given ellipse with
+other associated ellipses are also encapsulated in this container.
+These associated ellipses may include, e.g., the two (inner and
+outer) bounding ellipses that are used to build sectors along the
+elliptical path. These sectors are used as areas for integrating
+pixel values, when the area integration mode (mean or median) is
+used.</p>
+<p>This class also keeps track of where in the ellipse we are when
+performing an ‘extract’ operation. This is mostly relevant when
+using an area integration mode (as opposed to a pixel integration
+mode)</p>
+<dl class="simple">
+<dt>x0, y0<span class="classifier">float</span></dt><dd><p>The center pixel coordinate of the ellipse.</p>
+</dd>
+<dt>sma<span class="classifier">float</span></dt><dd><p>The semimajor axis of the ellipse in pixels.</p>
+</dd>
+<dt>eps<span class="classifier">ellipticity</span></dt><dd><p>The ellipticity of the ellipse.</p>
+</dd>
+<dt>pa<span class="classifier">float</span></dt><dd><p>The position angle (in radians) of the semimajor axis in
+relation to the postive x axis of the image array (rotating
+towards the positive y axis). Position angles are defined in the
+range <span class="math notranslate nohighlight">\(0 &lt; PA &lt;= \pi\)</span>. Avoid using as starting position
+angle of 0., since the fit algorithm may not work properly. When
+the ellipses are such that position angles are near either
+extreme of the range, noise can make the solution jump back and
+forth between successive isophotes, by amounts close to 180
+degrees.</p>
+</dd>
+<dt>astep<span class="classifier">float, optional</span></dt><dd><p>The step value for growing/shrinking the semimajor axis. It can
+be expressed either in pixels (when <code class="docutils literal notranslate"><span class="pre">linear_growth=True</span></code>) or
+as a relative value (when <code class="docutils literal notranslate"><span class="pre">linear_growth=False</span></code>).  The default
+is 0.1.</p>
+</dd>
+<dt>linear_growth<span class="classifier">bool, optional</span></dt><dd><p>The semimajor axis growing/shrinking mode. The default is
+<cite>False</cite>.</p>
+</dd>
+<dt>fix_center<span class="classifier">bool, optional</span></dt><dd><p>Keep center of ellipse fixed during fit? The default is False.</p>
+</dd>
+<dt>fix_pa<span class="classifier">bool, optional</span></dt><dd><p>Keep position angle of semi-major axis of ellipse fixed during fit?
+The default is False.</p>
+</dd>
+<dt>fix_eps<span class="classifier">bool, optional</span></dt><dd><p>Keep ellipticity of ellipse fixed during fit? The default is False.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.bounding_ellipses">
+<code class="sig-name descname">bounding_ellipses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.bounding_ellipses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.bounding_ellipses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the semimajor axis of the two ellipses that bound the
+annulus where integrations take place.</p>
+<dl class="simple">
+<dt>sma1, sma2<span class="classifier">float</span></dt><dd><p>The smaller and larger values of semimajor axis length that
+define the annulus bounding ellipses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.find_center">
+<code class="sig-name descname">find_center</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">threshold=0.1</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.find_center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.find_center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the center of a galaxy.</p>
+<p>If the algorithm is successful the (x, y) coordinates in this
+<cite>~photutils.isophote.EllipseGeometry</cite> (i.e., the <code class="docutils literal notranslate"><span class="pre">x0</span></code> and
+<code class="docutils literal notranslate"><span class="pre">y0</span></code> attributes) instance will be modified.</p>
+<p>The isophote fit algorithm requires an initial guess for the
+galaxy center (x, y) coordinates and these coordinates must be
+close to the actual galaxy center for the isophote fit to work.
+This method provides can provide an initial guess for the galaxy
+center coordinates.  See the <strong>Notes</strong> section below for more
+details.</p>
+<dl>
+<dt>image<span class="classifier">2D <cite>~numpy.ndarray</cite></span></dt><dd><p>The image array.  Masked arrays are not recognized here. This
+assumes that centering should always be done on valid pixels.</p>
+</dd>
+<dt>threshold<span class="classifier">float, optional</span></dt><dd><p>The centerer threshold.  To turn off the centerer, set this
+to a large value (i.e., &gt;&gt; 1).  The default is 0.1.</p>
+</dd>
+<dt>verbose<span class="classifier">bool, optional</span></dt><dd><p>Whether to print object centering information.  The default is
+<cite>True</cite>.</p>
+</dd>
+</dl>
+<p>The centerer function scans a 10x10 window centered on the (x,
+y) coordinates in the <cite>~photutils.isophote.EllipseGeometry</cite>
+instance passed to the constructor of the
+<cite>~photutils.isophote.Ellipse</cite> class.  If any of the
+<cite>~photutils.isophote.EllipseGeometry</cite> (x, y) coordinates are
+<cite>None</cite>, the center of the input image frame is used.  If the
+center acquisition is successful, the
+<cite>~photutils.isophote.EllipseGeometry</cite> instance is modified in
+place to reflect the solution of the object centerer algorithm.</p>
+<p>In some cases the object centerer algorithm may fail even though
+there is enough signal-to-noise to start a fit (e.g., objects
+with very high ellipticity). In those cases the sensitivity
+of the algorithm can be decreased by decreasing the value of
+the object centerer threshold parameter. The centerer works by
+looking where a quantity akin to a signal-to-noise ratio is
+maximized within the 10x10 window. The centerer can thus be shut
+off entirely by setting the threshold to a large value (i.e.,
+&gt;&gt; 1; meaning no location inside the search window will achieve
+that signal-to-noise ratio).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.initialize_sector_geometry">
+<code class="sig-name descname">initialize_sector_geometry</code><span class="sig-paren">(</span><em class="sig-param">phi</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.initialize_sector_geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.initialize_sector_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize geometry attributes associated with an elliptical
+sector at the given polar angle <code class="docutils literal notranslate"><span class="pre">phi</span></code>.</p>
+<p>This function computes:</p>
+<ul class="simple">
+<li><p>the four vertices that define the elliptical sector on the
+pixel array.</p></li>
+<li><p>the sector area (saved in the <code class="docutils literal notranslate"><span class="pre">sector_area</span></code> attribute)</p></li>
+<li><p>the sector angular width (saved in <code class="docutils literal notranslate"><span class="pre">sector_angular_width</span></code>
+attribute)</p></li>
+</ul>
+<dl class="simple">
+<dt>phi<span class="classifier">float</span></dt><dd><p>The polar angle (radians) where the sector is located.</p>
+</dd>
+</dl>
+<dl>
+<dt>x, y<span class="classifier">1D <cite>~numpy.ndarray</cite></span></dt><dd><p>The x and y coordinates of each vertex as 1D arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.polar_angle_sector_limits">
+<code class="sig-name descname">polar_angle_sector_limits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.polar_angle_sector_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.polar_angle_sector_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the two polar angles that bound the sector.</p>
+<p>The two bounding polar angles become available only after
+calling the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">initialize_sector_geometry()</span></code>
+method.</p>
+<dl class="simple">
+<dt>phi1, phi2<span class="classifier">float</span></dt><dd><p>The smaller and larger values of polar angle that bound the
+current sector.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.radius">
+<code class="sig-name descname">radius</code><span class="sig-paren">(</span><em class="sig-param">angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.radius"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the polar radius for a given polar angle.</p>
+<dl class="simple">
+<dt>angle<span class="classifier">float</span></dt><dd><p>The polar angle (radians).</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>radius<span class="classifier">float</span></dt><dd><p>The polar radius (pixels).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.reset_sma">
+<code class="sig-name descname">reset_sma</code><span class="sig-paren">(</span><em class="sig-param">step</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.reset_sma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.reset_sma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the direction of semimajor axis growth, from outwards to
+inwards.</p>
+<dl class="simple">
+<dt>step<span class="classifier">float</span></dt><dd><p>The current step value.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>sma, new_step<span class="classifier">float</span></dt><dd><p>The new semimajor axis length and the new step value to
+initiate the shrinking of the semimajor axis length. This is
+the step value that should be used when calling the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">update_sma()</span></code>
+method.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.to_polar">
+<code class="sig-name descname">to_polar</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.to_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.to_polar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the radius and polar angle in the ellipse coordinate
+system given (x, y) pixel image coordinates.</p>
+<p>This function takes care of the different definitions for
+position angle (PA) and polar angle (phi):</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}-\pi &lt; PA &lt; \pi\\0 &lt; phi &lt; 2 \pi\end{aligned}\end{align} \]</div>
+<p>Note that radius can be anything.  The solution is not tied to
+the semimajor axis length, but to the center position and tilt
+angle.</p>
+<dl class="simple">
+<dt>x, y<span class="classifier">float</span></dt><dd><p>The (x, y) image coordinates.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>radius, angle<span class="classifier">float</span></dt><dd><p>The ellipse radius and polar angle.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.geometry.EllipseGeometry.update_sma">
+<code class="sig-name descname">update_sma</code><span class="sig-paren">(</span><em class="sig-param">step</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.update_sma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.update_sma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate an updated value for the semimajor axis, given the
+current value and the step value.</p>
+<p>The step value must be managed by the caller to support both
+modes: grow outwards and shrink inwards.</p>
+<dl class="simple">
+<dt>step<span class="classifier">float</span></dt><dd><p>The step value.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>sma<span class="classifier">float</span></dt><dd><p>The new semimajor axis length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-galprime.isophote_l.harmonics">
+<span id="galprime-isophote-l-harmonics-module"></span><h2>galprime.isophote_l.harmonics module<a class="headerlink" href="#module-galprime.isophote_l.harmonics" title="Permalink to this headline">¶</a></h2>
+<p>This module provides tools for computing and fitting harmonic functions.</p>
+<dl class="function">
+<dt id="galprime.isophote_l.harmonics.first_and_second_harmonic_function">
+<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">first_and_second_harmonic_function</code><span class="sig-paren">(</span><em class="sig-param">phi</em>, <em class="sig-param">c</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#first_and_second_harmonic_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.first_and_second_harmonic_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the harmonic function value used to calculate the
+corrections for ellipse fitting.</p>
+<p>This function includes simultaneously both the first and second
+order harmonics:</p>
+<div class="math notranslate nohighlight">
+\[f(phi) = c[0] + c[1]*\sin(phi) + c[2]*\cos(phi) +
+         c[3]*\sin(2*phi) + c[4]*\cos(2*phi)\]</div>
+<dl>
+<dt>phi<span class="classifier">float or <cite>~numpy.ndarray</cite></span></dt><dd><p>The angle(s) along the elliptical path, going towards the positive
+y axis, starting coincident with the position angle. That is, the
+angles are defined from the semimajor axis that lies in
+the positive x quadrant.</p>
+</dd>
+<dt>c<span class="classifier"><cite>~numpy.ndarray</cite> of shape (5,)</span></dt><dd><p>Array containing the five harmonic coefficients.</p>
+</dd>
+</dl>
+<dl>
+<dt>result<span class="classifier">float or <cite>~numpy.ndarray</cite></span></dt><dd><p>The function value(s) at the given input angle(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="galprime.isophote_l.harmonics.fit_first_and_second_harmonics">
+<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">fit_first_and_second_harmonics</code><span class="sig-paren">(</span><em class="sig-param">phi</em>, <em class="sig-param">intensities</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#fit_first_and_second_harmonics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.fit_first_and_second_harmonics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the first and second harmonic function values to a set of
+(angle, intensity) pairs.</p>
+<p>This function is used to compute corrections for ellipse fitting:</p>
+<div class="math notranslate nohighlight">
+\[f(phi) = y0 + a1*\sin(phi) + b1*\cos(phi) + a2*\sin(2*phi) +
+         b2*\cos(2*phi)\]</div>
+<dl>
+<dt>phi<span class="classifier">float or <cite>~numpy.ndarray</cite></span></dt><dd><p>The angle(s) along the elliptical path, going towards the positive
+y axis, starting coincident with the position angle. That is, the
+angles are defined from the semimajor axis that lies in
+the positive x quadrant.</p>
+</dd>
+<dt>intensities<span class="classifier"><cite>~numpy.ndarray</cite></span></dt><dd><p>The intensities measured along the elliptical path, at the
+angles defined by the <code class="docutils literal notranslate"><span class="pre">phi</span></code> parameter.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>y0, a1, b1, a2, b2<span class="classifier">float</span></dt><dd><p>The fitted harmonic coefficent values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="galprime.isophote_l.harmonics.fit_upper_harmonic">
+<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">fit_upper_harmonic</code><span class="sig-paren">(</span><em class="sig-param">phi</em>, <em class="sig-param">intensities</em>, <em class="sig-param">order</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#fit_upper_harmonic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.fit_upper_harmonic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit upper harmonic function to a set of (angle, intensity) pairs.</p>
+<p>With <code class="docutils literal notranslate"><span class="pre">order</span></code> set to 3 or 4, the resulting amplitudes, divided by
+the semimajor axis length and local gradient, measure the deviations
+from perfect ellipticity.</p>
+<p>The harmonic function that is fit is:</p>
+<div class="math notranslate nohighlight">
+\[y(phi, order) = y0 + An*\sin(order*phi) + Bn*\cos(order*phi)\]</div>
+<dl>
+<dt>phi<span class="classifier">float or <cite>~numpy.ndarray</cite></span></dt><dd><p>The angle(s) along the elliptical path, going towards the positive
+y axis, starting coincident with the position angle. That is, the
+angles are defined from the semimajor axis that lies in
+the positive x quadrant.</p>
+</dd>
+<dt>intensities<span class="classifier"><cite>~numpy.ndarray</cite></span></dt><dd><p>The intensities measured along the elliptical path, at the
+angles defined by the <code class="docutils literal notranslate"><span class="pre">phi</span></code> parameter.</p>
+</dd>
+<dt>order<span class="classifier">int</span></dt><dd><p>The order of the harmonic to be fitted.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>y0, An, Bn<span class="classifier">float</span></dt><dd><p>The fitted harmonic values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-galprime.isophote_l.integrator">
+<span id="galprime-isophote-l-integrator-module"></span><h2>galprime.isophote_l.integrator module<a class="headerlink" href="#module-galprime.isophote_l.integrator" title="Permalink to this headline">¶</a></h2>
+<p>This module provides tools for pixel integration.</p>
+</div>
+<div class="section" id="module-galprime.isophote_l.isophote">
+<span id="galprime-isophote-l-isophote-module"></span><h2>galprime.isophote_l.isophote module<a class="headerlink" href="#module-galprime.isophote_l.isophote" title="Permalink to this headline">¶</a></h2>
+<p>This module provides classes to store the results of isophote fits.</p>
+<dl class="class">
+<dt id="galprime.isophote_l.isophote.Isophote">
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.isophote.</code><code class="sig-name descname">Isophote</code><span class="sig-paren">(</span><em class="sig-param">sample</em>, <em class="sig-param">niter</em>, <em class="sig-param">valid</em>, <em class="sig-param">stop_code</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container class to store the results of single isophote fit.</p>
+<p>The extracted data sample at the given isophote (sampled intensities
+along the elliptical path on the image) is also kept as an attribute
+of this class. The container concept helps in segregating
+information directly related to the sample, from information that
+more closely relates to the fitting process, such as status codes,
+errors for isophote parameters, and the like.</p>
+<dl>
+<dt>sample<span class="classifier"><cite>~photutils.isophote.EllipseSample</cite> instance</span></dt><dd><p>The sample information.</p>
+</dd>
+<dt>niter<span class="classifier">int</span></dt><dd><p>The number of iterations used to fit the isophote.</p>
+</dd>
+<dt>valid<span class="classifier">bool</span></dt><dd><p>The status of the fitting operation.</p>
+</dd>
+<dt>stop_code<span class="classifier">int</span></dt><dd><p>The fitting stop code:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>0: Normal.</p></li>
+<li><p>1: Fewer than the pre-specified fraction of the extracted
+data points are valid.</p></li>
+<li><p>2: Exceeded maximum number of iterations.</p></li>
+<li><p>3: Singular matrix in harmonic fit, results may not be
+valid.  This also signals an insufficient number of
+data points to fit.</p></li>
+<li><p>4: Small or wrong gradient, or ellipse diverged. Subsequent
+ellipses at larger or smaller semimajor axis may have
+the same constant geometric parameters. It’s also used
+when the user turns off the fitting algorithm via the
+<code class="docutils literal notranslate"><span class="pre">maxrit</span></code> fitting parameter (see the
+<cite>~photutils.isophote.Ellipse</cite> class).</p></li>
+<li><p>5: Ellipse diverged; not even the minimum number of
+iterations could be executed. Subsequent ellipses at
+larger or smaller semimajor axis may have the same
+constant geometric parameters.</p></li>
+<li><p>-1: Internal use.</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="simple">
+<dt>rms<span class="classifier">float</span></dt><dd><p>The root-mean-square of intensity values along the elliptical
+path.</p>
+</dd>
+<dt>int_err<span class="classifier">float</span></dt><dd><p>The error of the mean (rms / sqrt(# data points)).</p>
+</dd>
+<dt>ellip_err<span class="classifier">float</span></dt><dd><p>The ellipticity error.</p>
+</dd>
+<dt>pa_err<span class="classifier">float</span></dt><dd><p>The position angle error (radians).</p>
+</dd>
+<dt>x0_err<span class="classifier">float</span></dt><dd><p>The error associated with the center x coordinate.</p>
+</dd>
+<dt>y0_err<span class="classifier">float</span></dt><dd><p>The error associated with the center y coordinate.</p>
+</dd>
+<dt>pix_stddev<span class="classifier">float</span></dt><dd><p>The estimate of pixel standard deviation (rms * sqrt(average
+sector integration area)).</p>
+</dd>
+<dt>grad<span class="classifier">float</span></dt><dd><p>The local radial intensity gradient.</p>
+</dd>
+<dt>grad_error<span class="classifier">float</span></dt><dd><p>The measurement error of the local radial intensity gradient.</p>
+</dd>
+<dt>grad_r_error<span class="classifier">float</span></dt><dd><p>The relative error of local radial intensity gradient.</p>
+</dd>
+<dt>tflux_e<span class="classifier">float</span></dt><dd><p>The sum of all pixels inside the ellipse.</p>
+</dd>
+<dt>npix_e<span class="classifier">int</span></dt><dd><p>The total number of valid pixels inside the ellipse.</p>
+</dd>
+<dt>tflux_c<span class="classifier">float</span></dt><dd><p>The sum of all pixels inside a circle with the same <code class="docutils literal notranslate"><span class="pre">sma</span></code> as
+the ellipse.</p>
+</dd>
+<dt>npix_c<span class="classifier">int</span></dt><dd><p>The total number of valid pixels inside a circle with the same
+<code class="docutils literal notranslate"><span class="pre">sma</span></code> as the ellipse.</p>
+</dd>
+<dt>sarea<span class="classifier">float</span></dt><dd><p>The average sector area on the isophote (pixel**2).</p>
+</dd>
+<dt>ndata<span class="classifier">int</span></dt><dd><p>The number of extracted data points.</p>
+</dd>
+<dt>nflag<span class="classifier">int</span></dt><dd><p>The number of discarded data points. Data points can be
+discarded either because they are physically outside the image
+frame boundaries, because they were rejected by sigma-clipping,
+or they are masked.</p>
+</dd>
+<dt>a3, b3, a4, b4<span class="classifier">float</span></dt><dd><p>The higher order harmonics that measure the deviations from a
+perfect ellipse.  These values are actually the raw harmonic
+amplitudes divided by the local radial gradient and the
+semimajor axis length, so they can directly be compared with
+each other.</p>
+</dd>
+<dt>a3_err, b3_err, a4_err, b4_err<span class="classifier">float</span></dt><dd><p>The errors associated with the <code class="docutils literal notranslate"><span class="pre">a3</span></code>, <code class="docutils literal notranslate"><span class="pre">b3</span></code>, <code class="docutils literal notranslate"><span class="pre">a4</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">b4</span></code> attributes.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.eps">
+<em class="property">property </em><code class="sig-name descname">eps</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ellipticity of the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.fix_geometry">
+<code class="sig-name descname">fix_geometry</code><span class="sig-paren">(</span><em class="sig-param">isophote</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote.fix_geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.fix_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix the geometry of a problematic isophote to be identical to
+the input isophote.</p>
+<p>This method should be called when the fitting goes berserk and
+delivers an isophote with bad geometry, such as ellipticity &gt; 1
+or another meaningless situation. This is not a problem in
+itself when fitting any given isophote, but will create an error
+when the affected isophote is used as starting guess for the
+next fit.</p>
+<dl>
+<dt>isophote<span class="classifier"><cite>~photutils.isophote.Isophote</cite> instance</span></dt><dd><p>The isophote from which to take the geometry information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.pa">
+<em class="property">property </em><code class="sig-name descname">pa</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.pa" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position angle (radians) of the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.sampled_coordinates">
+<code class="sig-name descname">sampled_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote.sampled_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.sampled_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the (x, y) coordinates where the image was sampled in
+order to get the intensities associated with this isophote.</p>
+<dl>
+<dt>x, y<span class="classifier">1D <cite>~numpy.ndarray</cite></span></dt><dd><p>The x and y coordinates as 1D arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.sma">
+<em class="property">property </em><code class="sig-name descname">sma</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.sma" title="Permalink to this definition">¶</a></dt>
+<dd><p>The semimajor axis length (pixels).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.to_table">
+<code class="sig-name descname">to_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote.to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.to_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the main isophote parameters as an astropy
+<cite>~astropy.table.QTable</cite>.</p>
+<dl>
+<dt>result<span class="classifier"><cite>~astropy.table.QTable</cite></span></dt><dd><p>An astropy <cite>~astropy.table.QTable</cite> containing the main
+isophote paramters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.x0">
+<em class="property">property </em><code class="sig-name descname">x0</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.x0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center x coordinate (pixel).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.Isophote.y0">
+<em class="property">property </em><code class="sig-name descname">y0</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.y0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center y coordinate (pixel).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="galprime.isophote_l.isophote.IsophoteList">
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.isophote.</code><code class="sig-name descname">IsophoteList</code><span class="sig-paren">(</span><em class="sig-param">iso_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Container class that provides the same attributes as the
+<cite>~photutils.isophote.Isophote</cite> class, but for a list of isophotes.</p>
+<p>The attributes of this class are arrays representing the values of
+the attributes for the entire list of <cite>~photutils.isophote.Isophote</cite>
+instances.  See the <cite>~photutils.isophote.Isophote</cite> class for a
+description of the attributes.</p>
+<p>The class extends the <cite>list</cite> functionality, thus provides basic list
+behavior such as slicing, appending, and support for ‘+’ and ‘+=’
+operators.</p>
+<dl>
+<dt>iso_list<span class="classifier">list of <cite>~photutils.isophote.Isophote</cite></span></dt><dd><p>A list of <cite>~photutils.isophote.Isophote</cite> instances.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.a3">
+<em class="property">property </em><code class="sig-name descname">a3</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a3" title="Permalink to this definition">¶</a></dt>
+<dd><p>A third-order harmonic coefficent.  See the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">fit_upper_harmonic()</span></code> function for
+details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.a3_err">
+<em class="property">property </em><code class="sig-name descname">a3_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a3_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.a3</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.a4">
+<em class="property">property </em><code class="sig-name descname">a4</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a4" title="Permalink to this definition">¶</a></dt>
+<dd><p>A fourth-order harmonic coefficent.  See the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">fit_upper_harmonic()</span></code> function for
+details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.a4_err">
+<em class="property">property </em><code class="sig-name descname">a4_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a4_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.a4</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.b3">
+<em class="property">property </em><code class="sig-name descname">b3</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b3" title="Permalink to this definition">¶</a></dt>
+<dd><p>A third-order harmonic coefficent.  See the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">fit_upper_harmonic()</span></code> function for
+details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.b3_err">
+<em class="property">property </em><code class="sig-name descname">b3_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b3_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.b3</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.b4">
+<em class="property">property </em><code class="sig-name descname">b4</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b4" title="Permalink to this definition">¶</a></dt>
+<dd><p>A fourth-order harmonic coefficent.  See the
+<code class="xref py py-func docutils literal notranslate"><span class="pre">fit_upper_harmonic()</span></code> function for
+details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.b4_err">
+<em class="property">property </em><code class="sig-name descname">b4_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b4_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.b3</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.ellip_err">
+<em class="property">property </em><code class="sig-name descname">ellip_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.ellip_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ellipticity error.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.eps">
+<em class="property">property </em><code class="sig-name descname">eps</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p>The ellipticity of the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.extend">
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.extend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.get_closest">
+<code class="sig-name descname">get_closest</code><span class="sig-paren">(</span><em class="sig-param">sma</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.get_closest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.get_closest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the <cite>~photutils.isophote.Isophote</cite> instance that has the
+closest semimajor axis length to the input semimajor axis.</p>
+<dl class="simple">
+<dt>sma<span class="classifier">float</span></dt><dd><p>The semimajor axis length.</p>
+</dd>
+</dl>
+<dl>
+<dt>isophote<span class="classifier"><cite>~photutils.isophote.Isophote</cite> instance</span></dt><dd><p>The isophote with the closest semimajor axis value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.grad">
+<em class="property">property </em><code class="sig-name descname">grad</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.grad" title="Permalink to this definition">¶</a></dt>
+<dd><p>The local radial intensity gradient.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.grad_error">
+<em class="property">property </em><code class="sig-name descname">grad_error</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.grad_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>The measurement error of the local radial intensity
+gradient.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.grad_r_error">
+<em class="property">property </em><code class="sig-name descname">grad_r_error</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.grad_r_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>The relative error of local radial intensity gradient.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.insert">
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.int_err">
+<em class="property">property </em><code class="sig-name descname">int_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.int_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error of the mean intensity (rms / sqrt(# data points)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.intens">
+<em class="property">property </em><code class="sig-name descname">intens</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.intens" title="Permalink to this definition">¶</a></dt>
+<dd><p>The mean intensity value along the elliptical path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.ndata">
+<em class="property">property </em><code class="sig-name descname">ndata</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.ndata" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of extracted data points.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.nflag">
+<em class="property">property </em><code class="sig-name descname">nflag</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.nflag" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of discarded data points. Data points can be
+discarded either because they are physically outside the image
+frame boundaries, because they were rejected by sigma-clipping,
+or they are masked.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.niter">
+<em class="property">property </em><code class="sig-name descname">niter</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.niter" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of iterations used to fit the isophote.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.npix_c">
+<em class="property">property </em><code class="sig-name descname">npix_c</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.npix_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of valid pixels inside a circle with the same
+<code class="docutils literal notranslate"><span class="pre">sma</span></code> as the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.npix_e">
+<em class="property">property </em><code class="sig-name descname">npix_e</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.npix_e" title="Permalink to this definition">¶</a></dt>
+<dd><p>The total number of valid pixels inside the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.pa">
+<em class="property">property </em><code class="sig-name descname">pa</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.pa" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position angle (radians) of the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.pa_err">
+<em class="property">property </em><code class="sig-name descname">pa_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.pa_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The position angle error (radians).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.pix_stddev">
+<em class="property">property </em><code class="sig-name descname">pix_stddev</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.pix_stddev" title="Permalink to this definition">¶</a></dt>
+<dd><p>The estimate of pixel standard deviation (rms * sqrt(average
+sector integration area)).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.rms">
+<em class="property">property </em><code class="sig-name descname">rms</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.rms" title="Permalink to this definition">¶</a></dt>
+<dd><p>The root-mean-square of intensity values along the elliptical
+path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.sample">
+<em class="property">property </em><code class="sig-name descname">sample</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>The isophote <cite>~photutils.isophote.EllipseSample</cite> information.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.sarea">
+<em class="property">property </em><code class="sig-name descname">sarea</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sarea" title="Permalink to this definition">¶</a></dt>
+<dd><p>The average sector area on the isophote (pixel**2).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.sma">
+<em class="property">property </em><code class="sig-name descname">sma</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sma" title="Permalink to this definition">¶</a></dt>
+<dd><p>The semimajor axis length (pixels).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.sort">
+<code class="sig-name descname">sort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.stop_code">
+<em class="property">property </em><code class="sig-name descname">stop_code</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.stop_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>The fitting stop code.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.tflux_c">
+<em class="property">property </em><code class="sig-name descname">tflux_c</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.tflux_c" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sum of all pixels inside a circle with the same <code class="docutils literal notranslate"><span class="pre">sma</span></code> as
+the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.tflux_e">
+<em class="property">property </em><code class="sig-name descname">tflux_e</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.tflux_e" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sum of all pixels inside the ellipse.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.to_table">
+<code class="sig-name descname">to_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.to_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an <cite>~photutils.isophote.IsophoteList</cite> instance to a
+<cite>~astropy.table.QTable</cite> with the main isophote parameters.</p>
+<dl>
+<dt>result<span class="classifier"><cite>~astropy.table.QTable</cite></span></dt><dd><p>An astropy QTable with the main isophote parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.valid">
+<em class="property">property </em><code class="sig-name descname">valid</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>The status of the fitting operation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.x0">
+<em class="property">property </em><code class="sig-name descname">x0</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.x0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center x coordinate (pixel).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.x0_err">
+<em class="property">property </em><code class="sig-name descname">x0_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.x0_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error associated with the center x coordinate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.y0">
+<em class="property">property </em><code class="sig-name descname">y0</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.y0" title="Permalink to this definition">¶</a></dt>
+<dd><p>The center y coordinate (pixel).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.isophote.IsophoteList.y0_err">
+<em class="property">property </em><code class="sig-name descname">y0_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.y0_err" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error associated with the center y coordinate.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-galprime.isophote_l.model">
+<span id="galprime-isophote-l-model-module"></span><h2>galprime.isophote_l.model module<a class="headerlink" href="#module-galprime.isophote_l.model" title="Permalink to this headline">¶</a></h2>
+<p>This module profiles tools for building a model elliptical galaxy image
+from a list of isophotes.</p>
+<dl class="function">
+<dt id="galprime.isophote_l.model.build_ellipse_model">
+<code class="sig-prename descclassname">galprime.isophote_l.model.</code><code class="sig-name descname">build_ellipse_model</code><span class="sig-paren">(</span><em class="sig-param">shape</em>, <em class="sig-param">isolist</em>, <em class="sig-param">fill=0.0</em>, <em class="sig-param">high_harmonics=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/model.html#build_ellipse_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.model.build_ellipse_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a model elliptical galaxy image from a list of isophotes.</p>
+<p>For each ellipse in the input isophote list the algorithm fills the
+output image array with the corresponding isophotal intensity.
+Pixels in the output array are in general only partially covered by
+the isophote “pixel”.  The algorithm takes care of this partial
+pixel coverage by keeping track of how much intensity was added to
+each pixel by storing the partial area information in an auxiliary
+array.  The information in this array is then used to normalize the
+pixel intensities.</p>
+<dl>
+<dt>shape<span class="classifier">2-tuple</span></dt><dd><p>The (ny, nx) shape of the array used to generate the input
+<code class="docutils literal notranslate"><span class="pre">isolist</span></code>.</p>
+</dd>
+<dt>isolist<span class="classifier"><cite>~photutils.isophote.IsophoteList</cite> instance</span></dt><dd><p>The isophote list created by the <cite>~photutils.isophote.Ellipse</cite>
+class.</p>
+</dd>
+<dt>fill<span class="classifier">float, optional</span></dt><dd><p>The constant value to fill empty pixels. If an output pixel has
+no contribution from any isophote, it will be assigned this
+value.  The default is 0.</p>
+</dd>
+<dt>high_harmonics<span class="classifier">bool, optional</span></dt><dd><p>Whether to add the higher-order harmonics (i.e., <code class="docutils literal notranslate"><span class="pre">a3</span></code>, <code class="docutils literal notranslate"><span class="pre">b3</span></code>,
+<code class="docutils literal notranslate"><span class="pre">a4</span></code>, and <code class="docutils literal notranslate"><span class="pre">b4</span></code>; see <cite>~photutils.isophote.Isophote</cite> for
+details) to the result.</p>
+</dd>
+</dl>
+<dl>
+<dt>result<span class="classifier">2D <cite>~numpy.ndarray</cite></span></dt><dd><p>The image with the model galaxy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-galprime.isophote_l.sample">
+<span id="galprime-isophote-l-sample-module"></span><h2>galprime.isophote_l.sample module<a class="headerlink" href="#module-galprime.isophote_l.sample" title="Permalink to this headline">¶</a></h2>
+<p>This module provides a class to sample data along an elliptical path.</p>
+<dl class="class">
+<dt id="galprime.isophote_l.sample.EllipseSample">
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.sample.</code><code class="sig-name descname">EllipseSample</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">sma</em>, <em class="sig-param">x0=None</em>, <em class="sig-param">y0=None</em>, <em class="sig-param">astep=0.1</em>, <em class="sig-param">eps=0.2</em>, <em class="sig-param">position_angle=0.0</em>, <em class="sig-param">sclip=3.0</em>, <em class="sig-param">nclip=0</em>, <em class="sig-param">linear_growth=False</em>, <em class="sig-param">integrmode='bilinear'</em>, <em class="sig-param">geometry=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to sample image data along an elliptical path.</p>
+<p>The image intensities along the elliptical path can be extracted
+using a selection of integration algorithms.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">geometry</span></code> attribute describes the geometry of the elliptical
+path.</p>
+<dl>
+<dt>image<span class="classifier">2D <cite>~numpy.ndarray</cite></span></dt><dd><p>The input image.</p>
+</dd>
+<dt>sma<span class="classifier">float</span></dt><dd><p>The semimajor axis length in pixels.</p>
+</dd>
+<dt>x0, y0<span class="classifier">float, optional</span></dt><dd><p>The (x, y) coordinate of the ellipse center.</p>
+</dd>
+<dt>astep<span class="classifier">float, optional</span></dt><dd><p>The step value for growing/shrinking the semimajor axis. It can
+be expressed either in pixels (when <code class="docutils literal notranslate"><span class="pre">linear_growth=True</span></code>) or
+as a relative value (when <code class="docutils literal notranslate"><span class="pre">linear_growth=False</span></code>).  The default
+is 0.1.</p>
+</dd>
+<dt>eps<span class="classifier">float, optional</span></dt><dd><p>The ellipticity of the ellipse.  The default is 0.2.</p>
+</dd>
+<dt>pa<span class="classifier">float, optional</span></dt><dd><p>The position angle of ellipse in relation to the positive x axis
+of the image array (rotating towards the positive y axis).  The
+default is 0.</p>
+</dd>
+<dt>sclip<span class="classifier">float, optional</span></dt><dd><p>The sigma-clip sigma value.  The default is 3.0.</p>
+</dd>
+<dt>nclip<span class="classifier">int, optional</span></dt><dd><p>The number of sigma-clip interations.  Set to zero to skip
+sigma-clipping.  The default is 0.</p>
+</dd>
+<dt>linear_growth<span class="classifier">bool, optional</span></dt><dd><p>The semimajor axis growing/shrinking mode.  The default is
+<cite>False</cite>.</p>
+</dd>
+<dt>integrmode<span class="classifier">{‘bilinear’, ‘nearest_neighbor’, ‘mean’, ‘median’}, optional</span></dt><dd><p>The area integration mode.  The default is ‘bilinear’.</p>
+</dd>
+<dt>geometry<span class="classifier"><cite>~photutils.isophote.EllipseGeometry</cite> instance or <cite>None</cite></span></dt><dd><p>The geometry that describes the ellipse. This can be used in
+lieu of the explicit specification of parameters <code class="docutils literal notranslate"><span class="pre">sma</span></code>,
+<code class="docutils literal notranslate"><span class="pre">x0</span></code>, <code class="docutils literal notranslate"><span class="pre">y0</span></code>, <code class="docutils literal notranslate"><span class="pre">eps</span></code>, etc.  In any case, the
+<cite>~photutils.isophote.EllipseGeometry</cite> instance becomes an
+attribute of the <cite>~photutils.isophote.EllipseSample</cite> object.
+The default is <cite>None</cite>.</p>
+</dd>
+</dl>
+<dl>
+<dt>values<span class="classifier">2D <cite>~numpy.ndarray</cite></span></dt><dd><p>The sampled values as a 2D array, where the rows contain the
+angles, radii, and extracted intensity values, respectively.</p>
+</dd>
+<dt>mean<span class="classifier">float</span></dt><dd><p>The mean intensity along the elliptical path.</p>
+</dd>
+<dt>geometry<span class="classifier"><cite>~photutils.isophote.EllipseGeometry</cite> instance</span></dt><dd><p>The geometry of the elliptical path.</p>
+</dd>
+<dt>gradient<span class="classifier">float</span></dt><dd><p>The local radial intensity gradient.</p>
+</dd>
+<dt>gradient_error<span class="classifier">float</span></dt><dd><p>The error associated with the local radial intensity gradient.</p>
+</dd>
+<dt>gradient_relative_error<span class="classifier">float</span></dt><dd><p>The relative error associated with the local radial intensity
+gradient.</p>
+</dd>
+<dt>sector_area<span class="classifier">float</span></dt><dd><p>The average area of the sectors along the elliptical path from
+which the sample values were integrated.</p>
+</dd>
+<dt>total_points<span class="classifier">int</span></dt><dd><p>The total number of sample values that would cover the entire
+elliptical path.</p>
+</dd>
+<dt>actual_points<span class="classifier">int</span></dt><dd><p>The actual number of sample values that were taken from the
+image. It can be smaller than <code class="docutils literal notranslate"><span class="pre">total_points</span></code> when the ellipse
+encompasses regions outside the image, or when sigma-clipping
+removed some of the points.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="galprime.isophote_l.sample.EllipseSample.coordinates">
+<code class="sig-name descname">coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample.coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample.coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the (x, y) coordinates associated with each sampled
+point.</p>
+<dl>
+<dt>x, y<span class="classifier">1D <cite>~numpy.ndarray</cite></span></dt><dd><p>The x and y coordinate arrays.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.sample.EllipseSample.extract">
+<code class="sig-name descname">extract</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample.extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample.extract" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract sample data by scanning an elliptical path over the
+image array.</p>
+<dl>
+<dt>result<span class="classifier">2D <cite>~numpy.ndarray</cite></span></dt><dd><p>The rows of the array contain the angles, radii, and
+extracted intensity values, respectively.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="galprime.isophote_l.sample.EllipseSample.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">fixed_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update this <cite>~photutils.isophote.EllipseSample</cite> instance.</p>
+<p>This method calls the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code> method to get
+the values that match the current <code class="docutils literal notranslate"><span class="pre">geometry</span></code> attribute, and
+then computes the the mean intensity, local gradient, and other
+associated quantities.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-galprime.isophote_l">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-galprime.isophote_l" title="Permalink to this headline">¶</a></h2>
+<p>This subpackage contains tools for fitting elliptical isophotes to
+galaxy images.</p>
+<p>Forked and altered from the photutils.isophote package. It has been
+reconfigured to automatically handle nan pixels in masked images.</p>
+<p><a class="reference external" href="https://photutils.readthedocs.io/en/stable/">https://photutils.readthedocs.io/en/stable/</a></p>
+<p><a class="reference external" href="https://photutils.readthedocs.io/en/stable/isophote.html">https://photutils.readthedocs.io/en/stable/isophote.html</a></p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Harrison Souchereau.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
