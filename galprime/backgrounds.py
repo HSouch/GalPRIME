@@ -195,6 +195,23 @@ def estimate_bg_annulus(cutout, annulus_radius=50, annulus_width=10, dynamic=Tru
 def estimate_bg_elliptical_annulus(cutout, ellipticity=0, r_50=50, pa=0, width=20, factor=10, return_mask=False):
     """
     Measure the background of a cutout using an elliptical annulus.
+
+    :param cutout: The input cutout
+    :type cutout: array_like (np.ndarray)
+    :param ellipticity: The ellipticity of the elliptical annulus (e = 1 - b/a), defaults to 0
+    :type ellipticity: float, optional
+    :param r_50: The half light radius in pixels
+    :type r_50: float, optional
+    :param pa: the position angle in degrees. 0 is along the x-axis, defaults to 0
+    :type pa: float, optional
+    :param width: The width of the elliptical annulus in pixels, defaults to 20
+    :type width: float, optional
+    :param factor: The multiples of r_50 in which to increase the size of the elliptical annulus, defaults to 10
+    :type factor: float, optional
+    :param return_mask: If true, will return the mask alongsize the background statistics, defaults to False.
+    :type return_mask: bool, optional
+    :return: If return_mask is False, returns (mean, median, std)
+        If return_mask is True, returns (mean, median, std, mask)
     """
     a_in = r_50 * factor
     b_in = a_in * (1 - ellipticity)
@@ -228,7 +245,8 @@ def estimate_background_set(cutouts):
     Estimates the background values for a set of cutouts.
     :param cutouts: A list of array_like cutouts
     :type cutouts: array_like
-    :return:
+    :return: The 3 arrays of background means, medians, and standard deviations
+    :rtype: array_like
     """
     bg_means, bg_medians, bg_stds = [], [], []
 
@@ -246,8 +264,11 @@ def subtract_backgrounds(profile_set, background_array):
     """
     Generate an array of tables identical to the input except the respective backgrounds
     are subtracted from the intensity array for each table.
+
     :param profile_set: Set of profiles (in the photutiuls isolist format)
+    :type profile_set: list(isolist.to_table())
     :param background_array: Array of background values to subtract from each profile table.
+    :type background_array: array_like
     :return: List of profiles of length len(profile_set)
     """
     bg_subtracted_tables = []

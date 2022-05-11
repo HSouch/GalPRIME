@@ -10,11 +10,6 @@ from numpy import array, copy, append, round, reshape
 
 class Bin:
     """ Class for a single bin of information
-
-    """
-
-    def __init__(self, objects=None, object_column_names=None, bin_params=None, bin_param_names=None):
-        """
         :param objects: The catalog rows that belong to the given bin
         :type bin_param_names: array_like
         :param object_column_names: The column names when the objects are sorted column-wise instead of row-wise.
@@ -23,6 +18,10 @@ class Bin:
         :type bin_param_names: array_like
         :param bin_param_names (arr): Array of parameter names that the bin was made with.
         :type bin_param_names: array_like
+    """
+
+    def __init__(self, objects=None, object_column_names=None, bin_params=None, bin_param_names=None):
+        """ Constructor method
         """
         if bin_params is None:
             bin_params = []
@@ -159,16 +158,15 @@ def bin_catalog(config):
 
     This is a convenience function to get a list of bins based on redshift, star-formation, and mass.
 
-    Args:
-        config: Values from inputted config file or user inputs.
-
-    Returns:
-         List of bins binned according to the config settings.
+    :param config: Values from input config file or user inputs.
+    :type config: dict
+    :return: List of bins that have been binned according to the config settings.
     """
 
     # Read HST-ZEST catalog into memory
     catalog = Table.read(config["CATALOG"], format="fits")
 
+    # todo eventually we should change MASS_KEY, SFPROB_KEY, and Z_KEY into more abstract forms
     mags = array(catalog[config["MAG_KEY"]])
     r50s = array(catalog[config["R50_KEY"]])
     ns = array(catalog[config["N_KEY"]])
@@ -198,14 +196,15 @@ def bin_catalog(config):
 def bin_mag_catalog(mag_table, b, mag_table_keys=None, bin_keys=None):
     """ Bin an external catalogue based on a bin's provided parameters.
 
-    Args:
-        mag_table The magnitude table to rebin
-        b The tbridge.Bin object
-        mag_table_keys The magnitude table keys to use for binning.
-        bin_keys The associated bin keys (must be the same length AND order as mag_table_keys).
-
-    Returns:
-        Table of magnitudes binned by the appropriate parameters.
+    :param mag_table: The magnitude table to rebin
+    :type mag_table: astropy.table.Table
+    :param b: The Bin object
+    :type b: galprime.Bin
+    :param mag_table_keys: The magnitude table keys to use for binning.
+    :type mag_table_keys: arr_like
+    :param bin_keys: The associated bin keys (must be the same length AND order as mag_table_keys).
+    :type bin_keys: arr_like
+    :return: Table of magnitudes binned by the appropriate parameters.
     """
     if bin_keys is None:
         bin_keys = ["MASSES", "REDSHIFTS"]
@@ -225,7 +224,12 @@ def bin_mag_catalog(mag_table, b, mag_table_keys=None, bin_keys=None):
 
 
 def bin_index(val, bins):
-    """ Get bin index for a given value and a set of bin parameters """
+    """ Get bin index for a given value and a set of bin parameters
+
+    :param val: The value corresponding to a bin index
+    :param bins: The list of bins to search through
+
+    """
     for index in range(0, len(bins) - 1):
         if bins[index] < val < bins[index + 1]:
             return index

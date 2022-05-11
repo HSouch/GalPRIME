@@ -11,13 +11,13 @@ from numpy import arange
 def load_config_file(filename, verbose_test=False):
     """ Loads in a config file for TBRIDGE to run
 
-    Args:
-        filename: Filename (can be absolute or relative path, or a URL) to read config file from.
-        verbose_test: If true, will create a helpful printout of params to ensure that the parameters are
-            loading in properly.
-
-    Returns:
-        dict: Configuration file as a dict object.
+    :param filename: Filename (can be absolute or relative path, or a URL) to read config file from.
+    :type filename: str
+    :param verbose_test: If true, will create a helpful printout of params to ensure that the parameters are
+        loading in properly.
+    :type verbose_test: bool, optional
+    :return: Configuration file as a dict object.
+    :rtype: dict
     """
     config_values = {}
 
@@ -49,6 +49,9 @@ def load_config_file(filename, verbose_test=False):
         elif value.lower() == "false":
             config_values[n] = False
             continue
+
+    # Adjust various parameters to their proper types (could be done though the code itself but this
+    # ultimately feels cleaner to me in the long run
     config_values["SIZE"] = int(config_values["SIZE"])
     config_values["EXTRACTION_SIZE"] = int(config_values["EXTRACTION_SIZE"])
     config_values["CORES"] = int(config_values["CORES"])
@@ -64,8 +67,8 @@ def load_config_file(filename, verbose_test=False):
 
     config_values["PROVIDED_BG_TYPE"] = "None"
 
+    # Turn all bins in numpy aranges (just to simplify the process). Will also add a x_step parameter
     for n in ("MASS_BINS", "REDSHIFT_BINS", "SFPROB_BINS"):
-        """ Turn all bins in numpy aranges (just to simplify the process). Will also add a x_step parameter"""
         value_string = config_values[n].split(",")
         bin_output = arange(float(value_string[0]), float(value_string[1]), float(value_string[2]))
 
@@ -91,6 +94,9 @@ def print_config(config):
 def default_config_params():
     """
     Dumps a dict object containing all default parameters in proper type format.
+
+    :return: Dictionary of config file values
+    :rtype: dict
     """
     default_params = {
         "VERBOSE": True,
@@ -141,10 +147,10 @@ def default_config_params():
 
 
 def dump_default_config_file(directory=""):
-    """
-    Dumps a default configuration file with all necessary parameters in the directory
-    Args:
-        directory: Directory to write file to. OPTIONAL.
+    """ Dumps a default configuration file with all necessary parameters in the directory
+
+    :param directory: Directory to write file to, defaults to local directory.
+    :type directory: str, optional
     """
     lines = ["# Set verbosity printouts. VERBOSE: General printouts. TEST_VERBOSE: Additional printouts.",
              "VERBOSE             = True",
@@ -207,12 +213,13 @@ def dump_default_config_file(directory=""):
             f.write(n + "\n")
 
 
-def config_to_file(config, filename="config_out.txt"):
+def config_to_file(config, filename="config_out.galprime"):
     """ Write a config dict to a file.
 
-    Args:
-        config (dict): The configuration parameters.
-        filename (str): The location where the parameters will be written.
+    :param config: The configuration parameters.
+    :type config: dict
+    :param filename: The location where the parameters will be written, defaults to config_out.galprime.
+    :type filename: str, optional
     """
     with open(filename, mode="w+") as f:
         for n in config:
