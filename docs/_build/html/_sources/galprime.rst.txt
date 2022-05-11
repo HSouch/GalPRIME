@@ -32,7 +32,7 @@ Data Handling (data)
 .. automodule:: galprime.data
    :members:
    :undoc-members:
-   :show-inheritance:
+   :exclude-members: random, choice, randint, uniform
 
 Determining Cutout Density (densities)
 -----------------------------------------------
@@ -73,6 +73,7 @@ Medians and Bootstrapping (medians)
    :members:
    :undoc-members:
    :show-inheritance:
+   :exclude-members: choice, randint
 
 2D Galaxy Modelling (modelling)
 ----------------------------------------
@@ -81,6 +82,7 @@ Medians and Bootstrapping (medians)
    :members:
    :undoc-members:
    :show-inheritance:
+   :exclude-members: choice, randint, uniform
 
 1D Surface Brightness Profile Handling (profiles)
 ----------------------------------------------------------
@@ -97,5 +99,6 @@ GalPRIME Simulation Routines (sims)
    :members:
    :undoc-members:
    :show-inheritance:
+   :exclude-members: choice, randint, seed
 
 

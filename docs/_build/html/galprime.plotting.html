@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>galprime.plotting package &mdash; GalPRIME  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <title>GalPRIME Plotting Methods &mdash; GalPRIME  documentation</title><link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="GalPRIME Modules" href="galprime.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -35,8 +36,14 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="galprime.html">galprime package</a></li>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="galprime.html">GalPRIME Modules</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">GalPRIME Plotting Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-galprime.plotting.cutout_plots">Cutout Plots</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-galprime.plotting.matrix_plot">Matrix Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-galprime.plotting.single_bin_plots">Single Bin Plots</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -53,7 +60,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>galprime.plotting package</li>
+      <li>GalPRIME Plotting Methods</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/galprime.plotting.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -63,66 +70,63 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="galprime-plotting-package">
-<h1>galprime.plotting package<a class="headerlink" href="#galprime-plotting-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
+  <div class="section" id="galprime-plotting-methods">
+<h1>GalPRIME Plotting Methods<a class="headerlink" href="#galprime-plotting-methods" title="Permalink to this headline">¶</a></h1>
+<p>GalPRIME does have a set of in-suite plotting methods. Many of these are still works in
+progress, and your mileage with using them may vary.</p>
 <div class="section" id="module-galprime.plotting.cutout_plots">
-<span id="galprime-plotting-cutout-plots-module"></span><h2>galprime.plotting.cutout_plots module<a class="headerlink" href="#module-galprime.plotting.cutout_plots" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
+<span id="cutout-plots"></span><h2>Cutout Plots<a class="headerlink" href="#module-galprime.plotting.cutout_plots" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
 <dt id="galprime.plotting.cutout_plots.view_cutouts">
-<code class="sig-prename descclassname">galprime.plotting.cutout_plots.</code><code class="sig-name descname">view_cutouts</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cutouts</span></em>, <em class="sig-param"><span class="n">output</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">150</span></em>, <em class="sig-param"><span class="n">show_index</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">log_scale</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">limits</span><span class="o">=</span><span class="default_value">1, - 3</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">'magma_r'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/cutout_plots.html#view_cutouts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.cutout_plots.view_cutouts" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">view_cutouts</code><span class="sig-paren">(</span><em class="sig-param">cutouts</em>, <em class="sig-param">output=''</em>, <em class="sig-param">dpi=150</em>, <em class="sig-param">show_index=False</em>, <em class="sig-param">log_scale=True</em>, <em class="sig-param">limits=(1</em>, <em class="sig-param">-3)</em>, <em class="sig-param">cmap='magma_r'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/cutout_plots.html#view_cutouts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.cutout_plots.view_cutouts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate cutouts plot for input filename</p>
 </dd></dl>
 
 </div>
 <div class="section" id="module-galprime.plotting.matrix_plot">
-<span id="galprime-plotting-matrix-plot-module"></span><h2>galprime.plotting.matrix_plot module<a class="headerlink" href="#module-galprime.plotting.matrix_plot" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
+<span id="matrix-plot"></span><h2>Matrix Plot<a class="headerlink" href="#module-galprime.plotting.matrix_plot" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
 <dt id="galprime.plotting.matrix_plot.adjust_profile">
-<code class="sig-prename descclassname">galprime.plotting.matrix_plot.</code><code class="sig-name descname">adjust_profile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">clean</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">shift</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/matrix_plot.html#adjust_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.matrix_plot.adjust_profile" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">adjust_profile</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">clean=False</em>, <em class="sig-param">shift=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/matrix_plot.html#adjust_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.matrix_plot.adjust_profile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="galprime.plotting.matrix_plot.load_median_info">
-<code class="sig-prename descclassname">galprime.plotting.matrix_plot.</code><code class="sig-name descname">load_median_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/matrix_plot.html#load_median_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.matrix_plot.load_median_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">load_median_info</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/matrix_plot.html#load_median_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.matrix_plot.load_median_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="galprime.plotting.matrix_plot.matrix_plot">
-<code class="sig-prename descclassname">galprime.plotting.matrix_plot.</code><code class="sig-name descname">matrix_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">directory</span></em>, <em class="sig-param"><span class="n">x_bins</span></em>, <em class="sig-param"><span class="n">y_bins</span></em>, <em class="sig-param"><span class="n">stubs</span><span class="o">=</span><span class="default_value">['bare', 'bgadded', 'noisy', 'bgsub']</span></em>, <em class="sig-param"><span class="n">colours</span><span class="o">=</span><span class="default_value">['red', 'blue', 'green', 'violet']</span></em>, <em class="sig-param"><span class="n">extra_params</span><span class="o">=</span><span class="default_value">'_0.0-0.5'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/matrix_plot.html#matrix_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.matrix_plot.matrix_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">matrix_plot</code><span class="sig-paren">(</span><em class="sig-param">directory, x_bins, y_bins, stubs=['bare', 'bgadded', 'noisy', 'bgsub'], colours=['red', 'blue', 'green', 'violet'], extra_params='_0.0-0.5'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/matrix_plot.html#matrix_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.matrix_plot.matrix_plot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-galprime.plotting.single_bin_plots">
-<span id="galprime-plotting-single-bin-plots-module"></span><h2>galprime.plotting.single_bin_plots module<a class="headerlink" href="#module-galprime.plotting.single_bin_plots" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
+<span id="single-bin-plots"></span><h2>Single Bin Plots<a class="headerlink" href="#module-galprime.plotting.single_bin_plots" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
 <dt id="galprime.plotting.single_bin_plots.adjust_profile">
-<code class="sig-prename descclassname">galprime.plotting.single_bin_plots.</code><code class="sig-name descname">adjust_profile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">m_0</span><span class="o">=</span><span class="default_value">27</span></em>, <em class="sig-param"><span class="n">arcconv</span><span class="o">=</span><span class="default_value">0.168</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/single_bin_plots.html#adjust_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.single_bin_plots.adjust_profile" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">adjust_profile</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">m_0=27</em>, <em class="sig-param">arcconv=0.168</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/single_bin_plots.html#adjust_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.single_bin_plots.adjust_profile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="galprime.plotting.single_bin_plots.single_bin_plot">
-<code class="sig-prename descclassname">galprime.plotting.single_bin_plots.</code><code class="sig-name descname">single_bin_plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table_arrays</span></em>, <em class="sig-param"><span class="n">colours</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ind_profile_alpha</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">medians</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">to_sb</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">bootstraps</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">ylim</span><span class="o">=</span><span class="default_value">30, 20</span></em>, <em class="sig-param"><span class="n">xlabel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ylabel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">dpi</span><span class="o">=</span><span class="default_value">150</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/single_bin_plots.html#single_bin_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.single_bin_plots.single_bin_plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">single_bin_plot</code><span class="sig-paren">(</span><em class="sig-param">table_arrays</em>, <em class="sig-param">colours=None</em>, <em class="sig-param">ind_profile_alpha=1</em>, <em class="sig-param">medians=False</em>, <em class="sig-param">to_sb=True</em>, <em class="sig-param">bootstraps=False</em>, <em class="sig-param">ylim=(30</em>, <em class="sig-param">20)</em>, <em class="sig-param">xlabel=None</em>, <em class="sig-param">ylabel=None</em>, <em class="sig-param">output=''</em>, <em class="sig-param">dpi=150</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/single_bin_plots.html#single_bin_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.single_bin_plots.single_bin_plot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py function">
+<dl class="function">
 <dt id="galprime.plotting.single_bin_plots.single_prof">
-<code class="sig-prename descclassname">galprime.plotting.single_bin_plots.</code><code class="sig-name descname">single_prof</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">error</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/single_bin_plots.html#single_prof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.single_bin_plots.single_prof" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">single_prof</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">error=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/plotting/single_bin_plots.html#single_prof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.plotting.single_bin_plots.single_prof" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</div>
-<div class="section" id="module-galprime.plotting">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-galprime.plotting" title="Permalink to this headline">¶</a></h2>
-<p>Routines for GalPrime plotting (still a work in progress)</p>
 </div>
 </div>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="galprime.html" class="btn btn-neutral float-left" title="GalPRIME Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 

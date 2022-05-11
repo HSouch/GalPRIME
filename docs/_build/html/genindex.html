@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
@@ -9,11 +10,10 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -37,6 +37,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="galprime.html">GalPRIME Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="galprime.plotting.html">GalPRIME Plotting Methods</a></li>
 </ul>
 
         </div>
@@ -71,7 +72,6 @@
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
- | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
@@ -83,7 +83,6 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
- | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
  | <a href="#X"><strong>X</strong></a>
  | <a href="#Y"><strong>Y</strong></a>
@@ -92,22 +91,12 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.a3">a3() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.a3_err">a3_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.a4">a4() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.a4_err">a4_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
       <li><a href="galprime.html#galprime.modelling.add_to_background">add_to_background() (in module galprime.modelling)</a>
 </li>
       <li><a href="galprime.html#galprime.modelling.add_to_noise">add_to_noise() (in module galprime.modelling)</a>
 </li>
       <li><a href="galprime.html#galprime.modelling.add_to_provided_backgrounds">add_to_provided_backgrounds() (in module galprime.modelling)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.plotting.html#galprime.plotting.matrix_plot.adjust_profile">adjust_profile() (in module galprime.plotting.matrix_plot)</a>
 
       <ul>
@@ -116,11 +105,11 @@
         <li><a href="galprime.html#galprime.profiles.adjust_profile">(in module galprime.profiles)</a>
 </li>
       </ul></li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.alpha">alpha (galprime.modelling.Core_Sersic attribute)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.alpha">alpha (Core_Sersic attribute)</a>
 </li>
-      <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.amplitude">amplitude (galprime.modelling.EdgeOnDisk attribute)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.append">append() (galprime.isophote_l.isophote.IsophoteList method)</a>
+      <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.amplitude">amplitude (EdgeOnDisk attribute)</a>
 </li>
       <li><a href="galprime.html#galprime.data.as_dir">as_dir() (in module galprime.data)</a>
 </li>
@@ -134,22 +123,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.modelling.b">b() (in module galprime.modelling)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.b3">b3() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.b3_err">b3_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.b4">b4() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.b4_err">b4_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
       <li><a href="galprime.html#galprime.backgrounds.background_2D">background_2D() (in module galprime.backgrounds)</a>
 </li>
       <li><a href="galprime.html#galprime.binning.Bin">Bin (class in galprime.binning)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.binning.bin_catalog">bin_catalog() (in module galprime.binning)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.binning.bin_index">bin_index() (in module galprime.binning)</a>
 </li>
       <li><a href="galprime.html#galprime.binning.bin_mag_catalog">bin_mag_catalog() (in module galprime.binning)</a>
@@ -157,10 +138,6 @@
       <li><a href="galprime.html#galprime.medians.bin_max">bin_max() (in module galprime.medians)</a>
 </li>
       <li><a href="galprime.html#galprime.masking.boolean_mask">boolean_mask() (in module galprime.masking)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.bounding_ellipses">bounding_ellipses() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.model.build_ellipse_model">build_ellipse_model() (in module galprime.isophote_l.model)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -170,26 +147,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.data.central_cutout">central_cutout() (in module galprime.data)</a>
 </li>
-      <li><a href="galprime.html#galprime.data.choice">choice() (in module galprime.data)</a>
-
-      <ul>
-        <li><a href="galprime.html#galprime.medians.choice">(in module galprime.medians)</a>
-</li>
-        <li><a href="galprime.html#galprime.modelling.choice">(in module galprime.modelling)</a>
-</li>
-        <li><a href="galprime.html#galprime.sims.choice">(in module galprime.sims)</a>
-</li>
-      </ul></li>
       <li><a href="galprime.html#galprime.config.config_to_file">config_to_file() (in module galprime.config)</a>
 </li>
       <li><a href="galprime.html#galprime.modelling.convolve_models">convolve_models() (in module galprime.modelling)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.sample.EllipseSample.coordinates">coordinates() (galprime.isophote_l.sample.EllipseSample method)</a>
-</li>
       <li><a href="galprime.html#galprime.modelling.Core_Sersic">Core_Sersic (class in galprime.modelling)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.modelling.core_sersic_b">core_sersic_b() (in module galprime.modelling)</a>
 </li>
       <li><a href="galprime.html#galprime.data.cutout_from_table">cutout_from_table() (in module galprime.data)</a>
@@ -212,7 +177,7 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.backgrounds.SourceMask.dilated">dilated() (galprime.backgrounds.SourceMask method)</a>
+      <li><a href="galprime.html#galprime.backgrounds.SourceMask.dilated">dilated() (SourceMask method)</a>
 </li>
       <li><a href="galprime.html#galprime.config.dump_default_config_file">dump_default_config_file() (in module galprime.config)</a>
 </li>
@@ -226,46 +191,26 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.modelling.EdgeOnDisk">EdgeOnDisk (class in galprime.modelling)</a>
 </li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.ellip">ellip (galprime.modelling.Core_Sersic attribute)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.ellip">ellip (Core_Sersic attribute)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.ellip_err">ellip_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.ellipse.Ellipse">Ellipse (class in galprime.isophote_l.ellipse)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.fitter.EllipseFitter">EllipseFitter (class in galprime.isophote_l.fitter)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry">EllipseGeometry (class in galprime.isophote_l.geometry)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.sample.EllipseSample">EllipseSample (class in galprime.isophote_l.sample)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.eps">eps() (galprime.isophote_l.isophote.Isophote property)</a>
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.eps">(galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      </ul></li>
       <li><a href="galprime.html#galprime.backgrounds.estimate_background">estimate_background() (in module galprime.backgrounds)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.backgrounds.estimate_background_set">estimate_background_set() (in module galprime.backgrounds)</a>
 </li>
       <li><a href="galprime.html#galprime.backgrounds.estimate_background_sigclip">estimate_background_sigclip() (in module galprime.backgrounds)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.backgrounds.estimate_bg_annulus">estimate_bg_annulus() (in module galprime.backgrounds)</a>
 </li>
       <li><a href="galprime.html#galprime.backgrounds.estimate_bg_elliptical_annulus">estimate_bg_elliptical_annulus() (in module galprime.backgrounds)</a>
 </li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.evaluate">evaluate() (galprime.modelling.Core_Sersic class method)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.evaluate">evaluate() (Core_Sersic class method)</a>
 
       <ul>
-        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.evaluate">(galprime.modelling.EdgeOnDisk class method)</a>
+        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.evaluate">(EdgeOnDisk class method)</a>
 </li>
       </ul></li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.extend">extend() (galprime.isophote_l.isophote.IsophoteList method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.sample.EllipseSample.extract">extract() (galprime.isophote_l.sample.EllipseSample method)</a>
-</li>
       <li><a href="galprime.html#galprime.extraction.extract_profiles">extract_profiles() (in module galprime.extraction)</a>
 </li>
       <li><a href="galprime.html#galprime.data.extraction_limits">extraction_limits() (in module galprime.data)</a>
@@ -273,211 +218,42 @@
   </ul></td>
 </tr></table>
 
-<h2 id="F">F</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.find_center">find_center() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.harmonics.first_and_second_harmonic_function">first_and_second_harmonic_function() (in module galprime.isophote_l.harmonics)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.fitter.EllipseFitter.fit">fit() (galprime.isophote_l.fitter.EllipseFitter method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.harmonics.fit_first_and_second_harmonics">fit_first_and_second_harmonics() (in module galprime.isophote_l.harmonics)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.ellipse.Ellipse.fit_image">fit_image() (galprime.isophote_l.ellipse.Ellipse method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.ellipse.Ellipse.fit_isophote">fit_isophote() (galprime.isophote_l.ellipse.Ellipse method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.harmonics.fit_upper_harmonic">fit_upper_harmonic() (in module galprime.isophote_l.harmonics)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.fix_geometry">fix_geometry() (galprime.isophote_l.isophote.Isophote method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    galprime.backgrounds
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.backgrounds">module</a>
+      <li><a href="galprime.html#module-galprime.backgrounds">galprime.backgrounds (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.binning
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.binning">module</a>
+      <li><a href="galprime.html#module-galprime.binning">galprime.binning (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.config
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.config">module</a>
+      <li><a href="galprime.html#module-galprime.config">galprime.config (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.data
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.data">module</a>
+      <li><a href="galprime.html#module-galprime.data">galprime.data (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.densities
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.densities">module</a>
+      <li><a href="galprime.html#module-galprime.densities">galprime.densities (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.extraction
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.extraction">module</a>
+      <li><a href="galprime.html#module-galprime.extraction">galprime.extraction (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l">module</a>
+      <li><a href="galprime.html#module-galprime.koe">galprime.koe (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.ellipse
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.ellipse">module</a>
+      <li><a href="galprime.html#module-galprime.masking">galprime.masking (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.fitter
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.fitter">module</a>
+      <li><a href="galprime.html#module-galprime.medians">galprime.medians (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.geometry
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.geometry">module</a>
+      <li><a href="galprime.html#module-galprime.modelling">galprime.modelling (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.harmonics
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.harmonics">module</a>
+      <li><a href="galprime.plotting.html#module-galprime.plotting.cutout_plots">galprime.plotting.cutout_plots (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.integrator
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.integrator">module</a>
+      <li><a href="galprime.plotting.html#module-galprime.plotting.matrix_plot">galprime.plotting.matrix_plot (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.isophote
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.isophote">module</a>
+      <li><a href="galprime.plotting.html#module-galprime.plotting.single_bin_plots">galprime.plotting.single_bin_plots (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.model
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.model">module</a>
+      <li><a href="galprime.html#module-galprime.profiles">galprime.profiles (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.isophote_l.sample
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.sample">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.koe
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.koe">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.masking
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.masking">module</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    galprime.medians
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.medians">module</a>
+      <li><a href="galprime.html#module-galprime.sims">galprime.sims (module)</a>
 </li>
-      </ul></li>
-      <li>
-    galprime.modelling
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.modelling">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.plotting
-
-      <ul>
-        <li><a href="galprime.plotting.html#module-galprime.plotting">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.plotting.cutout_plots
-
-      <ul>
-        <li><a href="galprime.plotting.html#module-galprime.plotting.cutout_plots">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.plotting.matrix_plot
-
-      <ul>
-        <li><a href="galprime.plotting.html#module-galprime.plotting.matrix_plot">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.plotting.single_bin_plots
-
-      <ul>
-        <li><a href="galprime.plotting.html#module-galprime.plotting.single_bin_plots">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.profiles
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.profiles">module</a>
-</li>
-      </ul></li>
-      <li>
-    galprime.sims
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.sims">module</a>
-</li>
-      </ul></li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.gamma">gamma (galprime.modelling.Core_Sersic attribute)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.gamma">gamma (Core_Sersic attribute)</a>
 </li>
       <li><a href="galprime.html#galprime.data.generate_cutout">generate_cutout() (in module galprime.data)</a>
 </li>
@@ -497,8 +273,6 @@
 </li>
       <li><a href="galprime.html#galprime.data.get_backgrounds">get_backgrounds() (in module galprime.data)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.get_closest">get_closest() (galprime.isophote_l.isophote.IsophoteList method)</a>
-</li>
       <li><a href="galprime.html#galprime.data.get_closest_psf">get_closest_psf() (in module galprime.data)</a>
 </li>
       <li><a href="galprime.html#galprime.profiles.get_half_light_radius">get_half_light_radius() (in module galprime.profiles)</a>
@@ -506,12 +280,6 @@
       <li><a href="galprime.html#galprime.data.get_image_filenames">get_image_filenames() (in module galprime.data)</a>
 </li>
       <li><a href="galprime.html#galprime.data.get_wcs">get_wcs() (in module galprime.data)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.grad">grad() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.grad_error">grad_error() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.grad_r_error">grad_r_error() (galprime.isophote_l.isophote.IsophoteList property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -521,27 +289,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.modelling.i_at_r50">i_at_r50() (in module galprime.modelling)</a>
 </li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.I_b">I_b (galprime.modelling.Core_Sersic attribute)</a>
-</li>
-      <li><a href="galprime.html#galprime.medians.index_format">index_format() (in module galprime.medians)</a>
-</li>
-      <li><a href="galprime.html#galprime.binning.Bin.index_from_key">index_from_key() (galprime.binning.Bin method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.initialize_sector_geometry">initialize_sector_geometry() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.I_b">I_b (Core_Sersic attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.insert">insert() (galprime.isophote_l.isophote.IsophoteList method)</a>
+      <li><a href="galprime.html#galprime.medians.index_format">index_format() (in module galprime.medians)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.int_err">int_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.intens">intens() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote">Isophote (class in galprime.isophote_l.isophote)</a>
+      <li><a href="galprime.html#galprime.binning.Bin.index_from_key">index_from_key() (Bin method)</a>
 </li>
       <li><a href="galprime.html#galprime.extraction.isophote_fitting">isophote_fitting() (in module galprime.extraction)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList">IsophoteList (class in galprime.isophote_l.isophote)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -549,7 +305,7 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.binning.Bin.key_from_index">key_from_index() (galprime.binning.Bin method)</a>
+      <li><a href="galprime.html#galprime.binning.Bin.key_from_index">key_from_index() (Bin method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -589,68 +345,13 @@
 </li>
       <li><a href="galprime.html#galprime.masking.mask_cutouts">mask_cutouts() (in module galprime.masking)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.plotting.html#galprime.plotting.matrix_plot.matrix_plot">matrix_plot() (in module galprime.plotting.matrix_plot)</a>
 </li>
       <li><a href="galprime.html#galprime.medians.median_pipeline">median_pipeline() (in module galprime.medians)</a>
 </li>
-      <li>
-    module
-
-      <ul>
-        <li><a href="galprime.html#module-galprime.backgrounds">galprime.backgrounds</a>
-</li>
-        <li><a href="galprime.html#module-galprime.binning">galprime.binning</a>
-</li>
-        <li><a href="galprime.html#module-galprime.config">galprime.config</a>
-</li>
-        <li><a href="galprime.html#module-galprime.data">galprime.data</a>
-</li>
-        <li><a href="galprime.html#module-galprime.densities">galprime.densities</a>
-</li>
-        <li><a href="galprime.html#module-galprime.extraction">galprime.extraction</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l">galprime.isophote_l</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.ellipse">galprime.isophote_l.ellipse</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.fitter">galprime.isophote_l.fitter</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.geometry">galprime.isophote_l.geometry</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.harmonics">galprime.isophote_l.harmonics</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.integrator">galprime.isophote_l.integrator</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.isophote">galprime.isophote_l.isophote</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.model">galprime.isophote_l.model</a>
-</li>
-        <li><a href="galprime.isophote_l.html#module-galprime.isophote_l.sample">galprime.isophote_l.sample</a>
-</li>
-        <li><a href="galprime.html#module-galprime.koe">galprime.koe</a>
-</li>
-        <li><a href="galprime.html#module-galprime.masking">galprime.masking</a>
-</li>
-        <li><a href="galprime.html#module-galprime.medians">galprime.medians</a>
-</li>
-        <li><a href="galprime.html#module-galprime.modelling">galprime.modelling</a>
-</li>
-        <li><a href="galprime.plotting.html#module-galprime.plotting">galprime.plotting</a>
-</li>
-        <li><a href="galprime.plotting.html#module-galprime.plotting.cutout_plots">galprime.plotting.cutout_plots</a>
-</li>
-        <li><a href="galprime.plotting.html#module-galprime.plotting.matrix_plot">galprime.plotting.matrix_plot</a>
-</li>
-        <li><a href="galprime.plotting.html#module-galprime.plotting.single_bin_plots">galprime.plotting.single_bin_plots</a>
-</li>
-        <li><a href="galprime.html#module-galprime.profiles">galprime.profiles</a>
-</li>
-        <li><a href="galprime.html#module-galprime.sims">galprime.sims</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.backgrounds.SourceMask.multiple">multiple() (galprime.backgrounds.SourceMask method)</a>
+      <li><a href="galprime.html#galprime.backgrounds.SourceMask.multiple">multiple() (SourceMask method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -658,25 +359,15 @@
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.n">n (galprime.modelling.Core_Sersic attribute)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.n">n (Core_Sersic attribute)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.ndata">ndata() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.nflag">nflag() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.niter">niter() (galprime.isophote_l.isophote.IsophoteList property)</a>
+      <li><a href="galprime.html#galprime.medians.normalize_bin">normalize_bin() (in module galprime.medians)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.medians.normalize_bin">normalize_bin() (in module galprime.medians)</a>
-</li>
       <li><a href="galprime.html#galprime.medians.normalized_bootstrap">normalized_bootstrap() (in module galprime.medians)</a>
 </li>
       <li><a href="galprime.html#galprime.medians.normalized_median">normalized_median() (in module galprime.medians)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.npix_c">npix_c() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.npix_e">npix_e() (galprime.isophote_l.isophote.IsophoteList property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -696,18 +387,10 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.pa">pa() (galprime.isophote_l.isophote.Isophote property)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.param_names">param_names (Core_Sersic attribute)</a>
 
       <ul>
-        <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.pa">(galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      </ul></li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.pa_err">pa_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.param_names">param_names (galprime.modelling.Core_Sersic attribute)</a>
-
-      <ul>
-        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.param_names">(galprime.modelling.EdgeOnDisk attribute)</a>
+        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.param_names">(EdgeOnDisk attribute)</a>
 </li>
       </ul></li>
       <li><a href="galprime.html#galprime.data.params_from_filename">params_from_filename() (in module galprime.data)</a>
@@ -717,10 +400,6 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.sims.pipeline">pipeline() (in module galprime.sims)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.pix_stddev">pix_stddev() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.polar_angle_sector_limits">polar_angle_sector_limits() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
 </li>
       <li><a href="galprime.html#galprime.config.print_config">print_config() (in module galprime.config)</a>
 </li>
@@ -736,33 +415,17 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.r_b">r_b (galprime.modelling.Core_Sersic attribute)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.r_b">r_b (Core_Sersic attribute)</a>
 </li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.r_e">r_e (galprime.modelling.Core_Sersic attribute)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.r_e">r_e (Core_Sersic attribute)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.radius">radius() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
-</li>
-      <li><a href="galprime.html#galprime.data.randint">randint() (in module galprime.data)</a>
-
-      <ul>
-        <li><a href="galprime.html#galprime.medians.randint">(in module galprime.medians)</a>
-</li>
-        <li><a href="galprime.html#galprime.modelling.randint">(in module galprime.modelling)</a>
-</li>
-        <li><a href="galprime.html#galprime.sims.randint">(in module galprime.sims)</a>
-</li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.binning.Bin.rebin">rebin() (galprime.binning.Bin method)</a>
+      <li><a href="galprime.html#galprime.binning.Bin.rebin">rebin() (Bin method)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.reset_sma">reset_sma() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
+      <li><a href="galprime.html#galprime.binning.Bin.return_columns">return_columns() (Bin method)</a>
 </li>
-      <li><a href="galprime.html#galprime.binning.Bin.return_columns">return_columns() (galprime.binning.Bin method)</a>
-</li>
-      <li><a href="galprime.html#galprime.binning.Bin.return_param_dict">return_param_dict() (galprime.binning.Bin method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.rms">rms() (galprime.isophote_l.isophote.IsophoteList property)</a>
+      <li><a href="galprime.html#galprime.binning.Bin.return_param_dict">return_param_dict() (Bin method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -770,12 +433,6 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.sample">sample() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.sampled_coordinates">sampled_coordinates() (galprime.isophote_l.isophote.Isophote method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.sarea">sarea() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
       <li><a href="galprime.html#galprime.data.save_array">save_array() (in module galprime.data)</a>
 </li>
       <li><a href="galprime.html#galprime.data.save_cutouts">save_cutouts() (in module galprime.data)</a>
@@ -788,43 +445,29 @@
 </li>
       <li><a href="galprime.html#galprime.profiles.sb_to_i">sb_to_i() (in module galprime.profiles)</a>
 </li>
-      <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.scale_x">scale_x (galprime.modelling.EdgeOnDisk attribute)</a>
+      <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.scale_x">scale_x (EdgeOnDisk attribute)</a>
 </li>
-      <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.scale_y">scale_y (galprime.modelling.EdgeOnDisk attribute)</a>
-</li>
-      <li><a href="galprime.html#galprime.sims.seed">seed() (in module galprime.sims)</a>
+      <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.scale_y">scale_y (EdgeOnDisk attribute)</a>
 </li>
       <li><a href="galprime.html#galprime.binning.select_bin">select_bin() (in module galprime.binning)</a>
 </li>
-      <li><a href="galprime.html#galprime.data.select_image">select_image() (in module galprime.data)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.ellipse.Ellipse.set_threshold">set_threshold() (galprime.isophote_l.ellipse.Ellipse method)</a>
+      <li><a href="galprime.html#galprime.data.select_image">select_image() (in module galprime.data)</a>
 </li>
       <li><a href="galprime.html#galprime.modelling.simulate_bg_gaussians">simulate_bg_gaussians() (in module galprime.modelling)</a>
 </li>
       <li><a href="galprime.html#galprime.modelling.simulate_sersic_models">simulate_sersic_models() (in module galprime.modelling)</a>
 </li>
-      <li><a href="galprime.html#galprime.backgrounds.SourceMask.single">single() (galprime.backgrounds.SourceMask method)</a>
+      <li><a href="galprime.html#galprime.backgrounds.SourceMask.single">single() (SourceMask method)</a>
 </li>
       <li><a href="galprime.plotting.html#galprime.plotting.single_bin_plots.single_bin_plot">single_bin_plot() (in module galprime.plotting.single_bin_plots)</a>
 </li>
       <li><a href="galprime.plotting.html#galprime.plotting.single_bin_plots.single_prof">single_prof() (in module galprime.plotting.single_bin_plots)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.sma">sma() (galprime.isophote_l.isophote.Isophote property)</a>
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.sma">(galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      </ul></li>
       <li><a href="galprime.html#galprime.profiles.smooth">smooth() (in module galprime.profiles)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.sort">sort() (galprime.isophote_l.isophote.IsophoteList method)</a>
-</li>
       <li><a href="galprime.html#galprime.backgrounds.SourceMask">SourceMask (class in galprime.backgrounds)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.stop_code">stop_code() (galprime.isophote_l.isophote.IsophoteList property)</a>
 </li>
       <li><a href="galprime.html#galprime.modelling.structural_parameters">structural_parameters() (in module galprime.modelling)</a>
 </li>
@@ -838,47 +481,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.data.tables_from_file">tables_from_file() (in module galprime.data)</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.tflux_c">tflux_c() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.tflux_e">tflux_e() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.theta">theta (galprime.modelling.Core_Sersic attribute)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.theta">theta (Core_Sersic attribute)</a>
 
       <ul>
-        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.theta">(galprime.modelling.EdgeOnDisk attribute)</a>
+        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.theta">(EdgeOnDisk attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="galprime.html#galprime.extraction.TimeoutException">TimeoutException</a>
 </li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.to_polar">to_polar() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.to_table">to_table() (galprime.isophote_l.isophote.Isophote method)</a>
-
-      <ul>
-        <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.to_table">(galprime.isophote_l.isophote.IsophoteList method)</a>
-</li>
-      </ul></li>
       <li><a href="galprime.html#galprime.data.trim_objects">trim_objects() (in module galprime.data)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="U">U</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.data.uniform">uniform() (in module galprime.data)</a>
-
-      <ul>
-        <li><a href="galprime.html#galprime.modelling.uniform">(in module galprime.modelling)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.sample.EllipseSample.update">update() (galprime.isophote_l.sample.EllipseSample method)</a>
-</li>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.geometry.EllipseGeometry.update_sma">update_sma() (galprime.isophote_l.geometry.EllipseGeometry method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -886,12 +499,10 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.valid">valid() (galprime.isophote_l.isophote.IsophoteList property)</a>
+      <li><a href="galprime.html#galprime.binning.Bin.values_in_bin">values_in_bin() (Bin method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.html#galprime.binning.Bin.values_in_bin">values_in_bin() (galprime.binning.Bin method)</a>
-</li>
       <li><a href="galprime.plotting.html#galprime.plotting.cutout_plots.view_cutouts">view_cutouts() (in module galprime.plotting.cutout_plots)</a>
 </li>
   </ul></td>
@@ -900,20 +511,10 @@
 <h2 id="X">X</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.x0">x0() (galprime.isophote_l.isophote.Isophote property)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.x_0">x_0 (Core_Sersic attribute)</a>
 
       <ul>
-        <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.x0">(galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.x0_err">x0_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.x_0">x_0 (galprime.modelling.Core_Sersic attribute)</a>
-
-      <ul>
-        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.x_0">(galprime.modelling.EdgeOnDisk attribute)</a>
+        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.x_0">(EdgeOnDisk attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -922,20 +523,10 @@
 <h2 id="Y">Y</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.Isophote.y0">y0() (galprime.isophote_l.isophote.Isophote property)</a>
+      <li><a href="galprime.html#galprime.modelling.Core_Sersic.y_0">y_0 (Core_Sersic attribute)</a>
 
       <ul>
-        <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.y0">(galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="galprime.isophote_l.html#galprime.isophote_l.isophote.IsophoteList.y0_err">y0_err() (galprime.isophote_l.isophote.IsophoteList property)</a>
-</li>
-      <li><a href="galprime.html#galprime.modelling.Core_Sersic.y_0">y_0 (galprime.modelling.Core_Sersic attribute)</a>
-
-      <ul>
-        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.y_0">(galprime.modelling.EdgeOnDisk attribute)</a>
+        <li><a href="galprime.html#galprime.modelling.EdgeOnDisk.y_0">(EdgeOnDisk attribute)</a>
 </li>
       </ul></li>
   </ul></td>

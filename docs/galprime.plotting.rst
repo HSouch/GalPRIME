@@ -1,38 +1,30 @@
-galprime.plotting package
+GalPRIME Plotting Methods
 =========================
 
-Submodules
-----------
+GalPRIME does have a set of in-suite plotting methods. Many of these are still works in
+progress, and your mileage with using them may vary.
 
-galprime.plotting.cutout\_plots module
---------------------------------------
+Cutout Plots
+------------
 
 .. automodule:: galprime.plotting.cutout_plots
    :members:
    :undoc-members:
    :show-inheritance:
 
-galprime.plotting.matrix\_plot module
--------------------------------------
+Matrix Plot
+-----------
 
 .. automodule:: galprime.plotting.matrix_plot
    :members:
    :undoc-members:
    :show-inheritance:
 
-galprime.plotting.single\_bin\_plots module
--------------------------------------------
+Single Bin Plots
+----------------
 
 .. automodule:: galprime.plotting.single_bin_plots
    :members:
    :undoc-members:
    :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: galprime.plotting
-   :members:
-   :undoc-members:
-   :show-inheritance:
