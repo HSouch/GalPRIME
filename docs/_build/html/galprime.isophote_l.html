@@ -9,11 +9,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" /> 
@@ -37,8 +37,6 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="galprime.html">galprime package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 </ul>
 
         </div>
@@ -73,9 +71,9 @@
 <div class="section" id="module-galprime.isophote_l.ellipse">
 <span id="galprime-isophote-l-ellipse-module"></span><h2>galprime.isophote_l.ellipse module<a class="headerlink" href="#module-galprime.isophote_l.ellipse" title="Permalink to this headline">¶</a></h2>
 <p>This module provides a class to fit elliptical isophotes.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="galprime.isophote_l.ellipse.Ellipse">
-<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.ellipse.</code><code class="sig-name descname">Ellipse</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">geometry=None</em>, <em class="sig-param">threshold=0.1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.ellipse.</code><code class="sig-name descname">Ellipse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">geometry</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to fit elliptical isophotes to a galaxy image.</p>
 <p>The isophotes in the image are measured using an iterative method
@@ -207,9 +205,9 @@ gradient across the region being fitted is paramount for the
 achievement of stable solutions. Use of the algorithm in other types
 of images (e.g., planetary nebulae) may lead to inability to
 converge to any acceptable solution.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.ellipse.Ellipse.fit_image">
-<code class="sig-name descname">fit_image</code><span class="sig-paren">(</span><em class="sig-param">sma0=None</em>, <em class="sig-param">minsma=0.0</em>, <em class="sig-param">maxsma=None</em>, <em class="sig-param">step=0.1</em>, <em class="sig-param">conver=0.05</em>, <em class="sig-param">minit=10</em>, <em class="sig-param">maxit=50</em>, <em class="sig-param">fflag=0.7</em>, <em class="sig-param">maxgerr=0.5</em>, <em class="sig-param">sclip=3.0</em>, <em class="sig-param">nclip=0</em>, <em class="sig-param">integrmode='bilinear'</em>, <em class="sig-param">linear=None</em>, <em class="sig-param">maxrit=None</em>, <em class="sig-param">fix_center=False</em>, <em class="sig-param">fix_pa=False</em>, <em class="sig-param">fix_eps=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.fit_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.fit_image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sma0</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">minsma</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">maxsma</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">step</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">conver</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">minit</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">maxit</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">fflag</span><span class="o">=</span><span class="default_value">0.7</span></em>, <em class="sig-param"><span class="n">maxgerr</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">sclip</span><span class="o">=</span><span class="default_value">3.0</span></em>, <em class="sig-param"><span class="n">nclip</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">integrmode</span><span class="o">=</span><span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">linear</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">maxrit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fix_center</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fix_pa</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fix_eps</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.fit_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.fit_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit multiple isophotes to the image array.</p>
 <p>This method loops over each value of the semimajor axis (sma)
 length (constructed from the input parameters), fitting a single
@@ -353,9 +351,9 @@ instances, sorted by increasing semimajor axis length.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.ellipse.Ellipse.fit_isophote">
-<code class="sig-name descname">fit_isophote</code><span class="sig-paren">(</span><em class="sig-param">sma</em>, <em class="sig-param">step=0.1</em>, <em class="sig-param">conver=0.05</em>, <em class="sig-param">minit=10</em>, <em class="sig-param">maxit=50</em>, <em class="sig-param">fflag=0.7</em>, <em class="sig-param">maxgerr=0.5</em>, <em class="sig-param">sclip=3.0</em>, <em class="sig-param">nclip=0</em>, <em class="sig-param">integrmode='bilinear'</em>, <em class="sig-param">linear=False</em>, <em class="sig-param">maxrit=None</em>, <em class="sig-param">noniterate=False</em>, <em class="sig-param">going_inwards=False</em>, <em class="sig-param">isophote_list=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.fit_isophote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.fit_isophote" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit_isophote</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sma</span></em>, <em class="sig-param"><span class="n">step</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">conver</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">minit</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">maxit</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">fflag</span><span class="o">=</span><span class="default_value">0.7</span></em>, <em class="sig-param"><span class="n">maxgerr</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">sclip</span><span class="o">=</span><span class="default_value">3.0</span></em>, <em class="sig-param"><span class="n">nclip</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">integrmode</span><span class="o">=</span><span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">linear</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">maxrit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">noniterate</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">going_inwards</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">isophote_list</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.fit_isophote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.fit_isophote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit a single isophote with a given semimajor axis length.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">step</span></code> and <code class="docutils literal notranslate"><span class="pre">linear</span></code> parameters are not used to actually
 grow or shrink the current fitting semimajor axis length.  They
@@ -454,9 +452,9 @@ the input list input to the <code class="docutils literal notranslate"><span cla
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.ellipse.Ellipse.set_threshold">
-<code class="sig-name descname">set_threshold</code><span class="sig-paren">(</span><em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.set_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.set_threshold" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_threshold</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">threshold</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/ellipse.html#Ellipse.set_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.ellipse.Ellipse.set_threshold" title="Permalink to this definition">¶</a></dt>
 <dd><p>Modify the threshold value used by the centerer.</p>
 <dl class="simple">
 <dt>threshold<span class="classifier">float</span></dt><dd><p>The new threshold value to use.</p>
@@ -470,18 +468,18 @@ the input list input to the <code class="docutils literal notranslate"><span cla
 <div class="section" id="module-galprime.isophote_l.fitter">
 <span id="galprime-isophote-l-fitter-module"></span><h2>galprime.isophote_l.fitter module<a class="headerlink" href="#module-galprime.isophote_l.fitter" title="Permalink to this headline">¶</a></h2>
 <p>This module provides a class to fit ellipses.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="galprime.isophote_l.fitter.EllipseFitter">
-<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.fitter.</code><code class="sig-name descname">EllipseFitter</code><span class="sig-paren">(</span><em class="sig-param">sample</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/fitter.html#EllipseFitter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.fitter.EllipseFitter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.fitter.</code><code class="sig-name descname">EllipseFitter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/fitter.html#EllipseFitter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.fitter.EllipseFitter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to fit ellipses.</p>
 <dl>
 <dt>sample<span class="classifier"><cite>~photutils.isophote.EllipseSample</cite> instance</span></dt><dd><p>The sample data to be fitted.</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.fitter.EllipseFitter.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">conver=0.05</em>, <em class="sig-param">minit=10</em>, <em class="sig-param">maxit=50</em>, <em class="sig-param">fflag=0.7</em>, <em class="sig-param">maxgerr=0.5</em>, <em class="sig-param">going_inwards=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/fitter.html#EllipseFitter.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.fitter.EllipseFitter.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">conver</span><span class="o">=</span><span class="default_value">0.05</span></em>, <em class="sig-param"><span class="n">minit</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">maxit</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">fflag</span><span class="o">=</span><span class="default_value">0.7</span></em>, <em class="sig-param"><span class="n">maxgerr</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">going_inwards</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/fitter.html#EllipseFitter.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.fitter.EllipseFitter.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit an elliptical isophote.</p>
 <dl>
 <dt>conver<span class="classifier">float, optional</span></dt><dd><p>The main convergence criterion. Iterations stop when the
@@ -547,7 +545,7 @@ extraction modes (see the <code class="docutils literal notranslate"><span class
 information.</p>
 </dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">photutils.isophote</span> <span class="kn">import</span> <span class="n">EllipseSample</span><span class="p">,</span> <span class="n">EllipseFitter</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">photutils.isophote</span> <span class="kn">import</span> <span class="n">EllipseSample</span><span class="p">,</span> <span class="n">EllipseFitter</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sample</span> <span class="o">=</span> <span class="n">EllipseSample</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sma</span><span class="o">=</span><span class="mf">10.</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fitter</span> <span class="o">=</span> <span class="n">EllipseFitter</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">isophote</span> <span class="o">=</span> <span class="n">fitter</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
@@ -562,9 +560,9 @@ information.</p>
 <span id="galprime-isophote-l-geometry-module"></span><h2>galprime.isophote_l.geometry module<a class="headerlink" href="#module-galprime.isophote_l.geometry" title="Permalink to this headline">¶</a></h2>
 <p>This module provides a container class to store parameters for the
 geometry of an ellipse.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry">
-<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.geometry.</code><code class="sig-name descname">EllipseGeometry</code><span class="sig-paren">(</span><em class="sig-param">x0</em>, <em class="sig-param">y0</em>, <em class="sig-param">sma</em>, <em class="sig-param">eps</em>, <em class="sig-param">pa</em>, <em class="sig-param">astep=0.1</em>, <em class="sig-param">linear_growth=False</em>, <em class="sig-param">fix_center=False</em>, <em class="sig-param">fix_pa=False</em>, <em class="sig-param">fix_eps=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.geometry.</code><code class="sig-name descname">EllipseGeometry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">y0</span></em>, <em class="sig-param"><span class="n">sma</span></em>, <em class="sig-param"><span class="n">eps</span></em>, <em class="sig-param"><span class="n">pa</span></em>, <em class="sig-param"><span class="n">astep</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">linear_growth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fix_center</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fix_pa</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fix_eps</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Container class to store parameters for the geometry of an ellipse.</p>
 <p>Parameters that describe the relationship of a given ellipse with
@@ -611,7 +609,7 @@ The default is False.</p>
 <dt>fix_eps<span class="classifier">bool, optional</span></dt><dd><p>Keep ellipticity of ellipse fixed during fit? The default is False.</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.bounding_ellipses">
 <code class="sig-name descname">bounding_ellipses</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.bounding_ellipses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.bounding_ellipses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the semimajor axis of the two ellipses that bound the
@@ -623,9 +621,9 @@ define the annulus bounding ellipses.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.find_center">
-<code class="sig-name descname">find_center</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">threshold=0.1</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.find_center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.find_center" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">find_center</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.find_center"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.find_center" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the center of a galaxy.</p>
 <p>If the algorithm is successful the (x, y) coordinates in this
 <cite>~photutils.isophote.EllipseGeometry</cite> (i.e., the <code class="docutils literal notranslate"><span class="pre">x0</span></code> and
@@ -668,9 +666,9 @@ off entirely by setting the threshold to a large value (i.e.,
 that signal-to-noise ratio).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.initialize_sector_geometry">
-<code class="sig-name descname">initialize_sector_geometry</code><span class="sig-paren">(</span><em class="sig-param">phi</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.initialize_sector_geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.initialize_sector_geometry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">initialize_sector_geometry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.initialize_sector_geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.initialize_sector_geometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize geometry attributes associated with an elliptical
 sector at the given polar angle <code class="docutils literal notranslate"><span class="pre">phi</span></code>.</p>
 <p>This function computes:</p>
@@ -691,7 +689,7 @@ attribute)</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.polar_angle_sector_limits">
 <code class="sig-name descname">polar_angle_sector_limits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.polar_angle_sector_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.polar_angle_sector_limits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the two polar angles that bound the sector.</p>
@@ -706,9 +704,9 @@ current sector.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.radius">
-<code class="sig-name descname">radius</code><span class="sig-paren">(</span><em class="sig-param">angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.radius"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.radius" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">radius</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">angle</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.radius"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.radius" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the polar radius for a given polar angle.</p>
 <dl class="simple">
 <dt>angle<span class="classifier">float</span></dt><dd><p>The polar angle (radians).</p>
@@ -720,9 +718,9 @@ current sector.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.reset_sma">
-<code class="sig-name descname">reset_sma</code><span class="sig-paren">(</span><em class="sig-param">step</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.reset_sma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.reset_sma" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reset_sma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.reset_sma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.reset_sma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the direction of semimajor axis growth, from outwards to
 inwards.</p>
 <dl class="simple">
@@ -739,9 +737,9 @@ method.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.to_polar">
-<code class="sig-name descname">to_polar</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.to_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.to_polar" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">to_polar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.to_polar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.to_polar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the radius and polar angle in the ellipse coordinate
 system given (x, y) pixel image coordinates.</p>
 <p>This function takes care of the different definitions for
@@ -761,9 +759,9 @@ angle.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.geometry.EllipseGeometry.update_sma">
-<code class="sig-name descname">update_sma</code><span class="sig-paren">(</span><em class="sig-param">step</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.update_sma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.update_sma" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update_sma</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/geometry.html#EllipseGeometry.update_sma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.geometry.EllipseGeometry.update_sma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate an updated value for the semimajor axis, given the
 current value and the step value.</p>
 <p>The step value must be managed by the caller to support both
@@ -784,9 +782,9 @@ modes: grow outwards and shrink inwards.</p>
 <div class="section" id="module-galprime.isophote_l.harmonics">
 <span id="galprime-isophote-l-harmonics-module"></span><h2>galprime.isophote_l.harmonics module<a class="headerlink" href="#module-galprime.isophote_l.harmonics" title="Permalink to this headline">¶</a></h2>
 <p>This module provides tools for computing and fitting harmonic functions.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="galprime.isophote_l.harmonics.first_and_second_harmonic_function">
-<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">first_and_second_harmonic_function</code><span class="sig-paren">(</span><em class="sig-param">phi</em>, <em class="sig-param">c</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#first_and_second_harmonic_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.first_and_second_harmonic_function" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">first_and_second_harmonic_function</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">c</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#first_and_second_harmonic_function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.first_and_second_harmonic_function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the harmonic function value used to calculate the
 corrections for ellipse fitting.</p>
 <p>This function includes simultaneously both the first and second
@@ -809,9 +807,9 @@ the positive x quadrant.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="galprime.isophote_l.harmonics.fit_first_and_second_harmonics">
-<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">fit_first_and_second_harmonics</code><span class="sig-paren">(</span><em class="sig-param">phi</em>, <em class="sig-param">intensities</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#fit_first_and_second_harmonics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.fit_first_and_second_harmonics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">fit_first_and_second_harmonics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">intensities</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#fit_first_and_second_harmonics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.fit_first_and_second_harmonics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit the first and second harmonic function values to a set of
 (angle, intensity) pairs.</p>
 <p>This function is used to compute corrections for ellipse fitting:</p>
@@ -834,9 +832,9 @@ angles defined by the <code class="docutils literal notranslate"><span class="pr
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="galprime.isophote_l.harmonics.fit_upper_harmonic">
-<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">fit_upper_harmonic</code><span class="sig-paren">(</span><em class="sig-param">phi</em>, <em class="sig-param">intensities</em>, <em class="sig-param">order</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#fit_upper_harmonic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.fit_upper_harmonic" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">galprime.isophote_l.harmonics.</code><code class="sig-name descname">fit_upper_harmonic</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">phi</span></em>, <em class="sig-param"><span class="n">intensities</span></em>, <em class="sig-param"><span class="n">order</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/harmonics.html#fit_upper_harmonic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.harmonics.fit_upper_harmonic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit upper harmonic function to a set of (angle, intensity) pairs.</p>
 <p>With <code class="docutils literal notranslate"><span class="pre">order</span></code> set to 3 or 4, the resulting amplitudes, divided by
 the semimajor axis length and local gradient, measure the deviations
@@ -870,9 +868,9 @@ angles defined by the <code class="docutils literal notranslate"><span class="pr
 <div class="section" id="module-galprime.isophote_l.isophote">
 <span id="galprime-isophote-l-isophote-module"></span><h2>galprime.isophote_l.isophote module<a class="headerlink" href="#module-galprime.isophote_l.isophote" title="Permalink to this headline">¶</a></h2>
 <p>This module provides classes to store the results of isophote fits.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="galprime.isophote_l.isophote.Isophote">
-<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.isophote.</code><code class="sig-name descname">Isophote</code><span class="sig-paren">(</span><em class="sig-param">sample</em>, <em class="sig-param">niter</em>, <em class="sig-param">valid</em>, <em class="sig-param">stop_code</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.isophote.</code><code class="sig-name descname">Isophote</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sample</span></em>, <em class="sig-param"><span class="n">niter</span></em>, <em class="sig-param"><span class="n">valid</span></em>, <em class="sig-param"><span class="n">stop_code</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Container class to store the results of single isophote fit.</p>
 <p>The extracted data sample at the given isophote (sampled intensities
@@ -965,15 +963,15 @@ each other.</p>
 <code class="docutils literal notranslate"><span class="pre">b4</span></code> attributes.</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.eps">
 <em class="property">property </em><code class="sig-name descname">eps</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.eps" title="Permalink to this definition">¶</a></dt>
 <dd><p>The ellipticity of the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.fix_geometry">
-<code class="sig-name descname">fix_geometry</code><span class="sig-paren">(</span><em class="sig-param">isophote</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote.fix_geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.fix_geometry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fix_geometry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">isophote</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote.fix_geometry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.fix_geometry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fix the geometry of a problematic isophote to be identical to
 the input isophote.</p>
 <p>This method should be called when the fitting goes berserk and
@@ -988,13 +986,13 @@ next fit.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.pa">
 <em class="property">property </em><code class="sig-name descname">pa</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.pa" title="Permalink to this definition">¶</a></dt>
 <dd><p>The position angle (radians) of the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.sampled_coordinates">
 <code class="sig-name descname">sampled_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote.sampled_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.sampled_coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the (x, y) coordinates where the image was sampled in
@@ -1005,13 +1003,13 @@ order to get the intensities associated with this isophote.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.sma">
 <em class="property">property </em><code class="sig-name descname">sma</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.sma" title="Permalink to this definition">¶</a></dt>
 <dd><p>The semimajor axis length (pixels).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.to_table">
 <code class="sig-name descname">to_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#Isophote.to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.to_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the main isophote parameters as an astropy
@@ -1023,13 +1021,13 @@ isophote paramters.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.x0">
 <em class="property">property </em><code class="sig-name descname">x0</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.x0" title="Permalink to this definition">¶</a></dt>
 <dd><p>The center x coordinate (pixel).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.Isophote.y0">
 <em class="property">property </em><code class="sig-name descname">y0</code><a class="headerlink" href="#galprime.isophote_l.isophote.Isophote.y0" title="Permalink to this definition">¶</a></dt>
 <dd><p>The center y coordinate (pixel).</p>
@@ -1037,9 +1035,9 @@ isophote paramters.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="galprime.isophote_l.isophote.IsophoteList">
-<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.isophote.</code><code class="sig-name descname">IsophoteList</code><span class="sig-paren">(</span><em class="sig-param">iso_list</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.isophote.</code><code class="sig-name descname">IsophoteList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iso_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Container class that provides the same attributes as the
 <cite>~photutils.isophote.Isophote</cite> class, but for a list of isophotes.</p>
@@ -1054,7 +1052,7 @@ operators.</p>
 <dt>iso_list<span class="classifier">list of <cite>~photutils.isophote.Isophote</cite></span></dt><dd><p>A list of <cite>~photutils.isophote.Isophote</cite> instances.</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.a3">
 <em class="property">property </em><code class="sig-name descname">a3</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a3" title="Permalink to this definition">¶</a></dt>
 <dd><p>A third-order harmonic coefficent.  See the
@@ -1062,13 +1060,13 @@ operators.</p>
 details.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.a3_err">
 <em class="property">property </em><code class="sig-name descname">a3_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a3_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.a3</cite>.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.a4">
 <em class="property">property </em><code class="sig-name descname">a4</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a4" title="Permalink to this definition">¶</a></dt>
 <dd><p>A fourth-order harmonic coefficent.  See the
@@ -1076,18 +1074,18 @@ details.</p>
 details.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.a4_err">
 <em class="property">property </em><code class="sig-name descname">a4_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.a4_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.a4</cite>.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.append">
-<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.append" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.append"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.append" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.b3">
 <em class="property">property </em><code class="sig-name descname">b3</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b3" title="Permalink to this definition">¶</a></dt>
 <dd><p>A third-order harmonic coefficent.  See the
@@ -1095,13 +1093,13 @@ details.</p>
 details.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.b3_err">
 <em class="property">property </em><code class="sig-name descname">b3_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b3_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.b3</cite>.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.b4">
 <em class="property">property </em><code class="sig-name descname">b4</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b4" title="Permalink to this definition">¶</a></dt>
 <dd><p>A fourth-order harmonic coefficent.  See the
@@ -1109,32 +1107,32 @@ details.</p>
 details.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.b4_err">
 <em class="property">property </em><code class="sig-name descname">b4_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.b4_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The error associated with <cite>~photutils.isophote.IsophoteList.b3</cite>.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.ellip_err">
 <em class="property">property </em><code class="sig-name descname">ellip_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.ellip_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The ellipticity error.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.eps">
 <em class="property">property </em><code class="sig-name descname">eps</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.eps" title="Permalink to this definition">¶</a></dt>
 <dd><p>The ellipticity of the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.extend">
-<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.extend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">extend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.extend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.extend" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.get_closest">
-<code class="sig-name descname">get_closest</code><span class="sig-paren">(</span><em class="sig-param">sma</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.get_closest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.get_closest" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_closest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sma</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.get_closest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.get_closest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the <cite>~photutils.isophote.Isophote</cite> instance that has the
 closest semimajor axis length to the input semimajor axis.</p>
 <dl class="simple">
@@ -1147,49 +1145,49 @@ closest semimajor axis length to the input semimajor axis.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.grad">
 <em class="property">property </em><code class="sig-name descname">grad</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.grad" title="Permalink to this definition">¶</a></dt>
 <dd><p>The local radial intensity gradient.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.grad_error">
 <em class="property">property </em><code class="sig-name descname">grad_error</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.grad_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>The measurement error of the local radial intensity
 gradient.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.grad_r_error">
 <em class="property">property </em><code class="sig-name descname">grad_r_error</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.grad_r_error" title="Permalink to this definition">¶</a></dt>
 <dd><p>The relative error of local radial intensity gradient.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.insert">
-<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param">index</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.insert" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">insert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.insert" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.int_err">
 <em class="property">property </em><code class="sig-name descname">int_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.int_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The error of the mean intensity (rms / sqrt(# data points)).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.intens">
 <em class="property">property </em><code class="sig-name descname">intens</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.intens" title="Permalink to this definition">¶</a></dt>
 <dd><p>The mean intensity value along the elliptical path.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.ndata">
 <em class="property">property </em><code class="sig-name descname">ndata</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.ndata" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of extracted data points.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.nflag">
 <em class="property">property </em><code class="sig-name descname">nflag</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.nflag" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of discarded data points. Data points can be
@@ -1198,94 +1196,94 @@ frame boundaries, because they were rejected by sigma-clipping,
 or they are masked.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.niter">
 <em class="property">property </em><code class="sig-name descname">niter</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.niter" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of iterations used to fit the isophote.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.npix_c">
 <em class="property">property </em><code class="sig-name descname">npix_c</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.npix_c" title="Permalink to this definition">¶</a></dt>
 <dd><p>The total number of valid pixels inside a circle with the same
 <code class="docutils literal notranslate"><span class="pre">sma</span></code> as the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.npix_e">
 <em class="property">property </em><code class="sig-name descname">npix_e</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.npix_e" title="Permalink to this definition">¶</a></dt>
 <dd><p>The total number of valid pixels inside the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.pa">
 <em class="property">property </em><code class="sig-name descname">pa</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.pa" title="Permalink to this definition">¶</a></dt>
 <dd><p>The position angle (radians) of the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.pa_err">
 <em class="property">property </em><code class="sig-name descname">pa_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.pa_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The position angle error (radians).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.pix_stddev">
 <em class="property">property </em><code class="sig-name descname">pix_stddev</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.pix_stddev" title="Permalink to this definition">¶</a></dt>
 <dd><p>The estimate of pixel standard deviation (rms * sqrt(average
 sector integration area)).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.rms">
 <em class="property">property </em><code class="sig-name descname">rms</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.rms" title="Permalink to this definition">¶</a></dt>
 <dd><p>The root-mean-square of intensity values along the elliptical
 path.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.sample">
 <em class="property">property </em><code class="sig-name descname">sample</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>The isophote <cite>~photutils.isophote.EllipseSample</cite> information.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.sarea">
 <em class="property">property </em><code class="sig-name descname">sarea</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sarea" title="Permalink to this definition">¶</a></dt>
 <dd><p>The average sector area on the isophote (pixel**2).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.sma">
 <em class="property">property </em><code class="sig-name descname">sma</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sma" title="Permalink to this definition">¶</a></dt>
 <dd><p>The semimajor axis length (pixels).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.sort">
 <code class="sig-name descname">sort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.sort" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.stop_code">
 <em class="property">property </em><code class="sig-name descname">stop_code</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.stop_code" title="Permalink to this definition">¶</a></dt>
 <dd><p>The fitting stop code.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.tflux_c">
 <em class="property">property </em><code class="sig-name descname">tflux_c</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.tflux_c" title="Permalink to this definition">¶</a></dt>
 <dd><p>The sum of all pixels inside a circle with the same <code class="docutils literal notranslate"><span class="pre">sma</span></code> as
 the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.tflux_e">
 <em class="property">property </em><code class="sig-name descname">tflux_e</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.tflux_e" title="Permalink to this definition">¶</a></dt>
 <dd><p>The sum of all pixels inside the ellipse.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.to_table">
 <code class="sig-name descname">to_table</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/isophote.html#IsophoteList.to_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.to_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert an <cite>~photutils.isophote.IsophoteList</cite> instance to a
@@ -1296,31 +1294,31 @@ the ellipse.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.valid">
 <em class="property">property </em><code class="sig-name descname">valid</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.valid" title="Permalink to this definition">¶</a></dt>
 <dd><p>The status of the fitting operation.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.x0">
 <em class="property">property </em><code class="sig-name descname">x0</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.x0" title="Permalink to this definition">¶</a></dt>
 <dd><p>The center x coordinate (pixel).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.x0_err">
 <em class="property">property </em><code class="sig-name descname">x0_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.x0_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The error associated with the center x coordinate.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.y0">
 <em class="property">property </em><code class="sig-name descname">y0</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.y0" title="Permalink to this definition">¶</a></dt>
 <dd><p>The center y coordinate (pixel).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.isophote.IsophoteList.y0_err">
 <em class="property">property </em><code class="sig-name descname">y0_err</code><a class="headerlink" href="#galprime.isophote_l.isophote.IsophoteList.y0_err" title="Permalink to this definition">¶</a></dt>
 <dd><p>The error associated with the center y coordinate.</p>
@@ -1333,9 +1331,9 @@ the ellipse.</p>
 <span id="galprime-isophote-l-model-module"></span><h2>galprime.isophote_l.model module<a class="headerlink" href="#module-galprime.isophote_l.model" title="Permalink to this headline">¶</a></h2>
 <p>This module profiles tools for building a model elliptical galaxy image
 from a list of isophotes.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="galprime.isophote_l.model.build_ellipse_model">
-<code class="sig-prename descclassname">galprime.isophote_l.model.</code><code class="sig-name descname">build_ellipse_model</code><span class="sig-paren">(</span><em class="sig-param">shape</em>, <em class="sig-param">isolist</em>, <em class="sig-param">fill=0.0</em>, <em class="sig-param">high_harmonics=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/model.html#build_ellipse_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.model.build_ellipse_model" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">galprime.isophote_l.model.</code><code class="sig-name descname">build_ellipse_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shape</span></em>, <em class="sig-param"><span class="n">isolist</span></em>, <em class="sig-param"><span class="n">fill</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">high_harmonics</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/model.html#build_ellipse_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.model.build_ellipse_model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build a model elliptical galaxy image from a list of isophotes.</p>
 <p>For each ellipse in the input isophote list the algorithm fills the
 output image array with the corresponding isophotal intensity.
@@ -1371,9 +1369,9 @@ details) to the result.</p>
 <div class="section" id="module-galprime.isophote_l.sample">
 <span id="galprime-isophote-l-sample-module"></span><h2>galprime.isophote_l.sample module<a class="headerlink" href="#module-galprime.isophote_l.sample" title="Permalink to this headline">¶</a></h2>
 <p>This module provides a class to sample data along an elliptical path.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="galprime.isophote_l.sample.EllipseSample">
-<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.sample.</code><code class="sig-name descname">EllipseSample</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">sma</em>, <em class="sig-param">x0=None</em>, <em class="sig-param">y0=None</em>, <em class="sig-param">astep=0.1</em>, <em class="sig-param">eps=0.2</em>, <em class="sig-param">position_angle=0.0</em>, <em class="sig-param">sclip=3.0</em>, <em class="sig-param">nclip=0</em>, <em class="sig-param">linear_growth=False</em>, <em class="sig-param">integrmode='bilinear'</em>, <em class="sig-param">geometry=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">galprime.isophote_l.sample.</code><code class="sig-name descname">EllipseSample</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em>, <em class="sig-param"><span class="n">sma</span></em>, <em class="sig-param"><span class="n">x0</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y0</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">astep</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">eps</span><span class="o">=</span><span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">position_angle</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">sclip</span><span class="o">=</span><span class="default_value">3.0</span></em>, <em class="sig-param"><span class="n">nclip</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">linear_growth</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">integrmode</span><span class="o">=</span><span class="default_value">'bilinear'</span></em>, <em class="sig-param"><span class="n">geometry</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to sample image data along an elliptical path.</p>
 <p>The image intensities along the elliptical path can be extracted
@@ -1443,7 +1441,7 @@ encompasses regions outside the image, or when sigma-clipping
 removed some of the points.</p>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.sample.EllipseSample.coordinates">
 <code class="sig-name descname">coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample.coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample.coordinates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the (x, y) coordinates associated with each sampled
@@ -1454,7 +1452,7 @@ point.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.sample.EllipseSample.extract">
 <code class="sig-name descname">extract</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample.extract"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample.extract" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract sample data by scanning an elliptical path over the
@@ -1466,9 +1464,9 @@ extracted intensity values, respectively.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="galprime.isophote_l.sample.EllipseSample.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">fixed_parameters</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fixed_parameters</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/galprime/isophote_l/sample.html#EllipseSample.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#galprime.isophote_l.sample.EllipseSample.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update this <cite>~photutils.isophote.EllipseSample</cite> instance.</p>
 <p>This method calls the
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">extract()</span></code> method to get

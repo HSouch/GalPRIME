@@ -1,4 +1,4 @@
-galprime package
+GalPRIME Modules
 ================
 
 
@@ -10,7 +10,7 @@ galprime package
    :undoc-members:
    :show-inheritance:
 
-Catalogue Binning (galprime.binning)
+Catalogue Binning (binning)
 ------------------------------------
 
 .. automodule:: galprime.binning
@@ -18,7 +18,7 @@ Catalogue Binning (galprime.binning)
    :undoc-members:
    :show-inheritance:
 
-Configuring GalPRIME (galprime.config)
+Configuring GalPRIME (config)
 --------------------------------------
 
 .. automodule:: galprime.config
@@ -26,7 +26,7 @@ Configuring GalPRIME (galprime.config)
    :undoc-members:
    :show-inheritance:
 
-Data Handling (galprime.data)
+Data Handling (data)
 -----------------------------
 
 .. automodule:: galprime.data
@@ -34,7 +34,7 @@ Data Handling (galprime.data)
    :undoc-members:
    :show-inheritance:
 
-Determining Cutout Density (galprime.densities)
+Determining Cutout Density (densities)
 -----------------------------------------------
 
 .. automodule:: galprime.densities
@@ -42,7 +42,7 @@ Determining Cutout Density (galprime.densities)
    :undoc-members:
    :show-inheritance:
 
-1D Surface Brightness Profile Extraction (galprime.extraction)
+1D Surface Brightness Profile Extraction (extraction)
 --------------------------------------------------------------
 
 .. automodule:: galprime.extraction
@@ -50,7 +50,7 @@ Determining Cutout Density (galprime.densities)
    :undoc-members:
    :show-inheritance:
 
-Automated Profile Extraction with Koe (galprime.koe)
+Automated Profile Extraction with Koe (koe)
 ----------------------------------------------------
 
 .. automodule:: galprime.koe
@@ -58,7 +58,7 @@ Automated Profile Extraction with Koe (galprime.koe)
    :undoc-members:
    :show-inheritance:
 
-Cutout Masking (galprime.masking)
+Cutout Masking (masking)
 ---------------------------------
 
 .. automodule:: galprime.masking
@@ -66,7 +66,7 @@ Cutout Masking (galprime.masking)
    :undoc-members:
    :show-inheritance:
 
-Medians and Bootstrapping (galprime.medians)
+Medians and Bootstrapping (medians)
 --------------------------------------------
 
 .. automodule:: galprime.medians
@@ -74,7 +74,7 @@ Medians and Bootstrapping (galprime.medians)
    :undoc-members:
    :show-inheritance:
 
-2D Galaxy Modelling (galprime.modelling)
+2D Galaxy Modelling (modelling)
 ----------------------------------------
 
 .. automodule:: galprime.modelling
@@ -82,7 +82,7 @@ Medians and Bootstrapping (galprime.medians)
    :undoc-members:
    :show-inheritance:
 
-1D Surface Brightness Profile Handling (galprime.profiles)
+1D Surface Brightness Profile Handling (profiles)
 ----------------------------------------------------------
 
 .. automodule:: galprime.profiles
@@ -90,7 +90,7 @@ Medians and Bootstrapping (galprime.medians)
    :undoc-members:
    :show-inheritance:
 
-GalPRIME Simulation Routines (galprime.sims)
+GalPRIME Simulation Routines (sims)
 --------------------------------------------
 
 .. automodule:: galprime.sims
@@ -99,10 +99,3 @@ GalPRIME Simulation Routines (galprime.sims)
    :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: galprime
-   :members:
-   :undoc-members:
-   :show-inheritance:

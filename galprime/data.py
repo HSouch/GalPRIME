@@ -27,6 +27,7 @@ def get_closest_psf(psfs, obj_ra, obj_dec):
     shortest_dist = 999999
     closest_psf = None
 
+    # Cycle through psfs and look for the best one
     for psf in psfs:
         head = psf.header
         psf_ra, psf_dec = head["RA"], head["DEC"]
@@ -136,11 +137,19 @@ def generate_cutout(image, position, img_wcs=None, size=91, world_coords=True):
     """
     Generates a cutout for a given image. Uses world coordinates by default, but can be configured to take
     in a position corresponding to the actual array indices.
-    :param image:
-    :param position:
-    :param wcs:
-    :param size:
-    :param world_coords:
+    :param image: The input image.
+    :type image: array_like
+    :param position: The central position of the cutout.
+        It is in (RA,DEC) if using world coordinates.
+        Otherwise it is (pix_x, pix_y), and the user must set world_coords to True.
+    :type position: arr_like
+    :param img_wcs: The world coordinate system associated with the image. Needed if inputting RA,DEC
+        ccordinates.
+    :type img_wcs: astropy.wcs.WCS object, optional
+    :param size: The size of the cutout, defaults to 91 pixels
+    :type size: int, optional
+    :param world_coords: Whether position corresponds to an RA,DEC or not. Defaults to True
+    :type world_coords: bool, optional
     :return:
     """
 
@@ -181,7 +190,16 @@ def trim_objects(obj_catalog, ras, decs, mag_lim=None, ra_key="RA", dec_key="DEC
 
 
 def extraction_limits(image_wcs, image_shape, cutout_size):
-    """ Get the minimum and maximum RA and DEC limits for a given cutout size and image"""
+    """ Get the minimum and maximum RA and DEC limits for a given cutout size and image
+        Used when trimming a catalogue to only the usable objects.
+
+        :param image_wcs:
+        :type image_wcs: astropy.wcs.WCS object
+        :param image_shape: The shape of the input image
+        :type image_shape: tuple
+        :param cutout_size: The width of the cutouts used in extraction
+        :type cutout_size: int
+    """
     half_width = ceil(cutout_size / 2)
 
     pix_min = image_wcs.wcs_pix2world(half_width, half_width, 0)

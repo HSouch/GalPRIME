@@ -11,14 +11,19 @@ from numpy import array, copy, append, round, reshape
 class Bin:
     """ Class for a single bin of information
 
-    Attributes:
-        objects: The catalog rows that belong to the given bin
-        object_column_names: The column names when the objects are sorted column-wise instead of row-wise.
-        bin_params (arr): The values that define the bounds of the bin.
-        bin_param_names (arr): Array of parameter names that the bin was made with.
     """
 
     def __init__(self, objects=None, object_column_names=None, bin_params=None, bin_param_names=None):
+        """
+        :param objects: The catalog rows that belong to the given bin
+        :type bin_param_names: array_like
+        :param object_column_names: The column names when the objects are sorted column-wise instead of row-wise.
+        :type bin_param_names: array_like
+        :param bin_params (arr): The values that define the bounds of the bin.
+        :type bin_param_names: array_like
+        :param bin_param_names (arr): Array of parameter names that the bin was made with.
+        :type bin_param_names: array_like
+        """
         if bin_params is None:
             bin_params = []
         if bin_param_names is None:
@@ -34,11 +39,13 @@ class Bin:
 
         Bins specified by the lower bounds and bin width.
 
-        Args:
-            param_index: Which index in the objects contains the desired value.
-            low_bounds: Lower bounds on the bins.
-            bin_width: The width of the bins.
-            number_threshold: The required number of objects a bin needs to have to be saved to the list.
+        :param param_index: Which index in the objects contains the desired value.
+        :type param_index: int
+        :param low_bounds: Lower bounds on the bins.
+        :type low bounds: array_like
+        :param bin_width: The width of the bins.
+        :type bin_width: float
+        param number_threshold: The required number of objects a bin needs to have to be saved to the list.
 
         Returns:
              List of re-binned Bin objects.
@@ -87,11 +94,8 @@ class Bin:
     def values_in_bin(self, values):
         """ Returns a boolean whether of not a set of values is within the bin.
 
-        Args:
-            values: A list of values.
-
-        Returns:
-            True if all values are in the bin. False otherwise.
+        :param values: A list of values.
+        :type values: arr_like
         """
         reshaped_values = reshape(self.bin_params, newshape=(int(len(self.bin_params) / 2), 2))
         good_count = 0
