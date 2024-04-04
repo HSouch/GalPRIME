@@ -31,3 +31,9 @@ config.ini
 secrets.txt
 
 pdata
+
+notebooks/figures
+notebooks/temp
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/

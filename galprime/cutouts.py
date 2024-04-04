@@ -27,7 +27,7 @@ class Cutouts:
         metadata["SHAPE"] = cutouts[0].shape
 
         if verbose:
-            print(f'Loaded {metadata["N_CUTOUTS"]} cutouts from {metadata["FILENAME"]}')
+            print(f'Loaded {metadata["N_CUTOUTS"]} cutouts from {metadata["FILENAME"]} with shape {metadata["SHAPE"]}')
         
         return Cutouts(cutouts=cutouts, cutout_data=cutout_data, metadata=metadata)
 
