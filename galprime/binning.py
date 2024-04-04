@@ -8,6 +8,7 @@ from astropy.table import Table
 import numpy as np
 from matplotlib import pyplot as plt
 
+from .utils import object_kde
 
 
 class BinList:
@@ -28,9 +29,6 @@ class BinList:
         
         self.binning_info[key] = lims
         self.bins = new_bins
-
-    def __repr__(self):
-        return f'BinList with {len(self.bins)} bins.'
     
     def prune_bins(self, min_objects=10, verbose=False):
         """ Remove bins with fewer than min_objects objects."""
@@ -40,6 +38,9 @@ class BinList:
 
         if verbose:
             print(f"Pruned {current_bin_count - len(self.bins)} bins with fewer than {min_objects} objects.")
+
+    def __repr__(self):
+        return f'BinList with {len(self.bins)} bins.'
 
 
 class Bin:
@@ -64,6 +65,10 @@ class Bin:
         for key in self.params:
             values.append(self.objects[self.params[key]].data)
         return np.array(values)
+    
+    def to_kde(self):
+        return object_kde(self.return_columns())
+
     
     def __repr__(self) -> str:
         return f'Bin with {len(self.objects)} objects.'
