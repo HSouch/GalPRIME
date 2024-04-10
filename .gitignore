@@ -34,6 +34,7 @@ pdata
 
 notebooks/figures
 notebooks/temp
+notebooks/myconfig.gprime
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
