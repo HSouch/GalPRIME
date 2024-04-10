@@ -102,7 +102,11 @@ def bin_catalogue(table, bin_params = {},
     return binlist
 
 
-def trim_table(table, mag_key="i", r50_key="R50", n_key="n", ellip_key="ellip", bin_keys = []):
-    keys = [mag_key, r50_key, n_key, ellip_key] + bin_keys
+def trim_table(table, config=None, mag_key="i", r50_key="R50", n_key="n", ellip_key="ellip", bin_keys = []):
+    if config is None:
+        keys = [mag_key, r50_key, n_key, ellip_key] + bin_keys
+    else:
+        keys = [config["KEYS"][key] for key in config["KEYS"].keys()] + config["BINS"].keys()
+
     t_trimmed = table[keys]
     return t_trimmed
