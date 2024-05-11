@@ -15,22 +15,26 @@ def show_cutouts(cutouts, nrows=5, ncols=5, method="zscale", cmap="gray_r", **kw
     for i in range(nrows):
         for j in range(ncols):
             
-            cutout = cutouts.cutouts[i * ncols + j]
+            try:
+                cutout = cutouts.cutouts[i * ncols + j]
             
-            if method == "zscale":
-                cutout = cutout
-                interval = ZScaleInterval()
-                vmin, vmax = interval.get_limits(cutout)
+                if method == "zscale":
+                    cutout = cutout
+                    interval = ZScaleInterval()
+                    vmin, vmax = interval.get_limits(cutout)
 
-            if method == "linear":
-                cutout = cutout
-                vmin, vmax = vmin, vmax
-            
-            if method == "log":
-                cutout = np.log10(cutout)
-                vmin, vmax = vmin, vmax
+                if method == "linear":
+                    cutout = cutout
+                    vmin, vmax = vmin, vmax
+                
+                if method == "log":
+                    cutout = np.log10(cutout)
+                    vmin, vmax = vmin, vmax
 
-            axes[i, j].imshow(cutout, cmap=cmap, vmin=vmin, vmax=vmax)
+                axes[i, j].imshow(cutout, cmap=cmap, vmin=vmin, vmax=vmax)
+            except Exception:
+                pass
+
             axes[i, j].set_xticks([])
             axes[i, j].set_yticks([])
 

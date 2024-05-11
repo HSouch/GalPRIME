@@ -12,3 +12,5 @@ __version__ = '0.1.0'
 
 from . import plotting
 from .utils import *
+
+from .isophotes import *
