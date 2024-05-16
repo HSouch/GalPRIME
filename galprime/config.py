@@ -35,6 +35,9 @@ def dump_default_config_file(outname="default.gprime"):
     config["DIRS"] = {}
     config["DIRS"]["OUTDIR"] = "gprime_out/"
 
+    config["MASKING"] = {}
+        
+
     config.write()
 
 
