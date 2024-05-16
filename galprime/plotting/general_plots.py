@@ -11,7 +11,7 @@ def show_cutouts(cutouts, nrows=5, ncols=5, method="zscale", cmap="gray_r", **kw
 
     vmin, vmax = kwargs.get("vmin", -3), kwargs.get("vmax", 1)
 
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(ncols * 2.5, nrows * 2.5), dpi=dpi)
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(ncols * 2.5, nrows * 2.5), facecolor="white", dpi=dpi)
     for i in range(nrows):
         for j in range(ncols):
             
