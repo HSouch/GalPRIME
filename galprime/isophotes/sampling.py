@@ -10,7 +10,7 @@ def eccentric_anomaly(phi, ellip=0):
     return np.sort(-np.arctan2(np.tan(phi) / (1-ellip), (np.cos(phi) > 0) * 2 - 1))
 
 
-def ellipse_coords(isophote, angles, min_samples=10, asint = True):
+def ellipse_coords(isophote, angles, asint = True):
     
     x0, y0, a, pa, eps = isophote.x0, isophote.y0, isophote.sma, isophote.pa, isophote.eps
     b = a * (1 - eps)
