@@ -36,7 +36,17 @@ def dump_default_config_file(outname="default.gprime"):
     config["DIRS"]["OUTDIR"] = "gprime_out/"
 
     config["MASKING"] = {}
-        
+    config["MASKING"]["NSIGMA"] = 1
+    config["MASKING"]["GAUSS_WIDTH"] = 2
+    config["MASKING"]["NPIX"] = 5
+
+    config["EXTRACTION"] = {}
+    config["EXTRACTION"]["LINEAR"] = False
+    config["EXTRACTION"]["STEP"] = 0.1
+    config["EXTRACTION"]["NITER"] = 100
+
+    config["BGSUB"] = {}
+    
 
     config.write()
 
