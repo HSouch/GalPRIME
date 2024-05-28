@@ -1,12 +1,11 @@
 from configobj import ConfigObj
+import numpy as np
 
 
-
-def dump_default_config_file(outname="default.gprime"):
-
+def default_config():
 
     config = ConfigObj()
-    config.filename = outname
+    config.filename = None
     config["FILE_DIR"] = ""
 
     config["FILES"] = {}
@@ -39,6 +38,7 @@ def dump_default_config_file(outname="default.gprime"):
     config["MASKING"]["NSIGMA"] = 1
     config["MASKING"]["GAUSS_WIDTH"] = 2
     config["MASKING"]["NPIX"] = 5
+    config["MASKING"]["BG_BOXSIZE"] = 50
 
     config["EXTRACTION"] = {}
     config["EXTRACTION"]["LINEAR"] = False
@@ -46,11 +46,21 @@ def dump_default_config_file(outname="default.gprime"):
     config["EXTRACTION"]["NITER"] = 100
 
     config["BGSUB"] = {}
-    
 
+    return config
+
+
+def dump_default_config_file(outname="default.gprime"):
+
+    config = default_config()
+    config.filename = outname
     config.write()
 
 
 def read_config_file(filename):
-    config = ConfigObj(filename)
+    config = ConfigObj(filename, interpolation=True)
+
+    for key in config["BINS"]:
+        config["BINS"][key] = np.array(config["BINS"][key], dtype=float)
+
     return config
