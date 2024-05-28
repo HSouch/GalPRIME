@@ -1,6 +1,8 @@
 from astropy.io import fits
 import numpy as np
 
+import copy
+
 __all__ = ['Cutouts']
 
 class Cutouts:
@@ -11,6 +13,7 @@ class Cutouts:
         self.min_index = min_index
 
         self.ras, self.decs = [], []
+
 
     def get_ra_dec(self, ra_key="RA", dec_key="DEC"):
 
@@ -48,6 +51,10 @@ class Cutouts:
             print(f'Loaded {metadata["N_CUTOUTS"]} cutouts from {metadata["FILENAME"]} with shape {metadata["SHAPE"]}')
         
         return Cutouts(cutouts=cutouts, cutout_data=cutout_data, metadata=metadata, min_index=min_index)
+    
+    def copy(self):
+        return copy.deepcopy(self)
+    
     
     
     
