@@ -1,6 +1,5 @@
-from configobj import ConfigObj
+from configobj import ConfigObj, validate
 import numpy as np
-
 
 def default_config():
 
@@ -50,6 +49,44 @@ def default_config():
     return config
 
 
+def galprime_configspec():
+    cspec = ConfigObj()
+
+    cspec["FILE_DIR"] = ""
+    cspec["FILES"] = {}
+    cspec["FILES"]["CATALOGUE"] = "string(default='cat.fits')"
+    cspec["FILES"]["PSFS"] = "string(default='psfs.fits')"
+    cspec["FILES"]["BACKGROUNDS"] = "string(default='backgrounds.fits')"
+    cspec["FILES"]["MAG_CATALOGUE"] = "string(default=None)"
+
+    cspec["KEYS"] = {}
+    cspec["KEYS"]["RA"] = "string(default='RA_1')"
+    cspec["KEYS"]["DEC"] = "string(default='DEC_1')"
+    cspec["KEYS"]["MAG"] = "string(default='i')"
+    cspec["KEYS"]["R50"] = "string(default='R_GIM2D')"
+    cspec["KEYS"]["N"] = "string(default='SERSIC_N_GIM2D')"
+    cspec["KEYS"]["ELLIP"] = "string(default='ELL_GIM2D')"
+
+    cspec["BINS"] = {}
+
+    cspec["DIRS"] = {}
+    cspec["DIRS"]["OUTDIR"] = "string(default='gprime_out/')"
+
+    cspec["MASKING"] = {}
+    cspec["MASKING"]["NSIGMA"] = "float(default=1)"
+    cspec["MASKING"]["GAUSS_WIDTH"] = "float(default=2)"
+    cspec["MASKING"]["NPIX"] = "int(default=5)"
+    cspec["MASKING"]["BG_BOXSIZE"] = "int(default=50)"
+
+    cspec["EXTRACTION"] = {}
+    cspec["EXTRACTION"]["LINEAR"] = "boolean(default=False)"
+    cspec["EXTRACTION"]["STEP"] = "float(default=0.1)"
+    cspec["EXTRACTION"]["NITER"] = "int(default=100)"
+    
+
+
+    return cspec
+
 def dump_default_config_file(outname="default.gprime"):
 
     config = default_config()
@@ -58,7 +95,10 @@ def dump_default_config_file(outname="default.gprime"):
 
 
 def read_config_file(filename):
-    config = ConfigObj(filename, interpolation=True)
+    config = ConfigObj(filename, interpolation=True, configspec=galprime_configspec())
+    
+    vtor = validate.Validator()
+    results = config.validate(vtor)
 
     for key in config["BINS"]:
         config["BINS"][key] = np.array(config["BINS"][key], dtype=float)
