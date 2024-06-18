@@ -82,8 +82,6 @@ def galprime_configspec():
     cspec["EXTRACTION"]["LINEAR"] = "boolean(default=False)"
     cspec["EXTRACTION"]["STEP"] = "float(default=0.1)"
     cspec["EXTRACTION"]["NITER"] = "int(default=100)"
-    
-
 
     return cspec
 
