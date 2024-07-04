@@ -60,14 +60,15 @@ class Bin:
             new_bins.append(new_bin)
         return new_bins
     
-    def return_columns(self):
+    def return_columns(self, structural_params=False):
         values = []
-        for key in self.params:
+        params = ["MAG", "R50", "N", "ELLIP"] if structural_params else self.params
+        for key in params:
             values.append(self.objects[self.params[key]].data)
         return np.array(values)
     
     def to_kde(self):
-        return object_kde(self.return_columns())
+        return object_kde(self.return_columns(structural_params=True))
 
     
     def __repr__(self) -> str:
