@@ -6,6 +6,7 @@ def default_config():
     config = ConfigObj()
     config.filename = None
     config["FILE_DIR"] = ""
+    config["NTHREADS"] = 2
 
     config["FILES"] = {}
     config["FILES"]["CATALOGUE"] = "cat.fits"
@@ -13,25 +14,26 @@ def default_config():
     config["FILES"]["BACKGROUNDS"] = "backgrounds.fits"
     config["FILES"]["MAG_CATALOGUE"] = None
 
+    config["DIRS"] = {}
+    config["DIRS"]["OUTDIR"] = "gprime_out/"
+
+    # Keys to pull information from the catalogue
     config["KEYS"] = {}
-    config["KEYS"]["RA"] = "RA_1"
-    config["KEYS"]["DEC"] = "DEC_1"
     config["KEYS"]["MAG"] = "i"
     config["KEYS"]["R50"] = "R_GIM2D"
     config["KEYS"]["N"] = "SERSIC_N_GIM2D"
     config["KEYS"]["ELLIP"] = "ELL_GIM2D"
+    config["KEYS"]["RA"] = "RA_1"
+    config["KEYS"]["DEC"] = "DEC_1"
 
-    config["PSF_INFO"] = {}
-    config["PSF_INFO"]["PSF_RA"] = "RA"
-    config["PSF_INFO"]["PSF_DEC"] = "DEC"
+    config["PSFS"] = {}
+    config["PSFS"]["PSF_RA"] = "RA"
+    config["PSFS"]["PSF_DEC"] = "DEC"
 
     config["BINS"] = {}
     config["BINS"]["Z_BEST"] = [0.1, 0.3, 0.5, 0.7, 0.9]
     config["BINS"]["MASS_MED"] = [10, 10.5, 11, 11.5]
     config["BINS"]["sfProb"] = [0, 0.5, 1.]
-
-    config["DIRS"] = {}
-    config["DIRS"]["OUTDIR"] = "gprime_out/"
 
     config["MASKING"] = {}
     config["MASKING"]["NSIGMA"] = 1
@@ -53,6 +55,8 @@ def galprime_configspec():
     cspec = ConfigObj()
 
     cspec["FILE_DIR"] = ""
+    cspec["NTHREADS"] = "integer(default=1)"
+
     cspec["FILES"] = {}
     cspec["FILES"]["CATALOGUE"] = "string(default='cat.fits')"
     cspec["FILES"]["PSFS"] = "string(default='psfs.fits')"
@@ -89,14 +93,15 @@ def dump_default_config_file(outname="default.gprime"):
 
     config = default_config()
     config.filename = outname
+    config.indent_type = '    '
     config.write()
 
 
 def read_config_file(filename):
-    config = ConfigObj(filename, interpolation=True, configspec=galprime_configspec())
+    config = ConfigObj(filename, interpolation=True, configspec=galprime_configspec(), indent_type = '    ')
     
     vtor = validate.Validator()
-    results = config.validate(vtor)
+    test = config.validate(vtor)
 
     for key in config["BINS"]:
         config["BINS"][key] = np.array(config["BINS"][key], dtype=float)
