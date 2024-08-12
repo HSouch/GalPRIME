@@ -29,6 +29,35 @@ class Cutouts:
         index = np.random.randint(0, len(self.cutouts))
         return self.cutouts[index], self.cutout_data[index]
     
+
+    def combine(self, to_add, method="random"):
+        """
+        Combines the cutouts of two instances of the `Cutouts` class.
+        Parameters:
+            to_add (Cutouts): The `Cutouts` instance to be combined with.
+            method (str, optional): The method used for combining the cutouts. 
+                Defaults to "random". Possible values are "random" and "direct".
+        Returns:
+            Cutouts: A new `Cutouts` instance with the combined cutouts.
+        Raises:
+            ValueError: If an invalid method is provided.
+
+        """
+        out_cutouts = self.copy()
+        out_cutouts.cutouts = []
+
+        if method == "random":
+            for cutout in self.cutouts:
+                out_cutouts.cutouts.append(cutout + to_add.cutouts[np.random.randint(0, len(to_add.cutouts))])
+        elif method == "direct":
+            for i in range(len(self.cutouts)):
+                out_cutouts.cutouts.append(self.cutouts[i] + to_add.cutouts[i])
+        else:
+            raise ValueError("Invalid method provided. Possible values are 'random' and 'direct'.")
+
+        return out_cutouts
+    
+
     @staticmethod
     def from_file(filename, verbose=False, min_index=0):
         cutouts, cutout_data, metadata = [], [], {}
@@ -52,9 +81,6 @@ class Cutouts:
         
         return Cutouts(cutouts=cutouts, cutout_data=cutout_data, metadata=metadata, min_index=min_index)
     
+    
     def copy(self):
         return copy.deepcopy(self)
-    
-    
-    
-    
