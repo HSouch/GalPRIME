@@ -1,0 +1,32 @@
+FILE_DIR = ""
+[FILES]
+    CATALOGUE = cat.fits
+    PSFS = psfs.fits
+    BACKGROUNDS = backgrounds.fits
+    MAG_CATALOGUE = None
+[KEYS]
+    RA = RA_1
+    DEC = DEC_1
+    MAG = i
+    R50 = R_GIM2D
+    N = SERSIC_N_GIM2D
+    ELLIP = ELL_GIM2D
+[PSF_INFO]
+    PSF_RA = RA
+    PSF_DEC = DEC
+[BINS]
+    Z_BEST = 0.1, 0.3, 0.5, 0.7, 0.9
+    MASS_MED = 10, 10.5, 11, 11.5
+    sfProb = 0, 0.5, 1.0
+[DIRS]
+    OUTDIR = gprime_out/
+[MASKING]
+    NSIGMA = 1
+    GAUSS_WIDTH = 2
+    NPIX = 5
+    BG_BOXSIZE = 50
+[EXTRACTION]
+    LINEAR = False
+    STEP = 0.1
+    NITER = 100
+[BGSUB]

@@ -1,0 +1,31 @@
+FILE_DIR = ../pdata/
+NTHREADS = 2
+
+[FILES]
+CATALOGUE =             HSC-ZEST_CLEAN.fits
+PSFS =                  i_psfs.fits
+BACKGROUNDS =           cutouts_i.fits
+MAG_CATALOGUE =         COSMOS_V9_MAGS.fits
+
+[KEYS]
+MAG = i
+R50 = R_GIM2D
+N = SERSIC_N_GIM2D
+ELLIP = ELL_GIM2D
+
+[PSFS]
+PSF_RA = ra
+PSF_DEC = dec
+
+[BINS]
+Z_BEST = 0.1, 0.3, 0.5, 0.7, 0.9
+MASS_MED = 10, 10.5, 11, 11.5
+sfProb = 0, 0.5, 1.0
+
+[DIRS]
+OUTDIR = gprime_out/
+
+[MODEL]
+SIZE = 451
+ARCCONV = 0.168
+ZPM = 27.0
