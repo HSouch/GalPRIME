@@ -18,7 +18,7 @@ class UniformSSKDE(SyntheticKDE):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
     
-    def generate(self, mag_lims=[20, 24], r50_lims=[2, 10], n_lims=[0.5, 4.5], ellip_lims=[0.05, 0.95], 
+    def generate(self, mag_lims=[20, 24], r50_lims=[0.5, 3], n_lims=[0.5, 4.5], ellip_lims=[0.05, 0.95], 
                  size=100):
         """
         Generate a synthetic KDE based on uniform distributions of magnitude, r50 (half-light radius),
