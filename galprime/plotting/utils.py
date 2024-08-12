@@ -9,18 +9,18 @@ def pyplot_style():
 
 def default_pyplot_style():
     # xticks
-    mpl.rcParams["xtick.major.size"] = 3
-    mpl.rcParams["xtick.major.width"] = 2
-    mpl.rcParams["xtick.minor.size"] = 2
-    mpl.rcParams["xtick.minor.width"] = 1
+    mpl.rcParams["xtick.major.size"] = 2
+    mpl.rcParams["xtick.major.width"] = 1
+    mpl.rcParams["xtick.minor.size"] = 1.5
+    mpl.rcParams["xtick.minor.width"] = 0.75
 
     # yticks
-    mpl.rcParams["ytick.major.size"] = 3
-    mpl.rcParams["ytick.major.width"] = 2
-    mpl.rcParams["ytick.minor.size"] = 2
-    mpl.rcParams["ytick.minor.width"] = 1
+    mpl.rcParams["ytick.major.size"] = 2
+    mpl.rcParams["ytick.major.width"] = 1
+    mpl.rcParams["ytick.minor.size"] = 1.5
+    mpl.rcParams["ytick.minor.width"] = 0.75
 
-    mpl.rcParams["axes.linewidth"] = 1.5
+    mpl.rcParams["axes.linewidth"] = 1.25
 
     mpl.rc("xtick", labelsize=12)
     mpl.rc("ytick", labelsize=12)

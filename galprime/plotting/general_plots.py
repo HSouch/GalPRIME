@@ -3,7 +3,7 @@ from matplotlib import pyplot as plt
 
 import numpy as np
 
-def show_cutouts(cutouts, nrows=5, ncols=5, method="zscale", cmap="gray_r", **kwargs):
+def show_cutouts(cutouts, model_data=None, nrows=5, ncols=5, method="zscale", cmap="gray_r", **kwargs):
     print(len(cutouts.cutouts))
 
     outname = kwargs.get("outname", None)
@@ -37,6 +37,21 @@ def show_cutouts(cutouts, nrows=5, ncols=5, method="zscale", cmap="gray_r", **kw
 
             axes[i, j].set_xticks([])
             axes[i, j].set_yticks([])
+
+            if model_data is not None:
+                dataset = model_data[i * ncols + j]
+                xmin, xmax = axes[i, j].get_xlim()
+                ymin, ymax = axes[i, j].get_ylim()
+                dx, dy = xmax - xmin, ymax - ymin
+
+                outstring = ""
+                for key, value in dataset.items():
+                    outstring += f"{key}: {value:.2f}\n"
+                
+                axes[i, j].text(xmin + 0.05 * dx, ymax - 0.05 * dy, outstring, 
+                                fontsize=kwargs.get("info_fontsize", 10), 
+                                color=kwargs.get("info_fontcolor", "black"), 
+                                ha="left", va="top")
 
 
     plt.tight_layout()
