@@ -25,15 +25,14 @@ class GalaxyModel:
 
 
 class SingleSersicModel(GalaxyModel):
-    def __init__(self, params={}, **kwargs):
-        super().__init__(params, **kwargs)
+    def __init__(self, size=151, params={}, **kwargs):
+        super().__init__(params, size=size, **kwargs)
 
     def generate(self):
         mag, r50, n, ellip = self.params["mag"], self.params["r50"], self.params["n"], self.params["ellip"]
         theta = np.random.uniform(0, 2 * np.pi)
 
         ltot = utils.Ltot(mag, self.config["MODEL"]["ZPM"])
-
         ys, xs = np.mgrid[:self.size, :self.size]
 
         z = Sersic2D(amplitude=1, r_eff=r50, n=n, x_0=self.size/2, y_0=self.size/2, ellip=ellip, theta=theta)(xs, ys)
@@ -46,15 +45,13 @@ class SingleSersicModel(GalaxyModel):
         good = good and (0.1 < ellip < 0.9)
         return good
     
-    
     def gen_multiple(self, config, kde, mag_kde=None, n_models=100, **kwargs):
         max_tries = kwargs.get("ntries", 100)
         arcconv = float(config["MODEL"]["ARCCONV"])
-        size = float(config["MODEL"]["SIZE"])
         
         zpm = float(config["MODEL"]["ZPM"])
 
-        xs, ys = np.mgrid[:size, :size]
+        xs, ys = np.mgrid[:self.size, :self.size]
 
         models, models_info = [], []
         for _ in range(n_models):
@@ -77,7 +74,9 @@ class SingleSersicModel(GalaxyModel):
 
             theta = np.random.uniform(0, 2 * np.pi)
 
-            model = Sersic2D(amplitude=1, r_eff=r_eff_pix, n=n, x_0=size/2, y_0=size/2, ellip=ellip, theta=theta)
+            model = Sersic2D(amplitude=1, r_eff=r_eff_pix, n=n, 
+                             x_0=self.size/2, y_0=self.size/2, 
+                             ellip=ellip, theta=theta)
             z = model(xs, ys)
 
             z *= Ltot / np.nansum(z)
