@@ -18,6 +18,8 @@ def gen_models(config, kde, mag_kde=None, n_models=100, check_method=check_sersi
     max_tries = kwargs.get("ntries", 100)
     arcconv = float(config["MODEL"]["ARCCONV"])
     size = float(config["MODEL"]["SIZE"])
+
+    zpm = float(config["MODEL"]["ZPM"])
     
     xs, ys = np.mgrid[:size, :size]
 
@@ -37,12 +39,14 @@ def gen_models(config, kde, mag_kde=None, n_models=100, check_method=check_sersi
         
         r_eff_pix = r_eff / arcconv
         
-        i_r50 = utils.I_e(mag, r_eff_pix, n=n)
+        Ltot = utils.Ltot(mag, zpm)
 
         theta = np.random.uniform(0, 2 * np.pi)
 
-        model = Sersic2D(amplitude=i_r50, r_eff=r_eff_pix, n=n, x_0=size/2, y_0=size/2, ellip=ellip, theta=theta)
+        model = Sersic2D(amplitude=1, r_eff=r_eff_pix, n=n, x_0=size/2, y_0=size/2, ellip=ellip, theta=theta)
         z = model(xs, ys)
+
+        z *= Ltot / np.nansum(z)
 
         model_info = {"MAG": mag, "R50": r_eff, "N": n, "ELLIP": ellip, "R50_PIX": r_eff_pix}
 
