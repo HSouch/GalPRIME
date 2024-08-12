@@ -15,5 +15,5 @@ def b(n):
 def Ltot(mag, m0=27):
     return 10**((m0-mag)/2.5)
 
-def I_e(mag, r_e, n):
-    return Ltot(mag) * (b(n) ** (2 * n)) / (r_e ** 2 * 2 * np.pi * n * gamma(2 * n))
+def I_e(mag, r_e, n, m0=27):
+    return Ltot(mag, m0=m0) * (b(n) ** (2 * n)) / (r_e ** 2 * 2 * np.pi * n * gamma(2 * n))
