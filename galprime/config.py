@@ -35,6 +35,11 @@ def default_config():
     config["BINS"]["MASS_MED"] = [10, 10.5, 11, 11.5]
     config["BINS"]["sfProb"] = [0, 0.5, 1.]
 
+    config["MODEL"] = {}
+    config["MODEL"]["SIZE"] = 451
+    config["MODEL"]["ARCCONV"] = 0.168
+    config["MODEL"]["ZPM"] = 27.0
+
     config["MASKING"] = {}
     config["MASKING"]["NSIGMA"] = 1
     config["MASKING"]["GAUSS_WIDTH"] = 2
@@ -56,6 +61,7 @@ def galprime_configspec():
 
     cspec["FILE_DIR"] = ""
     cspec["NTHREADS"] = "integer(default=1)"
+    cspec["TIME_LIMIT"] = "integer(default=10)"
 
     cspec["FILES"] = {}
     cspec["FILES"]["CATALOGUE"] = "string(default='cat.fits')"
@@ -73,6 +79,11 @@ def galprime_configspec():
 
     cspec["BINS"] = {}
 
+    cspec["MODEL"] = {}
+    cspec["MODEL"]["SIZE"] = "int(default=151)"
+    cspec["MODEL"]["ARCCONV"] = "float(default=0.168)"
+    cspec["MODEL"]["ZPM"] = "float(default=27.0)"
+    
     cspec["DIRS"] = {}
     cspec["DIRS"]["OUTDIR"] = "string(default='gprime_out/')"
 
