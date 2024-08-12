@@ -23,6 +23,8 @@ class BinList:
         self.binning_info = binning_info
         
     def rebin(self, key, lims):
+        """ Rebins all bins in the current binlist by the key and specified limits.
+        """
         new_bins = []
         for b in self.bins:
             new_bins.extend(b.rebin(key, lims))
