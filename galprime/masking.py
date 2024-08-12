@@ -20,6 +20,7 @@ def gen_mask(data, config=None, omit=[]):
         The generated mask array.
 
     """
+    metadata = {}
     data_masked = np.copy(data)
     if config is not None:
         nsigma = float(config["MASKING"]["NSIGMA"])
@@ -54,13 +55,7 @@ def gen_mask(data, config=None, omit=[]):
     for n in omit:
         mask[segm_deblend.data == n] = False
 
-    return mask
-
-    fig, ax = plt.subplots(1,4, figsize=(16, 4))
-    ax[0].imshow(np.log10(data))
-    ax[1].imshow(np.log10(data_masked))
-    ax[2].imshow(segm_deblend.data)
-    ax[3].imshow(mask)
+    return mask, metadata
 
 
 def mask_image(data, config):
@@ -74,7 +69,8 @@ def mask_image(data, config):
     Returns:
     - numpy.ndarray: The masked data array with NaN values in the masked regions.
     """
-    mask = gen_mask(data, config)
+    mask, metadata = gen_mask(data, config)
     data_masked = np.copy(data)
     data_masked[mask] = np.nan
     return data_masked
+
