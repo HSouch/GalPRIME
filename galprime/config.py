@@ -36,6 +36,7 @@ def default_config():
     config["BINS"]["sfProb"] = [0, 0.5, 1.]
 
     config["MODEL"] = {}
+    config["MODEL"]["N_MODELS"] = 50
     config["MODEL"]["SIZE"] = 451
     config["MODEL"]["ARCCONV"] = 0.168
     config["MODEL"]["ZPM"] = 27.0
@@ -52,6 +53,8 @@ def default_config():
     config["EXTRACTION"]["NITER"] = 100
 
     config["BGSUB"] = {}
+    config["BGSUB"]["BOX_SIZE"] = 42
+    config["BGSUB"]["FILTER_SIZE"] = 7
 
     return config
 
@@ -60,6 +63,7 @@ def galprime_configspec():
     cspec = ConfigObj()
 
     cspec["FILE_DIR"] = ""
+    cspec["OUTDIR"] = "string(default='gprime_out/')"
     cspec["NTHREADS"] = "integer(default=1)"
     cspec["TIME_LIMIT"] = "integer(default=10)"
 
@@ -80,7 +84,8 @@ def galprime_configspec():
     cspec["BINS"] = {}
 
     cspec["MODEL"] = {}
-    cspec["MODEL"]["SIZE"] = "int(default=151)"
+    cspec["MODEL"]["N_MODELS"] = "integer(default=50)"
+    cspec["MODEL"]["SIZE"] = "integer(default=151)"
     cspec["MODEL"]["ARCCONV"] = "float(default=0.168)"
     cspec["MODEL"]["ZPM"] = "float(default=27.0)"
     
@@ -97,6 +102,10 @@ def galprime_configspec():
     cspec["EXTRACTION"]["LINEAR"] = "boolean(default=False)"
     cspec["EXTRACTION"]["STEP"] = "float(default=0.1)"
     cspec["EXTRACTION"]["NITER"] = "int(default=100)"
+
+    cspec["BGSUB"] = {}
+    cspec["BGSUB"]["BOX_SIZE"] = "int(default=42)"
+    cspec["BGSUB"]["FILTER_SIZE"] = "int(default=7)"
 
     return cspec
 
