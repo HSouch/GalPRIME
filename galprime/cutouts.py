@@ -59,7 +59,7 @@ class Cutouts:
     
 
     @staticmethod
-    def from_file(filename, verbose=False, min_index=0):
+    def from_file(filename, logger=None, min_index=0):
         cutouts, cutout_data, metadata = [], [], {}
         with fits.open(filename) as hdul:
             for i in range(min_index, len(hdul)):
@@ -76,8 +76,8 @@ class Cutouts:
         metadata["N_CUTOUTS"] = len(cutouts)
         metadata["SHAPE"] = cutouts[0].shape
 
-        if verbose:
-            print(f'Loaded {metadata["N_CUTOUTS"]} cutouts from {metadata["FILENAME"]} with shape {metadata["SHAPE"]}')
+        if logger is not None:
+            logger.info(f'Loaded {metadata["N_CUTOUTS"]} cutouts from {metadata["FILENAME"]} with shape {metadata["SHAPE"]}')
         
         return Cutouts(cutouts=cutouts, cutout_data=cutout_data, metadata=metadata, min_index=min_index)
     
