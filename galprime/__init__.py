@@ -1,4 +1,4 @@
-from .backgrounds import *      # Background handling and subtraction
+from .bgsub import *      # Background handling and subtraction
 from .binning import *          # Catalogue binning
 from .config import *           # Configuration file reading and writing
 from .cutouts import *          # Cutout classes and handling
