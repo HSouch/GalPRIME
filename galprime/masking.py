@@ -3,7 +3,7 @@ from astropy.convolution import convolve
 from photutils import background, segmentation
 
 
-def gen_mask(data, config=None, omit=[]):
+def gen_mask(data, config=None, omit=[], omit_central=True):
     """
     Generate a mask based on the input data.
 
@@ -50,8 +50,10 @@ def gen_mask(data, config=None, omit=[]):
     central_value = segm_deblend.data[central_pix]
     
     mask = np.zeros_like(data, dtype=bool)
-    mask[np.logical_and(segm_deblend.data != central_value, segm_deblend.data != 0)] = True
-
+    if omit_central:
+        mask[np.logical_and(segm_deblend.data != central_value, segm_deblend.data != 0)] = True
+    else:
+        mask[segm_deblend.data != 0] = True
     for n in omit:
         mask[segm_deblend.data == n] = False
 
