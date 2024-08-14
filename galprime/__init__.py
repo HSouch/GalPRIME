@@ -7,7 +7,7 @@ from .masking import *          # Masking and segmentation
 from .modeling import *         # Generating 2D models
 from .sims import *             # Overall simulation handling
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 
 from . import plotting
@@ -17,4 +17,4 @@ from .utils import *
 
 from .isophotes import *
 
-# from .isophote_l import *
+from .isophote_l import *
