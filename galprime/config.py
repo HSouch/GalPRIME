@@ -55,6 +55,8 @@ def default_config():
     config["BGSUB"] = {}
     config["BGSUB"]["BOX_SIZE"] = 42
     config["BGSUB"]["FILTER_SIZE"] = 7
+    config["BGSUB"]["NSIGMA"] = 3
+    config["BGSUB"]["NPIXELS"] = 10
 
     return config
 
@@ -95,17 +97,19 @@ def galprime_configspec():
     cspec["MASKING"] = {}
     cspec["MASKING"]["NSIGMA"] = "float(default=1)"
     cspec["MASKING"]["GAUSS_WIDTH"] = "float(default=2)"
-    cspec["MASKING"]["NPIX"] = "int(default=5)"
-    cspec["MASKING"]["BG_BOXSIZE"] = "int(default=50)"
+    cspec["MASKING"]["NPIX"] = "integer(default=5)"
+    cspec["MASKING"]["BG_BOXSIZE"] = "integer(default=50)"
 
     cspec["EXTRACTION"] = {}
     cspec["EXTRACTION"]["LINEAR"] = "boolean(default=False)"
     cspec["EXTRACTION"]["STEP"] = "float(default=0.1)"
-    cspec["EXTRACTION"]["NITER"] = "int(default=100)"
+    cspec["EXTRACTION"]["NITER"] = "integer(default=100)"
 
     cspec["BGSUB"] = {}
-    cspec["BGSUB"]["BOX_SIZE"] = "int(default=42)"
-    cspec["BGSUB"]["FILTER_SIZE"] = "int(default=7)"
+    cspec["BGSUB"]["BOX_SIZE"] = "integer(default=42)"
+    cspec["BGSUB"]["FILTER_SIZE"] = "integer(default=7)"
+    cspec["BGSUB"]["NSIGMA"] = "float(default=3)"
+    cspec["BGSUB"]["NPIXELS"] = "integer(default=10)"
 
     return cspec
 
