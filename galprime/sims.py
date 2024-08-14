@@ -31,7 +31,7 @@ class GPrime:
 
         self.log_level = kwargs.get("log_level", 20)
         self.logger = utils.setup_logging(self.run_id, self.log_level, 
-                                          log_filename=f"{self.outfiles['ADDL_DATA']}output.log")
+                                          log_filename=f'{c["DIRS"]["OUTDIR"]}output.log')
         
         self.logger.info(f"Starting run ID:{self.run_id}, GalPRIME Version: {gp.__version__}")
 
@@ -130,6 +130,8 @@ class GPrimeContainer:
 
         self.source_mask, mask_metadata = masking.gen_mask(self.bgadded, self.config)
 
+        
+
         self.stop_code=1
 
 
@@ -140,8 +142,9 @@ class GPrimeContainer:
         lims = ZScaleInterval().get_limits(self.bg)
 
         ax[0][0].imshow(self.model, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
-        ax[0][1].imshow(self.bg, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
-        ax[0][2].imshow(self.bgadded, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
+        ax[0][1].imshow(self.convolved_model, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
+        ax[0][2].imshow(self.bg, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
+        ax[0][3].imshow(self.bgadded, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
         # ax[0][1].imshow(self.bg, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
 
         ax[1][0].imshow(self.source_mask, cmap=kwargs.get("cmap", "Greys"))
