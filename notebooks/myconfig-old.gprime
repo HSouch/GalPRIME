@@ -1,5 +1,5 @@
 FILE_DIR = ../pdata/
-NTHREADS = 2
+NTHREADS = 4
 
 [FILES]
 CATALOGUE =             HSC-ZEST_CLEAN.fits
