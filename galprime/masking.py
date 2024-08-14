@@ -1,5 +1,6 @@
 import numpy as np
 from astropy.convolution import convolve
+from astropy.stats import sigma_clipped_stats
 from photutils import background, segmentation
 
 
@@ -26,18 +27,13 @@ def gen_mask(data, config=None, omit=[], omit_central=True):
         nsigma = float(config["MASKING"]["NSIGMA"])
         gauss_width = float(config["MASKING"]["GAUSS_WIDTH"])
         npix = int(config["MASKING"]["NPIX"])
-        bg_boxsize = int(config["MASKING"]["BG_BOXSIZE"])
     else:
         nsigma, gauss_width, npix = 2., 5., 5
         bg_boxsize = 50
     
+    bg_mean, bg_median, bg_std = sigma_clipped_stats(data)
+    threshold = bg_median + nsigma * bg_std 
 
-    bkg_estimator = background.MedianBackground()
-    bkg = background.Background2D(data, box_size=bg_boxsize, filter_size=(3, 3),
-                   bkg_estimator=bkg_estimator)
-    data_masked -= bkg.background
-
-    threshold = nsigma * bkg.background_rms
     kernel = segmentation.make_2dgaussian_kernel(gauss_width, size=5)  # FWHM = 3.0
     convolved_data = convolve(data_masked, kernel)
 
