@@ -32,14 +32,14 @@ class BinList:
         self.binning_info[key] = lims
         self.bins = new_bins
     
-    def prune_bins(self, min_objects=10, verbose=False):
+    def prune_bins(self, min_objects=10, logger=None):
         """ Remove bins with fewer than min_objects objects."""
         current_bin_count = len(self.bins)
 
         self.bins = [b for b in self.bins if len(b.objects) >= min_objects]
 
-        if verbose:
-            print(f"Pruned {current_bin_count - len(self.bins)} bins with fewer than {min_objects} objects.")
+        if logger is not None:
+            logger.info(f"Pruned {current_bin_count - len(self.bins)} bins with fewer than {min_objects} objects.")
 
     def __repr__(self):
         return f'BinList with {len(self.bins)} bins.'
@@ -80,7 +80,7 @@ class Bin:
 
 def bin_catalogue(table, bin_params = {}, 
                   params={"mag": "i", "r50": "R_GIM2D", "n": "SERSIC_N_GIM2D", "ellip": "ELL_GIM2D"},
-                  min_objects=10, verbose=False):
+                  min_objects=10, logger=None):
     """ Bin a table along a set of parameters.
 
     Args:
@@ -101,7 +101,7 @@ def bin_catalogue(table, bin_params = {},
     for key in bin_params:
         binlist.rebin(key, bin_params[key])
 
-    binlist.prune_bins(min_objects=min_objects, verbose=verbose)
+    binlist.prune_bins(min_objects=min_objects, logger=logger)
     return binlist
 
 
