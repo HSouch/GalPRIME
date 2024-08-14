@@ -13,9 +13,9 @@ def dilate_mask(mask, tophat_size):
     return dilated_mask
 
 
-def bgsub_source_mask(data, config, tophat_sizes=[3, 5, 7]):
+def bgsub_source_mask(data, config, tophat_sizes=[1,3]):
     # Generate very aggressive source mask and dilate it thrice
-    mask = gen_mask(data, config, omit_central=False)
+    mask = gen_mask(data, config, omit_central=False)[0]
     dilated_mask = np.copy(mask)
     for tophat_size in tophat_sizes:
        dilated_mask = dilate_mask(dilated_mask, tophat_size)
@@ -24,7 +24,7 @@ def bgsub_source_mask(data, config, tophat_sizes=[3, 5, 7]):
     
 
 
-def subtract_background(data, config={}, tophat_sizes=[3, 5, 7], plot_test=False):
+def estimate_background_2D(data, config={}, tophat_sizes=[3, 5, 7], plot_test=False):
     box_size = config.get("BGSUB", {}).get("BOX_SIZE", 42)
     filter_size = config.get("BGSUB", {}).get("FILTER_SIZE", 7)
 
@@ -32,8 +32,10 @@ def subtract_background(data, config={}, tophat_sizes=[3, 5, 7], plot_test=False
     
 
     # Generate background object
-    bkg = Background2D(data, box_size=box_size, filter_size=(filter_size, filter_size), mask=source_mask)
+    bkg = Background2D(data, box_size=box_size, filter_size=(filter_size, filter_size), mask=source_mask, 
+                       exclude_percentile=config.get("BGSUB", {}).get("EXCLUDE_PERCENTILE", 25))
 
+    return source_mask, bkg
 
 
 def estimate_background_sigclip(cutout, config=None):
