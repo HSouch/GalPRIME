@@ -68,8 +68,8 @@ class Cutouts:
                     cutouts.append(data)
                     cutout_data.append(header)
                 except Exception as e:
-                    if verbose:
-                        print(f'Failed to recover image at index {i}: {e}')
+                    if logger is not None:
+                        logger.warn(f'Failed to recover image at index {i}: {e}')
                     continue
         
         metadata["FILENAME"] = filename
