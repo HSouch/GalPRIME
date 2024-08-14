@@ -40,4 +40,3 @@ notebooks/myconfig.gprime
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-galprime/isophote_l
