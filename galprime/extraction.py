@@ -54,7 +54,7 @@ def isophote_fitting(data, config={}, centre_method='standard'):
         geometry = EllipseGeometry(pos[0], pos[1], sma=a, eps=(1 - (b / a)), pa=theta)
         flux = Ellipse(data, geometry)
         fitting_list = flux.fit_image(maxit=100, maxsma=cutout_halfwidth, step=step, linear=linear,
-                                      maxrit=cutout_halfwidth / 3)
+                                      maxrit=cutout_halfwidth / 3, fix_center=True)
         if len(fitting_list) > 0:
             return fitting_list
 
@@ -74,7 +74,7 @@ def isophote_fitting(data, config={}, centre_method='standard'):
                                                sma=sma, pa=angle * np.pi / 180.)
                     flux = Ellipse(data, geometry)
                     fitting_list = flux.fit_image(maxsma=cutout_halfwidth, step=step, linear=linear,
-                                                  maxrit=cutout_halfwidth / 3)
+                                                  maxrit=cutout_halfwidth / 3, fix_center=True)
                     if len(fitting_list) > 0:
                         return fitting_list
 
