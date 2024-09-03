@@ -16,6 +16,7 @@ class GalaxyModel:
 
     def verify_params(self):
         raise NotImplementedError("Abstract class")
+    
 
     def generate(self):
         raise NotImplementedError("Abstract class")
@@ -25,12 +26,13 @@ class GalaxyModel:
 
 
 class SingleSersicModel(GalaxyModel):
-    def __init__(self, size=151, params={}, **kwargs):
-        super().__init__(params, size=size, **kwargs)
+    def __init__(self, config=None, params={}, size=151, **kwargs):
+        super().__init__(config, params=params, size=size, **kwargs)
 
-    def generate(self):
+    def generate(self, theta=None):
         mag, r50, n, ellip = self.params["mag"], self.params["r50"], self.params["n"], self.params["ellip"]
-        theta = np.random.uniform(0, 2 * np.pi)
+        if theta is None:
+            theta = np.random.uniform(0, 2 * np.pi)
 
         ltot = utils.Ltot(mag, self.config["MODEL"]["ZPM"])
         ys, xs = np.mgrid[:self.size, :self.size]
@@ -90,8 +92,9 @@ class SingleSersicModel(GalaxyModel):
     
 
 class BDSersicModel(GalaxyModel):
-    def __init__(self, params={}, **kwargs):
-        super().__init__(params, **kwargs)
+    def __init__(self, config=None, params={}, size=151, **kwargs):
+        super().__init__(config, params=params, size=size, **kwargs)
 
-    def generate(self):
+    def generate(self, theta=None):
         pass
+    
