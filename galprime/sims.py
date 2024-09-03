@@ -3,6 +3,9 @@ import galprime as gp
 from . import config, cutouts, binning, masking, modeling, utils
 
 from scipy.signal import convolve2d
+from scipy.interpolate import interp1d
+
+from astropy.io import fits
 from astropy.table import Table
 from astropy.visualization import ZScaleInterval
 
@@ -26,6 +29,8 @@ class GPrime:
 
     def __init__(self, config_filename, verbose=True, **kwargs):
         self.config = c = config.read_config_file(config_filename)
+
+        self.binlist = None
 
         self.run_id = kwargs.get("run_id", np.random.randint(1e3, 1e4))
         
@@ -59,12 +64,12 @@ class GPrime:
     def run(self, max_bins=None, verbose=True):
         c = self.config
 
-        binlist = binning.bin_catalogue(self.table, bin_params=c["BINS"], params=c["KEYS"], logger=self.logger)
-        max_bins = len(binlist.bins) if max_bins is None else min(max_bins, len(binlist.bins))
+        self.binlist = binning.bin_catalogue(self.table, bin_params=c["BINS"], params=c["KEYS"], logger=self.logger)
+        max_bins = len(self.binlist.bins) if max_bins is None else min(max_bins, len(self.binlist.bins))
 
         for i in range(max_bins):
 
-            b = binlist.bins[i]
+            b = self.binlist.bins[i]
             containers = self.process_bin(b, bin_id=i)
 
         return containers
@@ -75,7 +80,7 @@ class GPrime:
         c = self.config
         kde = bin.to_kde()
 
-        self.logger.info(f'Processing bin {bin_id}: {bin} on {c["NTHREADS"]} cores.')
+        self.logger.info(f'Processing {c["MODEL"]["N_MODELS"]} models for bin {bin_id} on {c["NTHREADS"]} cores.')
 
         TIMEOUT = c["TIME_LIMIT"]
         results = []
@@ -96,95 +101,10 @@ class GPrime:
         self.logger.info(f'Time per object: {(t_finish - t_start) / c["MODEL"]["N_MODELS"]:.3f} seconds')
         self.logger.info(f"{len(results)} successful extractions out of {c['MODEL']['N_MODELS']}")
 
-        print(results)
+        self.logger.info(f"Saving results to {self.outfiles['MODEL_PROFS']}bin_{bin_id}.fits")
+        container_list = ContainerList(c, results)
 
-        return None
-    
-
-    def run_container(self, container):
-        container.run()
-        return container
-
-
-
-
-class GPrimeContainer:
-    def __init__(self, config, model, psf=None, bg=None, metadata={}, id=0, stop_code=0):
-        self.id = id
-        
-        self.config = config
-        self.model = model
-        self.convolved_model = self.bgadded = self.bg_model = None
-        self.bgadded_masked, self.bgsub_masked = None, None
-
-        self.logger = logging.getLogger(f"CONT_{self.id}")
-
-        self.model_profile = self.bgadded_profile = self.bgsub_profile = None
-        self.psf = psf
-        self.bg = bg
-        self.metadata = metadata
-        self.stop_code = stop_code
-    
-
-    def run(self):
-        
-        # Convolve model with PSF, add background
-        self.convolved_model = convolve2d(self.model, self.psf, mode='same')
-        self.bgadded = self.convolved_model + self.bg
-
-        # Generate source mask, and background mask/model
-        self.source_mask, mask_metadata = masking.gen_mask(self.bgadded, self.config)
-        self.metadata.update(mask_metadata)
-        self.bg_source_mask, self.bg_model = gp.estimate_background_2D(self.bgadded, self.config)
-
-        # Extract all necessary profiles
-        self.model_profile = gp.isophote_fitting(self.model, self.config)
-
-        self.bgmasked = np.copy(self.bgadded)
-        self.bgmasked[self.bg_source_mask] = self.bg_model.background[self.bg_source_mask]
-
-        # self.bgmasked = np.ma.masked_array(self.bgadded, mask=self.bg_source_mask)
-        self.bgadded_profile = gp.isophote_fitting(self.bgmasked, self.config)
-
-        self.logger.debug(len(self.model_profile), len(self.bgadded_profile))
-
-        self.stop_code=1
-
-
-    def plot(self, outdir="", **kwargs):
-        
-        fig, ax = plt.subplots(2, 4, figsize=(10, 5), facecolor="white")
-
-        lims = ZScaleInterval().get_limits(self.bg)
-
-        ax[0][0].imshow(self.model, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
-        ax[0][1].imshow(self.convolved_model, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
-        ax[0][2].imshow(self.bg, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
-        ax[0][3].imshow(self.bgadded, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
-        # ax[0][1].imshow(self.bg, cmap=kwargs.get("cmap", "Greys"), vmin=lims[0], vmax=lims[1])
-
-        ax[1][0].imshow(self.source_mask, cmap=kwargs.get("cmap", "Greys"))
-        
-
-        for axis in ax.flatten():
-            axis.set(xticks=[], yticks=[])
-
-        plt.tight_layout()
-        plt.savefig(f"{outdir}_{self.id}.pdf", dpi=kwargs.get("dpi", 150))
-
-
-def gen_containers(config, models, psfs, bgs):
-
-    containers = []
-    for i, model in enumerate(models.cutouts):
-        psf_index = np.random.randint(len(psfs.cutouts))
-        bg_index = np.random.randint(len(bgs.cutouts))
-        containers.append(GPrimeContainer(config, 
-                                          np.copy(model), 
-                                          psf = np.copy(psfs.cutouts[psf_index]), 
-                                          bg = np.copy(bgs.cutouts[bg_index]),
-                                          id=i))
-    return containers
+        return results
 
 
 def run_single_sersic(gp_obj: GPrime, kde, plot=False):
@@ -219,6 +139,7 @@ def run_single_sersic(gp_obj: GPrime, kde, plot=False):
                             bgsub_profile=bgsub_profile, 
                             metadata=mask_metadata)
     
+
 class ProfileContainer:
     def __init__(self, model_profile=None, bgadded_profile=None, bgsub_profile=None, metadata={}):
         self.model_profile = model_profile
@@ -226,3 +147,80 @@ class ProfileContainer:
         self.bgsub_profile = bgsub_profile
         self.metadata = metadata
 
+
+class ContainerList:
+
+    def __init__(self, config, containers):
+        self.config = config
+        self.containers = containers
+
+        self.keys = ["intens", "intens_err", "ellipticity", "pa", "x0", "y0"]
+
+
+    def shared_rs(self, max_sma, step, linear=True):
+        if linear:
+            rs = np.linspace(1, max_sma, step)
+        else:
+            rs = []
+            r = 1
+            while r < max_sma:
+                rs.append(r)
+                r *= (1 + step)
+        return np.array(rs)[:-1]
+    
+
+    def process_profile(self, isolist, rs):
+        t = isolist.to_table()
+        smas = t["sma"]
+        arr_set = np.ndarray((len(self.keys), len(rs)))
+        for i, key in enumerate(self.keys):
+            interp = interp1d(smas, t[key], kind="cubic")
+            arr_set[i] = interp(rs)
+        return arr_set
+
+    def combine_containers(self, prof="model"):
+        """
+        Combines the model profiles from each container and returns the combined result as a numpy ndarray.
+
+        Returns:
+            combined (ndarray): The combined model profiles.
+        """
+        rs = self.shared_rs(self.config["MODEL"]["SIZE"] / 2, self.config["EXTRACTION"]["STEP"], 
+                       linear=self.config["EXTRACTION"]["LINEAR"])
+
+        for i, container in enumerate(self.containers):
+            try:
+                if prof == "model":
+                    combined[i] = self.process_profile(container.model_profile, rs)
+                elif prof == "bgadded":
+                    combined[i] = self.process_profile(container.bgadded_profile, rs)
+                elif prof == "bgsub":
+                    combined[i] = self.process_profile(container.bgsub_profile, rs)
+                combined[i] = self.process_profile(container.model_profile, rs)
+            except Exception as e:
+                combined[i] = np.nan((len(self.keys), len(rs)))
+        combined = np.transpose(combined, (1, 0, 2))
+        return combined
+    
+
+    def gen_astropy_file(self, outname):
+        rs = self.shared_rs(self.config["MODEL"]["SIZE"] / 2, self.config["EXTRACTION"]["STEP"], 
+                       linear=self.config["EXTRACTION"]["LINEAR"])
+        
+        combined = self.combine_containers()
+
+        hdulist = fits.HDUList()
+        header = fits.Header()
+        
+        # Add all config parameters to the header
+        header = utils.header_from_config(self.config)
+
+        hdulist.append(fits.PrimaryHDU(header=header))
+        hdulist.append(fits.ImageHDU(rs))
+        combined_header = fits.Header()
+        for i, key in enumerate(self.keys):
+            combined_header[f"INDEX_{i}"] = key
+
+        hdulist.append(fits.ImageHDU(combined, header=combined_header))
+
+        hdulist.writeto(outname, overwrite=True)
