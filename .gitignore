@@ -40,3 +40,5 @@ notebooks/myconfig.gprime
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
+
+paper/plots
