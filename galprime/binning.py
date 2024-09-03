@@ -46,10 +46,11 @@ class BinList:
 
 
 class Bin:
-    def __init__(self, objects, params={}, bin_info={}):
+    def __init__(self, objects, params={}, bin_info={}, bin_indices=[]):
         self.objects = objects
         self.params = params
         self.bin_info = bin_info
+        self.bin_indices = bin_indices
 
     def rebin(self, key, lims):
         """ Generate a list of bins by splitting the current bin along the key column by the lims array."""
@@ -57,8 +58,9 @@ class Bin:
         
         for i in range(len(lims)-1):
             mask = (self.objects[key] > lims[i]) & (self.objects[key] < lims[i+1])
-            new_bin = Bin(self.objects[mask], self.params, self.bin_info.copy())
+            new_bin = Bin(self.objects[mask], self.params, self.bin_info.copy(), self.bin_indices.copy())
             new_bin.bin_info[key] = (lims[i], lims[i+1])
+            new_bin.bin_indices.append(i)
             new_bins.append(new_bin)
         return new_bins
     
@@ -72,7 +74,14 @@ class Bin:
     def to_kde(self):
         return object_kde(self.return_columns(structural_params=True))
 
-    
+    def bin_id(self):
+        return "_".join([f"_{i}" for i in self.bin_indices])
+
+    def gen_all_kdes(self, keys=None):
+        if keys is None:
+            keys = self.params
+        return {key: object_kde(self.objects[self.params[key]].data) for key in keys}
+
     def __repr__(self) -> str:
         return f'Bin with {len(self.objects)} objects.'
 
