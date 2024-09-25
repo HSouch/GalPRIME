@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from .isophote_l import Ellipse, EllipseGeometry
+from ..isophote_l import Ellipse, EllipseGeometry
 
 from photutils.morphology import data_properties
 

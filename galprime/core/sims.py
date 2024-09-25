@@ -1,6 +1,7 @@
 import galprime as gp
 
-from . import config, cutouts, binning, masking, modeling, utils
+from . import config, cutouts, binning, masking
+from .. import utils
 
 from scipy.signal import convolve2d
 from scipy.interpolate import interp1d

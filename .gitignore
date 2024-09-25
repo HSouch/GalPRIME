@@ -30,6 +30,7 @@ vendor/
 config.ini
 secrets.txt
 
+galprime-old/
 deprecated
 pdata
 

@@ -2,7 +2,7 @@ import numpy as np
 
 from astropy.modeling.models import Sersic2D
 
-from ..cutouts import Cutouts
+from ..core.cutouts import Cutouts
 from .fluxes import I_e
 
 from . import fluxes
