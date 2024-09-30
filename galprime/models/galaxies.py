@@ -8,8 +8,11 @@ from .. import cutouts
 
 
 class GalaxyModel:
-    def __init__(self):
-        pass
+    def __init__(self, defaults={}):
+        self.defaults = defaults
+
+    def generate(self, params):
+        raise NotImplementedError("Abstract method")
 
 
 class SingleSersicModel:
