@@ -75,7 +75,7 @@ class Bin:
         return object_kde(self.return_columns(structural_params=True))
 
     def bin_id(self):
-        return "_".join([f"_{i}" for i in self.bin_indices])
+        return "_".join([f"{i}" for i in self.bin_indices])
 
     def gen_all_kdes(self, keys=None):
         if keys is None:

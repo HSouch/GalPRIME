@@ -15,9 +15,15 @@ class GalaxyModel:
         raise NotImplementedError("Abstract method")
 
 
-class SingleSersicModel:
+class SingleSersicModel(GalaxyModel):
     def __init__(self):
-        pass
+        
+        self.defaults = {
+            "REFF": 1,
+            "N": 1,
+            "ELLIP": 0.3,
+            "PA": np.deg2rad(45),
+        }
 
 
 class BulgeDiskModel:
