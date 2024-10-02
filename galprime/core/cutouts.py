@@ -1,6 +1,8 @@
 from astropy.io import fits
 import numpy as np
 
+from .. import plotting 
+
 import copy
 
 __all__ = ['Cutouts']
@@ -81,6 +83,10 @@ class Cutouts:
         
         return Cutouts(cutouts=cutouts, cutout_data=cutout_data, metadata=metadata, min_index=min_index)
     
+
+    def show_cutouts(self, ncols=10, **kwargs):
+        nrows = len(self.cutouts) // ncols
+        plotting.show_cutouts(self, ncols=ncols, nrows=nrows, **kwargs)
     
     def copy(self):
         return copy.deepcopy(self)

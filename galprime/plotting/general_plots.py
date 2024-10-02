@@ -52,7 +52,7 @@ def show_cutouts(cutouts, model_data=None, nrows=5, ncols=5, method="zscale", cm
                                 fontsize=kwargs.get("info_fontsize", 10), 
                                 color=kwargs.get("info_fontcolor", "black"), 
                                 ha="left", va="top")
-
+    
 
     plt.tight_layout()
     if outname is not None:

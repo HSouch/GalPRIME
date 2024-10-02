@@ -34,7 +34,7 @@ def gen_sersic_models(n_models = 50, width=(81, 81),
         z *= Ltot / np.nansum(z)
         
         cutouts.append(z)
-        cutout_data.append({"mag": mag, "n": n, "re": re})
+        cutout_data.append({"mag": mag, "n": n, "re": re, "ellip": ellip, "pa": pa})
     return Cutouts(cutouts=cutouts, cutout_data=cutout_data)
 
 

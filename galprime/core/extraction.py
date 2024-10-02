@@ -5,6 +5,21 @@ from photutils.isophote import Ellipse, EllipseGeometry
 from photutils.morphology import data_properties
 
 
+def estimate_morphology(cutout, mask=None):
+    """
+    Estimate the morphology of a galaxy.
+    """
+    try:
+        morph = data_properties(cutout, mask=mask).to_table()
+        x0, y0 = morph['xcentroid'][0], morph['ycentroid'][0]
+        pa = morph['orientation'][0]
+        a, b = morph['semimajor_sigma'][0], morph['semiminor_sigma'][0]
+        return EllipseGeometry(x0=x0, y0=y0,  sma=a.value, eps=1 - b/a, pa=np.deg2rad(pa.value))
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
+
 def isophote_fitting(data, config={}, centre_method='standard'):
     """ Wrapper for photutils.isophote methods
 
