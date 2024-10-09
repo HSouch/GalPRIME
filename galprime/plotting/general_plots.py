@@ -3,15 +3,18 @@ from matplotlib import pyplot as plt
 
 import numpy as np
 
-def show_cutouts(cutouts, model_data=None, nrows=5, ncols=5, method="zscale", cmap="gray_r", **kwargs):
-    print(len(cutouts.cutouts))
-
+def show_cutouts(cutouts, model_data=None, nrows=None, ncols=5, method="zscale", cmap="gray_r", **kwargs):
+    if nrows is None:
+        nrows = len(cutouts.cutouts) // ncols + (1 if len(cutouts.cutouts) % ncols != 0 else 0)
+        print(nrows)
     outname = kwargs.get("outname", None)
     dpi = kwargs.get("dpi", 150)
 
     vmin, vmax = kwargs.get("vmin", -3), kwargs.get("vmax", 1)
 
-    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, figsize=(ncols * 2.5, nrows * 2.5), facecolor="white", dpi=dpi)
+    fig, axes = plt.subplots(nrows=nrows, ncols=ncols, 
+                             figsize=(ncols * kwargs.get("figsize", 2.5), nrows * kwargs.get("figsize", 2.5)), 
+                             facecolor="white", dpi=dpi)
     for i in range(nrows):
         for j in range(ncols):
             
