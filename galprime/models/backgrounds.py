@@ -37,7 +37,7 @@ class GaussianField(BackgroundModels):
         x0, y0 = kwargs.get('x0', size/2), kwargs.get('y0', size/2)
 
         min_dist = kwargs.get('min_dist', 5)
-        max_attempts = kwargs.get('max_attempts', 1000)
+        max_attempts = kwargs.get('max_attempts', 100)
 
         bg = np.zeros((size, size))
 
