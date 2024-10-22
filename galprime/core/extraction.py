@@ -20,7 +20,61 @@ def estimate_morphology(cutout, mask=None):
         return None
 
 
-def isophote_fitting(data, config={}, centre_method='standard'):
+
+class PoorFitException(Exception):
+    pass
+
+
+def isophote_fitting(data, config):
+    
+    fail_count, max_fails = 0, 100
+    linear = config.get("EXTRACTION", {}).get("LINEAR", False)
+    step = config.get("EXTRACTION", {}).get("STEP", 0.1)
+    fix_center = config.get("EXTRACTION", {}).get("FIX_CENTER", False)
+    maxit = config.get("EXTRACTION", {}).get("MAXIT", 100)
+
+    cutout_halfwidth = max((data.shape[0] // 2, data.shape[1] // 2))
+    maxrit = config.get("EXTRACTION", {}).get("MAXRIT", cutout_halfwidth / 3)
+   
+
+    def attempt_fit(geo):
+        # Attempt to fit the ellipse with the given imput geometry
+        flux = Ellipse(data, geo)
+        try:
+            fitting_list = flux.fit_image(maxit=maxit, maxsma=cutout_halfwidth, step=step, linear=linear,
+                                        maxrit=maxrit, fix_center=fix_center)
+            if len(fitting_list) > 0:
+                return fitting_list
+        except Exception as e:
+            raise PoorFitException(f"Bad fit! {type(e)} {e}")
+    
+    # First try to get an extraction by estimating the morphology
+    try:
+        geo = estimate_morphology(data)
+        fitting_list = attempt_fit(geo)
+        if fitting_list is not None and len(fitting_list) > 0:
+            return {"ISOLIST": fitting_list, "FIT_METHOD": 0, "GEO": geo}
+    except Exception as e:
+        pass
+
+    # If that fails, try a range of possible ellipses
+    for sma in np.arange(10, cutout_halfwidth, 10):
+        for eps in [0.1, 0.5, 0.9]:
+            for pa in np.deg2rad([0, 45, 90, 135]):
+                geo = EllipseGeometry(x0=data.shape[1] // 2, y0=data.shape[0] // 2, sma=sma, eps=eps, pa=pa)
+                try:
+                    fitting_list = attempt_fit(geo)
+                    if fitting_list is not None and len(fitting_list) > 0:
+                        return {"ISOLIST": fitting_list, "FIT_METHOD": 1, "GEO": geo}
+                except Exception as e:
+                    continue
+
+    
+    return None
+
+
+
+def isophote_fitting_old(data, config={}, centre_method='standard'):
     """ Wrapper for photutils.isophote methods
 
     Generates a table of results from isophote fitting analysis. This uses photutils Isophote procedure, which is
