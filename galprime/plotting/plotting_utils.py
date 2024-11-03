@@ -2,38 +2,39 @@ import numpy as np
 import matplotlib as mpl
 
 
-def pyplot_style():
+def pyplot_style(**kwargs):
     """ If you just call pyplot style, return the default. """
-    default_pyplot_style()
+    default_pyplot_style(**kwargs)
 
 
-def default_pyplot_style():
+def default_pyplot_style(**kwargs):
     # xticks
-    mpl.rcParams["xtick.major.size"] = 2
-    mpl.rcParams["xtick.major.width"] = 1
-    mpl.rcParams["xtick.minor.size"] = 1.5
-    mpl.rcParams["xtick.minor.width"] = 0.75
+    mpl.rcParams["xtick.major.size"] = kwargs.get("xtick_major_size", 2)
+    mpl.rcParams["xtick.major.width"] = kwargs.get("xtick_major_width", 1)
+    mpl.rcParams["xtick.minor.size"] = kwargs.get("xtick_minor_size", 1.5)
+    mpl.rcParams["xtick.minor.width"] = kwargs.get("xtick_minor_width", 0.75)
 
     # yticks
-    mpl.rcParams["ytick.major.size"] = 2
-    mpl.rcParams["ytick.major.width"] = 1
-    mpl.rcParams["ytick.minor.size"] = 1.5
-    mpl.rcParams["ytick.minor.width"] = 0.75
+    mpl.rcParams["ytick.major.size"] = kwargs.get("ytick_major_size", 2)
+    mpl.rcParams["ytick.major.width"] = kwargs.get("ytick_major_width", 1)
+    mpl.rcParams["ytick.minor.size"] = kwargs.get("ytick_minor_size", 1.5)
+    mpl.rcParams["ytick.minor.width"] = kwargs.get("ytick_minor_width", 0.75)
 
-    mpl.rcParams["axes.linewidth"] = 1.25
+    mpl.rcParams["axes.linewidth"] = kwargs.get("axes_linewidth", 1.25)
 
-    mpl.rc("xtick", labelsize=12)
-    mpl.rc("ytick", labelsize=12)
+    mpl.rc("xtick", labelsize=kwargs.get("xtick_labelsize", 12))
+    mpl.rc("ytick", labelsize=kwargs.get("ytick_labelsize", 12))
 
     font = {
         "family": "serif",
         #'weight': 'bold',
-        "size": 12,
+        "size": kwargs.get("font_size", 12),
     }
 
     mpl.rc("font", **font)
 
-    mpl.rc("lines", linewidth=1, linestyle="solid", color="black")
+    mpl.rc("lines", linewidth=kwargs.get("linewidth", 1.5), 
+           linestyle="solid", color="black")
 
 
 def lavender_cmap(step_1=175):
