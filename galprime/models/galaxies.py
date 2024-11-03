@@ -22,6 +22,10 @@ class GalaxyModel:
                 params[key] = self.defaults[key]
 
         return(self._generate(**params))
+    
+    def required_keys(self):
+        return self.defaults.keys()
+    
 
     def _generate(self, **params):
         # Subclass-specific implementation of the model generation
@@ -62,7 +66,9 @@ class SingleSersicModel(GalaxyModel):
     def _generate(self, **params):
         mod, mod_params = gen_single_sersic(**params)
         self.params.update(mod_params)
-        return mod, params
+        return mod, mod_params
+    
+    
 
 
 class ExponentialDiskModel(GalaxyModel):
@@ -110,3 +116,6 @@ def gen_single_sersic(**kwargs):
     }
     
     return z, params
+
+
+galaxy_models = {1: SingleSersicModel, 2: ExponentialDiskModel}
