@@ -20,7 +20,7 @@ def default_config():
     # Keys to pull information from the catalogue
     config["KEYS"] = {}
     config["KEYS"]["MAG"] = "i"
-    config["KEYS"]["R50"] = "R_GIM2D"
+    config["KEYS"]["REFF"] = "R_GIM2D"
     config["KEYS"]["N"] = "SERSIC_N_GIM2D"
     config["KEYS"]["ELLIP"] = "ELL_GIM2D"
     config["KEYS"]["RA"] = "RA_1"
@@ -78,14 +78,15 @@ def galprime_configspec():
     cspec["KEYS"] = {}
     cspec["KEYS"]["RA"] = "string(default='RA_1')"
     cspec["KEYS"]["DEC"] = "string(default='DEC_1')"
-    cspec["KEYS"]["MAG"] = "string(default='i')"
-    cspec["KEYS"]["R50"] = "string(default='R_GIM2D')"
-    cspec["KEYS"]["N"] = "string(default='SERSIC_N_GIM2D')"
-    cspec["KEYS"]["ELLIP"] = "string(default='ELL_GIM2D')"
+    # cspec["KEYS"]["MAG"] = "string(default='i')"
+    # cspec["KEYS"]["REFF"] = "string(default='R_GIM2D')"
+    # cspec["KEYS"]["N"] = "string(default='SERSIC_N_GIM2D')"
+    # cspec["KEYS"]["ELLIP"] = "string(default='ELL_GIM2D')"
 
     cspec["BINS"] = {}
 
     cspec["MODEL"] = {}
+    cspec["MODEL"]["MODEL_TYPE"] = "integer(default=1)"
     cspec["MODEL"]["N_MODELS"] = "integer(default=50)"
     cspec["MODEL"]["SIZE"] = "integer(default=151)"
     cspec["MODEL"]["ARCCONV"] = "float(default=0.168)"
