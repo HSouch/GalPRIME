@@ -5,6 +5,8 @@ from astropy.io import fits
 import pickle
 import os
 
+import numpy as np
+
 def object_kde(columns):
     """ Generate a gaussian kernel density estimate for the columns of a bin. """
     return gaussian_kde(columns)
