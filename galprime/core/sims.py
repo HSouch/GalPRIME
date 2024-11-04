@@ -20,14 +20,14 @@ import time
 
 import multiprocessing as mp
 
-from concurrent.futures import ProcessPoolExecutor, as_completed
-
 import warnings
+
+from joblib import Parallel
 
 
 class GPrime:
     def __init__(self, config_filename, **kwargs):
-        self.config = c = gp.read_config_file(config_filename)
+        self.config = c = config.read_config_file(config_filename)
         self.binlist = None
         self.run_id = kwargs.get("run_id", np.random.randint(1e3, 1e4))
         self.outfiles = gp.gen_filestructure(c["DIRS"]["OUTDIR"])
@@ -72,8 +72,12 @@ class GPrime:
             self.process_bin(c, self.binlist.bins[i])
 
 
-    def process_bin(self, config, b: gp.Bin):
-        print(len(b.objects), type(b.objects))
+    def process_bin(self, config, b):
+        for index in range(config["MODEL"]["N_MODELS"]):
+            model = gp.galaxy_models[self.model_type]()
+            
+            keys, kde = gp.setup_kde(model, config, self.table)
+            params = gp.sample_kde(config, keys, kde)
 
 
 class GalPrimeSingle:
