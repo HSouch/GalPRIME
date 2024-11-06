@@ -25,12 +25,23 @@ import warnings
 from joblib import Parallel
 
 
+class GalPrimeSingle:
+    def __init__(self, config, model, params):
+        self.config = config
+        self.model = model
+        self.params = params
+    
+    def process(self):
+        pass
+
+
 class GPrime:
     def __init__(self, config_filename, **kwargs):
         self.config = c = config.read_config_file(config_filename)
         self.binlist = None
-        self.run_id = kwargs.get("run_id", np.random.randint(1e3, 1e4))
         self.outfiles = gp.gen_filestructure(c["DIRS"]["OUTDIR"])
+
+        self.run_id = kwargs.get("run_id", np.random.randint(1e3, 1e4))
 
         self.model_type = c["MODEL"]["MODEL_TYPE"]
 
@@ -60,31 +71,26 @@ class GPrime:
         else:
             self.mags = self.mag_kde = None
     
+
     def run(self, max_bins=None):
         c = self.config
 
-        self.binlist = gp.bin_catalogue(self.table, bin_params=c["BINS"], params=c["KEYS"], logger=self.logger)
+        self.binlist = gp.bin_catalogue(self.table, bin_params=c["BINS"], 
+                                        params=c["KEYS"], logger=self.logger)
         max_bins = len(self.binlist.bins) if max_bins is None else min(max_bins, len(self.binlist.bins))
 
-        model = gp.galaxy_models[self.model_type]
-
         for i in range(max_bins):
-            self.process_bin(c, self.binlist.bins[i])
-
-
-    def process_bin(self, config, b):
-        for index in range(config["MODEL"]["N_MODELS"]):
-            model = gp.galaxy_models[self.model_type]()
+            self.process_bin(self.binlist.bins[i])
             
-            keys, kde = gp.setup_kde(model, config, self.table)
-            params = gp.sample_kde(config, keys, kde)
 
-
-class GalPrimeSingle:
-    def __init__(self, config, model, params):
-        self.config = config
-        self.model = model
-        self.params = params
-    
-    def process():
+    def process_bin(self, b):
         pass
+        # for index in range(self.config["MODEL"]["N_MODELS"]):
+        #     model = gp. (self.config, self.logger, index)()
+        #     keys, kde = gp.setup_kde(model, config, self.table)
+
+
+    def _process_single(self, config, model, params, gpobj=GalPrimeSingle):
+        obj = gpobj(config, model, params)
+        obj.process()
+
