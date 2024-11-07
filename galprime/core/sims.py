@@ -22,17 +22,19 @@ import multiprocessing as mp
 
 import warnings
 
-from joblib import Parallel
+from joblib import Parallel, delayed
+
 
 
 class GalPrimeSingle:
-    def __init__(self, config, model, params):
+    def __init__(self, config, model, params, bg=None, psf=None):
         self.config = config
         self.model = model
         self.params = params
     
     def process(self):
         pass
+
 
 
 class GPrime:
@@ -64,6 +66,7 @@ class GPrime:
         
         self.table = Table.read(f'{c["FILE_DIR"]}{c["FILES"]["CATALOGUE"]}')
         self.table = gp.trim_table(self.table, c)
+        self.logger.info(f'Loaded catalogue with {len(self.table)} entries')
         
         if c["FILES"]["MAG_CATALOGUE"] is not None:
             self.mags = Table.read(f'{c["FILE_DIR"]}{c["FILES"]["MAG_CATALOGUE"]}')
@@ -81,16 +84,39 @@ class GPrime:
 
         for i in range(max_bins):
             self.process_bin(self.binlist.bins[i])
-            
+
+        
+
 
     def process_bin(self, b):
-        pass
-        # for index in range(self.config["MODEL"]["N_MODELS"]):
-        #     model = gp. (self.config, self.logger, index)()
-        #     keys, kde = gp.setup_kde(model, config, self.table)
+
+        self.logger.info(f'Processing bin {b.bin_id()}')
+        n_objects = self.config["MODEL"]["N_MODELS"]
+        cores = self.config["NCORES"]
+        time_limit = self.config["TIME_LIMIT"]
+
+        model = gp.galaxy_models[self.model_type]
+        keys, kde = gp.setup_kde(model(), self.config, b.objects)
+
+        results = Parallel(n_jobs=cores, prefer="processes",
+                           timeout=time_limit)(delayed(self.process_single)(self.config, 
+                                                                            model, 
+                                                                            kde, 
+                                                                            keys) 
+                                                                            for _ in range(n_objects))
 
 
-    def _process_single(self, config, model, params, gpobj=GalPrimeSingle):
-        obj = gpobj(config, model, params)
-        obj.process()
+    def process_single(self, config, model, kde, keys, gpobj=GalPrimeSingle):
+        params = gp.sample_kde(config, keys, kde)
+        params = gp.update_required(params, config)
+        
+        np.random.seed()
+        bg = self.bgs.cutouts[np.random.randint(0, len(self.bgs.cutouts))]
+        psf = self.psfs.cutouts[np.random.randint(0, len(self.psfs.cutouts))]   # TODO replace with ra/dec matching
+
+        gpobj = gpobj(config, model, params, bg, psf)
+        gpobj.process()
+
+        return gpobj
+
 
