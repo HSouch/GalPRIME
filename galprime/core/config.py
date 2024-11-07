@@ -6,7 +6,7 @@ def default_config():
     config = ConfigObj()
     config.filename = None
     config["FILE_DIR"] = ""
-    config["NTHREADS"] = 2
+    config["NCORES"] = 2
 
     config["FILES"] = {}
     config["FILES"]["CATALOGUE"] = "cat.fits"
@@ -66,7 +66,7 @@ def galprime_configspec():
 
     cspec["FILE_DIR"] = ""
     cspec["OUTDIR"] = "string(default='gprime_out/')"
-    cspec["NTHREADS"] = "integer(default=1)"
+    cspec["NCORES"] = "integer(default=1)"
     cspec["TIME_LIMIT"] = "integer(default=10)"
 
     cspec["FILES"] = {}
