@@ -7,6 +7,8 @@ import os
 
 import numpy as np
 
+import datetime
+
 def object_kde(columns):
     """ Generate a gaussian kernel density estimate for the columns of a bin. """
     return gaussian_kde(columns)
@@ -62,3 +64,7 @@ def save_object(obj, filename):
 def load_object(filename):
     with open(filename, "rb") as f:
         return pickle.load(f)
+
+def get_dt_intlabel():
+    dt = datetime.datetime.now()
+    return int(1e6 * dt.month + 1e4 * dt.day + 100 * dt.hour + dt.minute)
