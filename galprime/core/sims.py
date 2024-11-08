@@ -18,11 +18,11 @@ from matplotlib import pyplot as plt
 
 import time
 
-import multiprocessing as mp
 
 import warnings
 
-from joblib import Parallel, delayed
+
+from pathos.pools import ProcessPool
 
 
 
@@ -51,8 +51,6 @@ class GPrime:
         self.logger = gp.setup_logging(self.run_id, self.log_level, 
                                           log_filename=f'{c["DIRS"]["OUTDIR"]}output_{self.run_id}.log')
         self.logger.info(f"Starting run ID:{self.run_id}, GalPRIME Version: {gp.__version__}", )
-
-
         
         print(f"Starting run ID:{self.run_id}")
         print(f'Logfile saved to: {c["DIRS"]["OUTDIR"]}output_{self.run_id}.log')
@@ -85,7 +83,6 @@ class GPrime:
         for i in range(max_bins):
             self.process_bin(self.binlist.bins[i])
 
-        
 
 
     def process_bin(self, b):
@@ -96,27 +93,16 @@ class GPrime:
         time_limit = self.config["TIME_LIMIT"]
 
         model = gp.galaxy_models[self.model_type]
-        keys, kde = gp.setup_kde(model(), self.config, b.objects)
-
-        results = Parallel(n_jobs=cores, prefer="processes",
-                           timeout=time_limit)(delayed(self.process_single)(self.config, 
-                                                                            model, 
-                                                                            kde, 
-                                                                            keys) 
-                                                                            for _ in range(n_objects))
-
-
-    def process_single(self, config, model, kde, keys, gpobj=GalPrimeSingle):
-        params = gp.sample_kde(config, keys, kde)
-        params = gp.update_required(params, config)
         
-        np.random.seed()
-        bg = self.bgs.cutouts[np.random.randint(0, len(self.bgs.cutouts))]
-        psf = self.psfs.cutouts[np.random.randint(0, len(self.psfs.cutouts))]   # TODO replace with ra/dec matching
 
-        gpobj = gpobj(config, model, params, bg, psf)
-        gpobj.process()
+    
+    
 
-        return gpobj
+    # def process_single(self, config, kde, keys, bg, psf):
+    #     model = gp.galaxy_models[self.model_type]
+    #     params = model().generate_params(kde, keys)
+    #     gps = GalPrimeSingle(config, model, params, bg, psf)
+    #     gps.process()
+    #     return gps
 
-
+    
