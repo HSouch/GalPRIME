@@ -22,10 +22,6 @@ import time
 import warnings
 
 
-from pathos.pools import ProcessPool
-
-
-
 class GalPrimeSingle:
     def __init__(self, config, model, params, bg=None, psf=None):
         self.config = config
