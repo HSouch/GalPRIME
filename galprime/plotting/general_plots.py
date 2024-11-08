@@ -59,6 +59,6 @@ def show_cutouts(cutouts, model_data=None, nrows=None, ncols=5, method="zscale",
 
     plt.tight_layout()
     if outname is not None:
-        plt.savefig(outname)
+        plt.savefig(outname, dpi=dpi)
     else:
         plt.show()
