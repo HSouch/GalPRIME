@@ -9,13 +9,18 @@ import multiprocessing as mp
 
 import os
 
+from joblib import Parallel, delayed
 
+import pebble
+
+
+global logger
 
 parser = argparse.ArgumentParser(description="Run GalPRIME simulation")
 parser.add_argument("config_filename", type=str, help="Path to config file")
 parser.add_argument("--max_bins", type=int, default=None, help="Maximum number of bins to process")
 parser.add_argument("--run_id", type=int, default=gp.get_dt_intlabel(), help="Run ID")
-parser.add_argument("--log_level", type=int, default=20, help="Logging level")
+parser.add_argument("--log_level", type=int, default=20, help="Logging level. 10=DEBUG, 20=INFO, 30=WARNING")
 parser.add_argument("--verbose", action="store_true", help="Verbose output")
 parser.add_argument("--keep_temp", action="store_true", help="Delete temporary files")
 args = parser.parse_args()
@@ -26,11 +31,10 @@ config_filename = "myconfig.gprime"
 
 
 class GPrimeSingle:
-    def __init__(self, config, model, params, keys, bg=None, psf=None, logger=None):
+    def __init__(self, config, model, params, bg=None, psf=None, logger=None):
         self.config = config
         self.model = model
         self.params = params
-        self.keys = keys
 
         self.bg = bg
         self.psf = psf
@@ -39,30 +43,41 @@ class GPrimeSingle:
 
     def process(self):
 
-        model_image = self.model.generate()
-        
+        model_image, model_params = self.model.generate(self.params)
         # Convolve model with psf
-        convolved_model = gp.convolve_model(self.model, self.psf)
-        print(convolved_model.shape)
+        convolved_model = gp.convolve_model(model_image, self.psf)
+        
         # Add to background
-
+        bg_added_model = convolved_model + self.bg
+        
         # Create bg-subtracted image
+        source_mask, background = gp.estimate_background_2D(bg_added_model, self.config)
+        
+        background = background.background
+        bgsub = bg_added_model - background
 
         # Mask image(s)
+        mask_bgadded, mask_data_bgadded = gp.gen_mask(bg_added_model, config=self.config)
+        mask_bgsub, mask_data_bgsub = gp.gen_mask(bgsub, config=self.config)
 
         # Extract profiles
-
+        for dataset in [convolved_model, np.ma.array(bg_added_model, mask=mask_bgadded), np.ma.array(bgsub, mask=mask_bgsub)]:
+            gp.isophote_fitting(dataset, self.config)
+        
         # Save outputs
 
-        pass
+        
 
 
-def process_single(fn, logger):
+def process_single(fn):
     logger.debug(f"Processing {fn}")
     gprime_single = gp.load_object(fn)
     gprime_single.logger = logger
     gprime_single.process()
+
+    return gprime_single
     
+
 
 
 if __name__ == '__main__':
@@ -85,7 +100,7 @@ if __name__ == '__main__':
     table = gp.trim_table(table, config)
     logger.info(f'Loaded catalogue with {len(table)} entries')
 
-    print(f"Starting run ID:{run_id}")
+    print(f"GalPRIME v{gp.__version__} -- Starting run ID:{run_id}")
     print(f'Logfile saved to: {config["DIRS"]["OUTDIR"]}output_{run_id}.log')
 
     binlist = gp.bin_catalogue(table, bin_params=config["BINS"], params=config["KEYS"], logger=logger)
@@ -97,10 +112,11 @@ if __name__ == '__main__':
 
 
     def process_bin(b):
+        cores = config["NCORES"]
         n_objects = config["MODEL"]["N_MODELS"]
         bg_indices = np.random.randint(0, len(bgs.cutouts), n_objects)
         psf_indices = np.random.randint(0, len(psfs.cutouts), n_objects)  
-
+        
         model_template = model()
 
         keys, kde = gp.setup_kde(model_template, config, b.objects)
@@ -114,21 +130,31 @@ if __name__ == '__main__':
             psf = psfs.cutouts[psf_indices[i]]
 
             params = gp.sample_kde(config, keys, kde)
+            params = gp.update_required(params, config)
 
-            gprime_single = GPrimeSingle(config, model(), b, config["KEYS"], bg, psf)
+            gprime_single = GPrimeSingle(config, model(), params, bg=bg, psf=psf)
             gp.save_object(gprime_single, filename)
-
+ 
             to_process.append(filename)
         
+        iterator = None
         # Process the gprime single objects (mutiprocessed)
-        with mp.Pool(processes=config["NCORES"]) as pool:
-            pool.map(process_single,  to_process)
+        with pebble.ProcessPool(max_workers=cores) as pool:
+            future = pool.map(process_single, to_process, timeout=15)
+            try:
+                iterator = future.result()
+            except pebble.TimeoutError as error:
+                logger.warning(f"Timeout error: {error}")
+            except pebble.ProcessExpired as error:
+                logger.warning(f"Process expired: {error}")
 
         # Remove temporary files if specified
         if not args.keep_temp:
+            logger.info(f"Removing temporary files for bin {b.bin_id()}")
             for fn in to_process:
                 os.remove(fn)
 
+        
 
     # Go through the bins and process them
     for i in range(max_bins):
