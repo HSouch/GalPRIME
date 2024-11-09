@@ -30,55 +30,17 @@ start_time = time.perf_counter()
 config_filename = "myconfig.gprime"
 
 
-class GPrimeSingle:
-    def __init__(self, config, model, params, bg=None, psf=None, logger=None):
-        self.config = config
-        self.model = model
-        self.params = params
-
-        self.bg = bg
-        self.psf = psf
-
-        self.logger = logger
-
-    def process(self):
-
-        model_image, model_params = self.model.generate(self.params)
-        # Convolve model with psf
-        convolved_model = gp.convolve_model(model_image, self.psf)
-        
-        # Add to background
-        bg_added_model = convolved_model + self.bg
-        
-        # Create bg-subtracted image
-        source_mask, background = gp.estimate_background_2D(bg_added_model, self.config)
-        
-        background = background.background
-        bgsub = bg_added_model - background
-
-        # Mask image(s)
-        mask_bgadded, mask_data_bgadded = gp.gen_mask(bg_added_model, config=self.config)
-        mask_bgsub, mask_data_bgsub = gp.gen_mask(bgsub, config=self.config)
-
-        # Extract profiles
-        for dataset in [convolved_model, np.ma.array(bg_added_model, mask=mask_bgadded), np.ma.array(bgsub, mask=mask_bgsub)]:
-            gp.isophote_fitting(dataset, self.config)
-        
-        # Save outputs
-
-        
-
 
 def process_single(fn):
-    logger.debug(f"Processing {fn}")
+    logger.info(f"Processing {fn}")
     gprime_single = gp.load_object(fn)
     gprime_single.logger = logger
     gprime_single.process()
 
+    gp.save_object(gprime_single, fn.replace(".pkl", "_done.pkl"))
+
     return gprime_single
     
-
-
 
 if __name__ == '__main__':
     config = gp.read_config_file(config_filename)
@@ -132,13 +94,16 @@ if __name__ == '__main__':
             params = gp.sample_kde(config, keys, kde)
             params = gp.update_required(params, config)
 
-            gprime_single = GPrimeSingle(config, model(), params, bg=bg, psf=psf)
+            gprime_single = gp.GPrimeSingle(config, model(), params, bg=bg, psf=psf, logger=logger)
             gp.save_object(gprime_single, filename)
  
             to_process.append(filename)
         
         iterator = None
         # Process the gprime single objects (mutiprocessed)
+        # for fn in to_process:
+        #     process_single(fn)
+
         with pebble.ProcessPool(max_workers=cores) as pool:
             future = pool.map(process_single, to_process, timeout=15)
             try:
@@ -147,6 +112,8 @@ if __name__ == '__main__':
                 logger.warning(f"Timeout error: {error}")
             except pebble.ProcessExpired as error:
                 logger.warning(f"Process expired: {error}")
+            except Exception as error:
+                logger.error(f"Critical error: {error}")
 
         # Remove temporary files if specified
         if not args.keep_temp:
@@ -155,7 +122,6 @@ if __name__ == '__main__':
                 os.remove(fn)
 
         
-
     # Go through the bins and process them
     for i in range(max_bins):
         b = binlist.bins[i]

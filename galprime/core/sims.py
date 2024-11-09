@@ -1,8 +1,5 @@
 import galprime as gp
 
-from . import config, cutouts, binning, masking
-from .. import utils
-
 from scipy.signal import convolve2d
 from scipy.interpolate import interp1d
 
@@ -22,83 +19,61 @@ import time
 import warnings
 
 
-class GalPrimeSingle:
-    def __init__(self, config, model, params, bg=None, psf=None):
+class GPrimeSingle:
+    def __init__(self, config, model, params, bg=None, psf=None, logger=None):
         self.config = config
         self.model = model
         self.params = params
-    
+
+        self.id = np.random.randint(1e9, 1e10)
+
+        self.bg = bg
+        self.psf = psf
+
+        self.logger = logger
+
+        self.stop_code = 0
+        self.isophote_lists = []
+
     def process(self):
-        pass
+        # Generate model and convolve with PSF
+        try:
+            self.model_image, self.model_params = self.model.generate(self.params)
+            self.convolved_model = gp.convolve_model(self.model_image, self.psf)
+        except Exception as e:
+            self.stop_code = 1
+            return
 
+        # Add model to background, estimate background, and subtract
+        try:    
+            self.bg_added_model = self.convolved_model + self.bg
+            self.source_mask, self.background = gp.estimate_background_2D(self.bg_added_model, self.config)
+            
+            self.bg_model = self.background.background
+            self.bgsub = self.bg_added_model - self.bg_model
+        except Exception as e:
+            self.stop_code = 2
+            return
 
-
-class GPrime:
-    def __init__(self, config_filename, **kwargs):
-        self.config = c = config.read_config_file(config_filename)
-        self.binlist = None
-        self.outfiles = gp.gen_filestructure(c["DIRS"]["OUTDIR"])
-
-        self.run_id = kwargs.get("run_id", np.random.randint(1e3, 1e4))
-
-        self.model_type = c["MODEL"]["MODEL_TYPE"]
-
-        self.log_level = kwargs.get("log_level", 20)
-        self.logger = gp.setup_logging(self.run_id, self.log_level, 
-                                          log_filename=f'{c["DIRS"]["OUTDIR"]}output_{self.run_id}.log')
-        self.logger.info(f"Starting run ID:{self.run_id}, GalPRIME Version: {gp.__version__}", )
+        # Mask image(s)
+        try:    
+            self.mask_bgadded, self.mask_data_bgadded = gp.gen_mask(self.bg_added_model, config=self.config)
+            self.mask_bgsub, self.mask_data_bgsub = gp.gen_mask(self.bgsub, config=self.config)
+        except Exception as e:
+            self.stop_code = 3
+            return
         
-        print(f"Starting run ID:{self.run_id}")
-        print(f'Logfile saved to: {c["DIRS"]["OUTDIR"]}output_{self.run_id}.log')
+        # Extract profiles
+        try:
+            # Extract profiles
+            for dataset in [self.convolved_model, 
+                            np.ma.array(self.bg_added_model, mask=self.mask_bgadded), 
+                            np.ma.array(self.bgsub, mask=self.mask_bgsub)]:
+                isolist = gp.isophote_fitting(dataset, self.config)
+                self.isophote_lists.append(isolist)
 
-        # Load in all necessary files (backgrounds, psfs, catalogues, etc)
-        self.bgs = gp.Cutouts.from_file(f'{c["FILE_DIR"]}{c["FILES"]["BACKGROUNDS"]}', 
-                                             logger=self.logger)
-        
-        self.psfs = gp.Cutouts.from_file(f'{c["FILE_DIR"]}{c["FILES"]["PSFS"]}', logger=self.logger)
-        self.psfs.get_ra_dec(ra_key=c["PSFS"]["PSF_RA"], dec_key=c["PSFS"]["PSF_DEC"])
-        
-        self.table = Table.read(f'{c["FILE_DIR"]}{c["FILES"]["CATALOGUE"]}')
-        self.table = gp.trim_table(self.table, c)
-        self.logger.info(f'Loaded catalogue with {len(self.table)} entries')
-        
-        if c["FILES"]["MAG_CATALOGUE"] is not None:
-            self.mags = Table.read(f'{c["FILE_DIR"]}{c["FILES"]["MAG_CATALOGUE"]}')
-            self.mag_kde = gp.object_kde(self.mags[c["KEYS"]["MAG"]])
-        else:
-            self.mags = self.mag_kde = None
-    
+        except Exception as e:
+            self.stop_code = 4
+            return
 
-    def run(self, max_bins=None):
-        c = self.config
-
-        self.binlist = gp.bin_catalogue(self.table, bin_params=c["BINS"], 
-                                        params=c["KEYS"], logger=self.logger)
-        max_bins = len(self.binlist.bins) if max_bins is None else min(max_bins, len(self.binlist.bins))
-
-        for i in range(max_bins):
-            self.process_bin(self.binlist.bins[i])
-
-
-
-    def process_bin(self, b):
-
-        self.logger.info(f'Processing bin {b.bin_id()}')
-        n_objects = self.config["MODEL"]["N_MODELS"]
-        cores = self.config["NCORES"]
-        time_limit = self.config["TIME_LIMIT"]
-
-        model = gp.galaxy_models[self.model_type]
-        
-
-    
-    
-
-    # def process_single(self, config, kde, keys, bg, psf):
-    #     model = gp.galaxy_models[self.model_type]
-    #     params = model().generate_params(kde, keys)
-    #     gps = GalPrimeSingle(config, model, params, bg, psf)
-    #     gps.process()
-    #     return gps
-
-    
+        self.stop_code = 10
