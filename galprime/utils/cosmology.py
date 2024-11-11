@@ -63,3 +63,7 @@ def get_angular_size_dist(z, H0=71, WM=0.27):
         return DA_Mpc
     except:
         raise ValueError
+    
+
+def kpc_per_arcsec(z=0.02):
+    return get_angular_size_dist(z=z) * 1e3 / 206265
