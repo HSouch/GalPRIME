@@ -66,7 +66,6 @@ def process_bin(b):
         if mag_kde is not None:
             mag = mag_kde.resample(size=1)[0][0]
             params["MAG"] = mag
-        print(params)
 
         gprime_single = gp.GPrimeSingle(config, model(), params, 
                                         bg=bg, psf=psf, logger=logger,
