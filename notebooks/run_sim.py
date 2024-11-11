@@ -35,8 +35,69 @@ def process_single(fn):
         raise RuntimeError(f'{error}')
     if gprime_single.save_output:
         gp.save_object(gprime_single, fn.replace(".pkl", "_done.pkl"))
+
+    if not args.keep_temp:
+        os.remove(fn)
+
     return gprime_single.condensed_output()
+
+
+def process_bin(b):
+    cores = config["NCORES"]
+    n_objects = config["MODEL"]["N_MODELS"]
+    bg_indices = np.random.randint(0, len(bgs.cutouts), n_objects)
+    psf_indices = np.random.randint(0, len(psfs.cutouts), n_objects)  
     
+    model_template = model()
+
+    keys, kde = gp.setup_kde(model_template, config, b.objects)
+
+    # Create and pickle the gprime single objects
+    to_process = []
+    for i in range(n_objects):
+        filename = f'{outfiles["TEMP"]}{run_id}_{b.bin_id()}_{i}.pkl'
+
+        bg = bgs.cutouts[bg_indices[i]]
+        psf = psfs.cutouts[psf_indices[i]]
+
+        params = gp.sample_kde(config, keys, kde)
+        params = gp.update_required(params, config)
+
+        if mag_kde is not None:
+            mag = mag_kde.resample(size=1)[0][0]
+            params["MAG"] = mag
+        print(params)
+
+        gprime_single = gp.GPrimeSingle(config, model(), params, 
+                                        bg=bg, psf=psf, logger=logger,
+                                        save_output=args.save_objs,
+                                        metadata={"ITERATION": i,
+                                                "BG_INDEX": bg_indices[i],
+                                                    "PSF_INDEX": psf_indices[i]})
+        gp.save_object(gprime_single, filename)
+
+        to_process.append(filename)
+    
+    job_list = []
+    with pebble.ProcessPool(max_workers=cores) as pool:
+        for i in range(n_objects):
+            job_list.append(pool.schedule(process_single, args=(to_process[i], ),
+                                            timeout=config["TIME_LIMIT"]))
+    
+    good_results = []
+    for i in range(len(job_list)):
+        try:
+            result = job_list[i].result()
+            if len(result["ISOLISTS"]) != 3:
+                logger.error(f"Not all profiles extracted {i}")
+                continue
+            good_results.append(result)
+        except Exception as e:
+            logger.error(f'Error processing object {i}: {e}')
+            continue
+
+    logger.info(f"Bin {b.bin_id()}: {len(good_results)} of {n_objects} successfully finished.")
+
 
 if __name__ == '__main__':
     config = gp.read_config_file(config_filename)
@@ -54,6 +115,13 @@ if __name__ == '__main__':
     psfs = gp.Cutouts.from_file(f'{config["FILE_DIR"]}{config["FILES"]["PSFS"]}', logger=logger)
     psfs.get_ra_dec(ra_key=config["PSFS"]["PSF_RA"], dec_key=config["PSFS"]["PSF_DEC"])
 
+    mag_kde = None
+    if config["FILES"]["MAG_CATALOGUE"] is not None:
+        mag_table = Table.read(f'{config["FILE_DIR"]}{config["FILES"]["MAG_CATALOGUE"]}')
+        mags = mag_table[config["KEYS"]["MAG"]]
+        mag_kde = gp.object_kde([mags])
+        logger.info(f'Loaded magnitude kde from {len(mag_table)} entries in {config["FILES"]["MAG_CATALOGUE"]}')
+
     table = Table.read(f'{config["FILE_DIR"]}{config["FILES"]["CATALOGUE"]}')
     table = gp.trim_table(table, config)
     logger.info(f'Loaded catalogue with {len(table)} entries')
@@ -67,65 +135,6 @@ if __name__ == '__main__':
 
     model = gp.galaxy_models[config["MODEL"]["MODEL_TYPE"]]
     logger.info(f"Using model {model.__name__}")
-
-
-    def process_bin(b):
-        cores = config["NCORES"]
-        n_objects = config["MODEL"]["N_MODELS"]
-        bg_indices = np.random.randint(0, len(bgs.cutouts), n_objects)
-        psf_indices = np.random.randint(0, len(psfs.cutouts), n_objects)  
-        
-        model_template = model()
-
-        keys, kde = gp.setup_kde(model_template, config, b.objects)
-
-        # Create and pickle the gprime single objects
-        to_process = []
-        for i in range(n_objects):
-            filename = f'{outfiles["TEMP"]}{run_id}_{b.bin_id()}_{i}.pkl'
-
-            bg = bgs.cutouts[bg_indices[i]]
-            psf = psfs.cutouts[psf_indices[i]]
-
-            params = gp.sample_kde(config, keys, kde)
-            params = gp.update_required(params, config)
-
-            gprime_single = gp.GPrimeSingle(config, model(), params, 
-                                            bg=bg, psf=psf, logger=logger,
-                                            save_output=args.save_objs,
-                                            metadata={"ITERATION": i,
-                                                    "BG_INDEX": bg_indices[i],
-                                                      "PSF_INDEX": psf_indices[i]})
-            gp.save_object(gprime_single, filename)
- 
-            to_process.append(filename)
-        
-        job_list = []
-        with pebble.ProcessPool(max_workers=cores) as pool:
-            for i in range(n_objects):
-                job_list.append(pool.schedule(process_single, args=(to_process[i], ),
-                                              timeout=config["TIME_LIMIT"]))
-        
-        good_results = []
-        for i in range(len(job_list)):
-            try:
-                result = job_list[i].result()
-                if len(result["ISOLISTS"]) != 3:
-                    logger.error(f"Not all profiles extracted {i}")
-                    continue
-                good_results.append(result)
-            except Exception as e:
-                logger.error(f'Error processing object {i}: {e}')
-                continue
-
-        logger.info(f"Bin {b.bin_id()}: {len(good_results)} of {n_objects} successfully finished.")
-
-        # Remove temporary files if specified
-        if not args.keep_temp:
-            logger.info(f"Removing temporary files for bin {b.bin_id()}")
-            for fn in to_process:
-                os.remove(fn)
-
 
         
     # Go through the bins and process them

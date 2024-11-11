@@ -57,6 +57,8 @@ def update_required(params, config):
 
     params["SHAPE"] = config["MODEL"]["SIZE"]   # Update the size of the model
     params["M0"] = config["MODEL"]["ZPM"]       # Update the zero-point magnitude
+    if config["MODEL"]["REFF_UNIT"].lower() == "arcsec":
+        params["REFF"] /= config["MODEL"]["ARCCONV"]    # Update the effective radius to pixels
 
     return params
 

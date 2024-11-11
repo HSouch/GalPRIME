@@ -40,6 +40,7 @@ def default_config():
     config["MODEL"]["SIZE"] = 451
     config["MODEL"]["ARCCONV"] = 0.168
     config["MODEL"]["ZPM"] = 27.0
+    config["MODEL"]["REFF_UNIT"] = "pixel"
 
     config["MASKING"] = {}
     config["MASKING"]["NSIGMA"] = 1
@@ -91,6 +92,7 @@ def galprime_configspec():
     cspec["MODEL"]["SIZE"] = "integer(default=151)"
     cspec["MODEL"]["ARCCONV"] = "float(default=0.168)"
     cspec["MODEL"]["ZPM"] = "float(default=27.0)"
+    cspec["MODEL"]["REFF_UNIT"] = "string(default='pixel')"
     
     cspec["DIRS"] = {}
     cspec["DIRS"]["OUTDIR"] = "string(default='gprime_out/')"
