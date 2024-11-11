@@ -5,14 +5,10 @@ from astropy.table import Table
 
 import time
 import argparse
-import multiprocessing as mp
 
+import traceback
 import os
-
-from joblib import Parallel, delayed
-
 import pebble
-
 
 global logger
 
@@ -23,6 +19,7 @@ parser.add_argument("--run_id", type=int, default=gp.get_dt_intlabel(), help="Ru
 parser.add_argument("--log_level", type=int, default=20, help="Logging level. 10=DEBUG, 20=INFO, 30=WARNING")
 parser.add_argument("--verbose", action="store_true", help="Verbose output")
 parser.add_argument("--keep_temp", action="store_true", help="Delete temporary files")
+parser.add_argument("--save_objs", action="store_true", help="Save output GPrimeSingle files.")
 args = parser.parse_args()
 
 start_time = time.perf_counter()
@@ -30,16 +27,15 @@ start_time = time.perf_counter()
 config_filename = "myconfig.gprime"
 
 
-
 def process_single(fn):
-    logger.info(f"Processing {fn}")
     gprime_single = gp.load_object(fn)
-    gprime_single.logger = logger
-    gprime_single.process()
-
-    gp.save_object(gprime_single, fn.replace(".pkl", "_done.pkl"))
-
-    return gprime_single
+    try:
+        gprime_single.process()
+    except Exception as error:
+        raise RuntimeError(f'{error}')
+    if gprime_single.save_output:
+        gp.save_object(gprime_single, fn.replace(".pkl", "_done.pkl"))
+    return gprime_single.condensed_output()
     
 
 if __name__ == '__main__':
@@ -94,32 +90,42 @@ if __name__ == '__main__':
             params = gp.sample_kde(config, keys, kde)
             params = gp.update_required(params, config)
 
-            gprime_single = gp.GPrimeSingle(config, model(), params, bg=bg, psf=psf, logger=logger)
+            gprime_single = gp.GPrimeSingle(config, model(), params, 
+                                            bg=bg, psf=psf, logger=logger,
+                                            save_output=args.save_objs,
+                                            metadata={"ITERATION": i,
+                                                    "BG_INDEX": bg_indices[i],
+                                                      "PSF_INDEX": psf_indices[i]})
             gp.save_object(gprime_single, filename)
  
             to_process.append(filename)
         
-        iterator = None
-        # Process the gprime single objects (mutiprocessed)
-        # for fn in to_process:
-        #     process_single(fn)
-
+        job_list = []
         with pebble.ProcessPool(max_workers=cores) as pool:
-            future = pool.map(process_single, to_process, timeout=15)
+            for i in range(n_objects):
+                job_list.append(pool.schedule(process_single, args=(to_process[i], ),
+                                              timeout=config["TIME_LIMIT"]))
+        
+        good_results = []
+        for i in range(len(job_list)):
             try:
-                iterator = future.result()
-            except pebble.TimeoutError as error:
-                logger.warning(f"Timeout error: {error}")
-            except pebble.ProcessExpired as error:
-                logger.warning(f"Process expired: {error}")
-            except Exception as error:
-                logger.error(f"Critical error: {error}")
+                result = job_list[i].result()
+                if len(result["ISOLISTS"]) != 3:
+                    logger.error(f"Not all profiles extracted {i}")
+                    continue
+                good_results.append(result)
+            except Exception as e:
+                logger.error(f'Error processing object {i}: {e}')
+                continue
+
+        logger.info(f"Bin {b.bin_id()}: {len(good_results)} of {n_objects} successfully finished.")
 
         # Remove temporary files if specified
         if not args.keep_temp:
             logger.info(f"Removing temporary files for bin {b.bin_id()}")
             for fn in to_process:
                 os.remove(fn)
+
 
         
     # Go through the bins and process them
@@ -131,17 +137,15 @@ if __name__ == '__main__':
             process_bin(b)
         except Exception as e:
             logger.error(f"Critical error processing bin {b.bin_id()}: {e}")
+            print(traceback.print_exc())
             continue
-
         logger.info(f"Finished processing bin {b.bin_id()}")
+
 
     time_elapsed = time.perf_counter() - start_time
     unit = "seconds" if time_elapsed < 60 else "minutes"
     if time_elapsed > 60:
         time_elapsed /= 60
-
-    
-
 
     logger.info("Finished processing all bins")
     logger.info(f"Run complete: Time Elapsed: {time.perf_counter() - start_time:.2f} {unit}")
