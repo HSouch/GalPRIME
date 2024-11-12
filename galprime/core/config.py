@@ -51,7 +51,12 @@ def default_config():
     config["EXTRACTION"] = {}
     config["EXTRACTION"]["LINEAR"] = False
     config["EXTRACTION"]["STEP"] = 0.1
-    config["EXTRACTION"]["NITER"] = 100
+    config["EXTRACTION"]["MAXIT"] = 100
+    config["EXTRACTION"]["FIT_CENTER"] = False
+    config["EXTRACTION"]["MINSMA"] = 1
+    config["EXTRACTION"]["MAXSMA"] = config["MODEL"]["SIZE"] // 2
+    config["EXTRACTION"]["CONVER"] = 0.05
+
 
     config["BGSUB"] = {}
     config["BGSUB"]["BOX_SIZE"] = 42
@@ -79,10 +84,7 @@ def galprime_configspec():
     cspec["KEYS"] = {}
     cspec["KEYS"]["RA"] = "string(default='RA_1')"
     cspec["KEYS"]["DEC"] = "string(default='DEC_1')"
-    # cspec["KEYS"]["MAG"] = "string(default='i')"
-    # cspec["KEYS"]["REFF"] = "string(default='R_GIM2D')"
-    # cspec["KEYS"]["N"] = "string(default='SERSIC_N_GIM2D')"
-    # cspec["KEYS"]["ELLIP"] = "string(default='ELL_GIM2D')"
+
 
     cspec["BINS"] = {}
 
@@ -106,7 +108,12 @@ def galprime_configspec():
     cspec["EXTRACTION"] = {}
     cspec["EXTRACTION"]["LINEAR"] = "boolean(default=False)"
     cspec["EXTRACTION"]["STEP"] = "float(default=0.1)"
-    cspec["EXTRACTION"]["NITER"] = "integer(default=100)"
+    cspec["EXTRACTION"]["MAXIT"] = "integer(default=100)"
+    cspec["EXTRACTION"]["FIT_CENTER"] = "boolean(default=False)"
+    cspec["EXTRACTION"]["MAXRIT"] = "integer(default=50)"
+    cspec["EXTRACTION"]["MINSMA"] = "integer(default=1)"
+    cspec["EXTRACTION"]["CONVER"] = "float(default=0.05)"
+    cspec["EXTRACTION"]["INTEGRMODE"] = "string(default='bilinear')"
 
     cspec["BGSUB"] = {}
     cspec["BGSUB"]["BOX_SIZE"] = "integer(default=42)"
