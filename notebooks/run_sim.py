@@ -164,7 +164,7 @@ if __name__ == '__main__':
     if time_elapsed > 60:
         time_elapsed /= 60
 
-    logger.info("Finished processing all bins")
+    logger.info("Finished processing.")
     logger.info(f"Run complete: Time Elapsed: {time.perf_counter() - start_time:.2f} {unit}")
 
     print(f'Run complete: Time Elapsed: {time.perf_counter() - start_time:.2f} seconds')
