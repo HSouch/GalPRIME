@@ -107,6 +107,8 @@ if __name__ == '__main__':
     config = gp.read_config_file(config_filename)
     outfiles = gp.gen_filestructure(config["DIRS"]["OUTDIR"])
 
+    gp.save_object(config, f'{outfiles["ADDL_DATA"]}config_{args.run_id}.pkl')
+
     run_id = args.run_id
     config["RUN_ID"] = run_id
 
@@ -141,7 +143,6 @@ if __name__ == '__main__':
     model = gp.galaxy_models[config["MODEL"]["MODEL_TYPE"]]
     logger.info(f"Using model {model.__name__}")
 
-        
     # Go through the bins and process them
     for i in range(max_bins):
         b = binlist.bins[i]
@@ -167,6 +168,5 @@ if __name__ == '__main__':
     logger.info("Finished processing.")
     logger.info(f"Run complete: Time Elapsed: {time.perf_counter() - start_time:.2f} {unit}")
 
-    print(f'Run complete: Time Elapsed: {time.perf_counter() - start_time:.2f} seconds')
+    print(f"Run complete: Time Elapsed: {time.perf_counter() - start_time:.2f} {unit}")
     print("Results saved to: ", config["DIRS"]["OUTDIR"])
-
