@@ -35,14 +35,26 @@ def isophote_fitting(data, config):
 
     cutout_halfwidth = max((data.shape[0] // 2, data.shape[1] // 2))
     maxrit = config.get("EXTRACTION", {}).get("MAXRIT", cutout_halfwidth / 3)
+    minsma = config.get("EXTRACTION", {}).get("MINSMA", 1)
+    maxsma = config.get("EXTRACTION", {}).get("MAXSMA", cutout_halfwidth)
+    conver = config.get("EXTRACTION", {}).get("CONVER", 0.05)
+    
+    integrmode = config.get("EXTRACTION", {}).get("INTEGRMODE", "bilinear")
    
 
     def attempt_fit(geo):
         # Attempt to fit the ellipse with the given imput geometry
-        flux = Ellipse(data, geo)
+        flux = Ellipse(data, geo )
         try:
-            fitting_list = flux.fit_image(maxit=maxit, maxsma=cutout_halfwidth, step=step, linear=linear,
-                                        maxrit=maxrit, fix_center=fix_center)
+            fitting_list = flux.fit_image(maxit=maxit, 
+                                          minsma=minsma,
+                                          maxsma=maxsma, 
+                                          step=step, 
+                                          linear=linear,
+                                          maxrit=maxrit, 
+                                          conver=conver,
+                                          fix_center=fix_center,
+                                          integrmode=integrmode)
             if len(fitting_list) > 0:
                 return fitting_list
         except Exception as e:
