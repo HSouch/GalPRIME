@@ -10,6 +10,7 @@ import traceback
 import os
 import pebble
 
+
 global logger
 
 parser = argparse.ArgumentParser(description="Run GalPRIME simulation")
@@ -94,8 +95,12 @@ def process_bin(b):
         except Exception as e:
             logger.error(f'Error processing object {i}: {e}')
             continue
+    
+    gp.handle_output(good_results, outfiles, config, bin_id=b.bin_id())
+    # gp.save_object(good_results, f'{outfiles["ADDL_DATA"]}{run_id}_{b.bin_id()}.pkl')
 
-    logger.info(f"Bin {b.bin_id()}: {len(good_results)} of {n_objects} successfully finished.")
+    percent_good = len(good_results) / n_objects * 100
+    logger.info(f"Bin {b.bin_id()}: {len(good_results)} of {n_objects} successfully finished ({percent_good} %).")
 
 
 if __name__ == '__main__':
@@ -103,6 +108,7 @@ if __name__ == '__main__':
     outfiles = gp.gen_filestructure(config["DIRS"]["OUTDIR"])
 
     run_id = args.run_id
+    config["RUN_ID"] = run_id
 
     logger = gp.setup_logging(run_id, args.log_level, 
                             log_filename=f'{config["DIRS"]["OUTDIR"]}output_{run_id}.log')
@@ -139,10 +145,13 @@ if __name__ == '__main__':
     # Go through the bins and process them
     for i in range(max_bins):
         b = binlist.bins[i]
-        logger.info(f'Processing bin {b.bin_id()}')
+        logger.info(f'Processing bin {b.bin_id()} ({i+1} of {max_bins})')
         # Process the bin
         try:
             process_bin(b)
+        except KeyboardInterrupt as e:
+            logger.error(f"Run interrupted by user")
+            break
         except Exception as e:
             logger.error(f"Critical error processing bin {b.bin_id()}: {e}")
             print(traceback.print_exc())
