@@ -1,6 +1,8 @@
 from astropy.io import fits
 import numpy as np
 
+from scipy.signal import convolve2d
+
 from .. import plotting 
 
 import copy
@@ -8,14 +10,13 @@ import copy
 __all__ = ['Cutouts']
 
 class Cutouts:
-    def __init__(self, cutouts=[], cutout_data=[], metadata={}, min_index=0):
-        self.cutouts = cutouts
+    def __init__(self, cutouts=None, cutout_data=[], metadata={}, min_index=0):
+        self.cutouts = [] if cutouts is None else cutouts
         self.cutout_data = cutout_data
         self.metadata = metadata
         self.min_index = min_index
 
         self.ras, self.decs = [], []
-
 
     def get_ra_dec(self, ra_key="RA", dec_key="DEC"):
 
@@ -56,6 +57,14 @@ class Cutouts:
                 out_cutouts.cutouts.append(self.cutouts[i] + to_add.cutouts[i])
         else:
             raise ValueError("Invalid method provided. Possible values are 'random' and 'direct'.")
+
+        return out_cutouts
+    
+    def convolve(self, psf):
+
+        psfs = psf if isinstance(psf, list) else [psf for _ in range(len(self.cutouts))]
+        out_cutouts = self.copy()
+        out_cutouts.cutouts = [convolve2d(cutout, psf) for cutout, psf in zip(self.cutouts, psfs)]
 
         return out_cutouts
     
