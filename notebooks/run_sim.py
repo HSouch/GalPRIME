@@ -139,7 +139,6 @@ if __name__ == '__main__':
     binlist = gp.bin_catalogue(table, bin_params=config["BINS"], params=config["KEYS"], logger=logger)
     max_bins = len(binlist.bins) if args.max_bins is None else min(args.max_bins, len(binlist.bins))
 
-
     model = gp.galaxy_models[config["MODEL"]["MODEL_TYPE"]]
     logger.info(f"Using model {model.__name__}")
 
