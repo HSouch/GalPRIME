@@ -1,5 +1,6 @@
 # Utility functions that don't fit into the main GalPRIME scripts.
 
+from .bgselection import *
 from .cosmology import *
 from .fluxes import *
 from .generators import *
