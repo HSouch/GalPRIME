@@ -109,7 +109,7 @@ def galprime_configspec():
     cspec["EXTRACTION"]["LINEAR"] = "boolean(default=False)"
     cspec["EXTRACTION"]["STEP"] = "float(default=0.1)"
     cspec["EXTRACTION"]["MAXIT"] = "integer(default=100)"
-    cspec["EXTRACTION"]["FIT_CENTER"] = "boolean(default=False)"
+    cspec["EXTRACTION"]["FIX_CENTER"] = "boolean(default=False)"
     cspec["EXTRACTION"]["MAXRIT"] = "integer(default=50)"
     cspec["EXTRACTION"]["MINSMA"] = "integer(default=1)"
     cspec["EXTRACTION"]["CONVER"] = "float(default=0.05)"
