@@ -52,7 +52,7 @@ def default_config():
     config["EXTRACTION"]["LINEAR"] = False
     config["EXTRACTION"]["STEP"] = 0.1
     config["EXTRACTION"]["MAXIT"] = 100
-    config["EXTRACTION"]["FIT_CENTER"] = False
+    config["EXTRACTION"]["FIX_CENTER"] = False
     config["EXTRACTION"]["MINSMA"] = 1
     config["EXTRACTION"]["MAXSMA"] = config["MODEL"]["SIZE"] // 2
     config["EXTRACTION"]["CONVER"] = 0.05
