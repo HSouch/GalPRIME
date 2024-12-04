@@ -23,6 +23,7 @@ def gen_filestructure(outdir):
                  "BGSUB_PROFS": f"{outdir}bgsub_profiles/",
                  "MEDIANS": f"{outdir}medians/",
                  "ADDL_DATA": f"{outdir}additional_data/",
+                 "PLOTS": f"{outdir}plots/",
                  "TEMP": f"{outdir}tempfiles/"}
     
     for key, value in file_dict.items():
