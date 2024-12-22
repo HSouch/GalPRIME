@@ -40,6 +40,14 @@ class BinList:
 
         if logger is not None:
             logger.info(f"Pruned {current_bin_count - len(self.bins)} bins with fewer than {min_objects} objects.")
+    
+    def get_bin_from_indices(self, indices):
+        """ Get the FIRST instance of a bin that matches the indices provided (in order)."""
+        indices = np.array(indices)
+        for b in self.bins:
+            if np.all(np.array(b.bin_indices)[:len(indices)] == indices):
+                return b
+        return None
 
     def __repr__(self):
         return f'BinList with {len(self.bins)} bins.'
@@ -76,6 +84,10 @@ class Bin:
 
     def bin_id(self):
         return "_".join([f"{i}" for i in self.bin_indices])
+    
+    def bin_id_stub(self, index=0):
+        key = list(self.bin_info.keys())[index]
+        return f'{self.bin_info[key][0]} < {key} < {self.bin_info[key][1]}'
 
     def gen_all_kdes(self, keys=None):
         if keys is None:
@@ -113,6 +125,12 @@ def bin_catalogue(table, bin_params = {},
     binlist.prune_bins(min_objects=min_objects, logger=logger)
     return binlist
 
+
+def cat_to_single_bin(table, params={}):
+    """ Get the objects for a single bin """
+    for key, val in params.items():
+        table = table[(table[key] > val[0]) & (table[key] < val[1])]
+        
 
 def trim_table(table, config=None, mag_key="i", r50_key="R50", n_key="n", ellip_key="ellip", bin_keys = []):
     if config is None:
