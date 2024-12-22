@@ -63,7 +63,7 @@ def process_bin(b):
         bg = bgs.cutouts[bg_indices[i]]
         psf = psfs.cutouts[psf_indices[i]]
 
-        params = gp.sample_kde(config, keys, kde)
+        params = gp.sample_kde(config, keys, kde, model_template)
         params = gp.update_required(params, config)
 
         if mag_kde is not None:
