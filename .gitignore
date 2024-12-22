@@ -39,6 +39,7 @@ notebooks/temp
 notebooks/*.gprime
 notebooks/gprime_out
 
+dev-token
 
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
