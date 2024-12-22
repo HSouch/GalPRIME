@@ -2,10 +2,11 @@ from ..utils import object_kde
 
 import numpy as np
 
+from . import galaxies
+
 
 def setup_kde(model, config, table):
     required_keys = model.required_keys()
-    config_keys = config.keys()
     
     # Check if all required keys are present in config
     for key in required_keys:
@@ -19,22 +20,16 @@ def setup_kde(model, config, table):
     return list(required_keys), kde
 
 
-def default_verifier(params):
-    good = params["REFF"] > 0               # Check that the effective radius is positive
-    good = good and 0 < params["N"] < 10    # Check that the Sersic index is within a reasonable range
-    good = good and params["MAG"] > 0       # Check that the magnitude is positive (abs. magnitude)
 
-    return good
-
-
-def sample_kde(config, keys, kde, verifier=default_verifier, attempts=100):
+def sample_kde(config, keys, kde, model = galaxies.SingleSersicModel(), 
+               attempts=100):
     verified = False
 
     while not verified and attempts > 0:
 
         sample = kde.resample(size=1).transpose()[0]
         params = dict(zip(keys, sample))
-        verified = verifier(params)
+        verified = model.verifier.verify(params)
         attempts -= 1
     
     if not verified:
