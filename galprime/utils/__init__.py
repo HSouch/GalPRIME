@@ -2,6 +2,7 @@
 
 from .bgselection import *
 from .cosmology import *
+from .data_cleaning import *
 from .fluxes import *
 from .generators import *
 from .handling import *
