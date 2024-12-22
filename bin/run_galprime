@@ -143,6 +143,8 @@ if __name__ == '__main__':
     model = gp.galaxy_models[config["MODEL"]["MODEL_TYPE"]]
     logger.info(f"Using model {model.__name__}")
 
+    gp.plotting.KDEPlot.plot_all_kdes(config, cat=table, indices=[], color="blue")
+
     # Go through the bins and process them
     for i in range(max_bins):
         b = binlist.bins[i]
