@@ -82,8 +82,8 @@ def galprime_configspec():
     cspec["FILES"]["MAG_CATALOGUE"] = "string(default=None)"
 
     cspec["KEYS"] = {}
-    cspec["KEYS"]["RA"] = "string(default='RA_1')"
-    cspec["KEYS"]["DEC"] = "string(default='DEC_1')"
+    # cspec["KEYS"]["RA"] = "string(default='RA_1')"
+    # cspec["KEYS"]["DEC"] = "string(default='DEC_1')"
 
 
     cspec["BINS"] = {}
