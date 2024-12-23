@@ -31,22 +31,52 @@ class DefaultVerifier(ParamVerifier):
 
     def __init__(self):
         super().__init__()
+        def mag_condition(p):
+            return p["MAG"] > 0
+
+        def reff_condition(p):
+            return p["REFF"] > 0
+
+        def n_condition(p):
+            return 0 < p["N"] < 10
+
+        def ellip_condition(p):
+            return 0 < p["ELLIP"] < 1
+
         self.conditions = [
-            lambda p: p["MAG"] > 0,
-            lambda p: p["REFF"] > 0,
-            lambda p: 0 < p["N"] < 10,
-            lambda p: 0 < p["ELLIP"] < 1,
+            mag_condition,
+            reff_condition,
+            n_condition,
+            ellip_condition,
         ]
 
 class BulgeDiskVerifier(ParamVerifier):
-    
-        def __init__(self):
-            super().__init__()
-            self.conditions = [
-                lambda p: p["MAG"] > 0,
-                lambda p: 0 < p["FBULGE"] < 1,
-                lambda p: p["REFF_BULGE"] > 0,
-                lambda p: p["REFF_DISK"] > 0,
-                lambda p: 0 < p["ELLIP_DISK"] < 1,
-                lambda p: 0 < p["ELLIP_BULGE"] < 1,
-            ]
+
+    def __init__(self):
+        super().__init__()
+        self.conditions = [
+            self.mag_condition,
+            self.fbulge_condition,
+            self.reff_bulge_condition,
+            self.reff_disk_condition,
+            self.ellip_disk_condition,
+            self.ellip_bulge_condition,
+        ]
+
+    def mag_condition(self, p):
+        return p["MAG"] > 0
+
+    def fbulge_condition(self, p):
+        return 0 < p["FBULGE"] < 1
+
+    def reff_bulge_condition(self, p):
+        return p["REFF_BULGE"] > 0
+
+    def reff_disk_condition(self, p):
+        return p["REFF_DISK"] > 0
+
+    def ellip_disk_condition(self, p):
+        return 0 < p["ELLIP_DISK"] < 1
+
+    def ellip_bulge_condition(self, p):
+        return 0 < p["ELLIP_BULGE"] < 1

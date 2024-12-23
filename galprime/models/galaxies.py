@@ -72,8 +72,6 @@ class SingleSersicModel(GalaxyModel):
         return mod, mod_params
     
     
-
-
 class ExponentialDiskModel(GalaxyModel):
     def __init__(self):
         self.params = {}
