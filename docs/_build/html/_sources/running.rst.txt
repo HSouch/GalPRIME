@@ -1,0 +1,19 @@
+Running GalPRIME
+================
+
+
+Running from main binary script
+-------------------------------
+
+GalPRIME automatically comes with a binary script that can be used to run simulations with a given configuration file. 
+To execute the script, use the following command in your terminal:
+
+.. code-block:: bash
+
+    run_galprime config.gprime
+
+
+Developing your own simulation pipeline
+---------------------------------------
+
+
