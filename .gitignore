@@ -38,6 +38,7 @@ notebooks/figures
 notebooks/temp
 notebooks/*.gprime
 notebooks/gprime_out
+notebooks/gprime_out_diskbulge
 
 dev-token
 
