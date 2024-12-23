@@ -8,6 +8,10 @@ GalPRIME Documentation
 
 GalPRIME is a code designed to automate the process of 1D Surface Brightness Profile extraction. 
 
+
+
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
