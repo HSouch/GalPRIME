@@ -10,6 +10,7 @@ import argparse
 
 import traceback
 import os
+import sys
 import pebble
 
 
@@ -26,8 +27,6 @@ parser.add_argument("--save_objs", action="store_true", help="Save output GPrime
 args = parser.parse_args()
 
 start_time = time.perf_counter()
-
-config_filename = "myconfig.gprime"
 
 
 def process_single(fn):
@@ -106,13 +105,15 @@ def process_bin(b):
 
 
 if __name__ == '__main__':
-    config = gp.read_config_file(config_filename)
+    config = gp.read_config_file(args.config_filename)
     outfiles = gp.gen_filestructure(config["DIRS"]["OUTDIR"])
 
     gp.save_object(config, f'{outfiles["ADDL_DATA"]}config_{args.run_id}.pkl')
 
     run_id = args.run_id
     config["RUN_ID"] = run_id
+
+    print(config["FILE_DIR"])
 
     logger = gp.setup_logging(run_id, args.log_level, log_filename=f'{config["DIRS"]["OUTDIR"]}output_{run_id}.log')
 
@@ -124,7 +125,7 @@ if __name__ == '__main__':
     psfs.get_ra_dec(ra_key=config["PSFS"]["PSF_RA"], dec_key=config["PSFS"]["PSF_DEC"])
 
     mag_kde = None
-    if config["FILES"]["MAG_CATALOGUE"] is not None:
+    if (str(config["FILES"]["MAG_CATALOGUE"]).lower() != "none" and config["FILES"]["MAG_CATALOGUE"] is not None):
         mag_table = Table.read(f'{config["FILE_DIR"]}{config["FILES"]["MAG_CATALOGUE"]}')
         mags = mag_table[config["KEYS"]["MAG"]]
         mag_kde = gp.object_kde([mags])
@@ -143,7 +144,6 @@ if __name__ == '__main__':
     model = gp.galaxy_models[config["MODEL"]["MODEL_TYPE"]]
     logger.info(f"Using model {model.__name__}")
 
-    gp.plotting.KDEPlot.plot_all_kdes(config, cat=table, indices=[], color="blue")
 
     # Go through the bins and process them
     for i in range(max_bins):
@@ -154,7 +154,7 @@ if __name__ == '__main__':
             process_bin(b)
         except KeyboardInterrupt as e:
             logger.error(f"Run interrupted by user")
-            break
+            sys.exit(1)
         except Exception as e:
             logger.error(f"Critical error processing bin {b.bin_id()}: {e}")
             if args.log_level <= 10:
