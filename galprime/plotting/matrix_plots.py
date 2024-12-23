@@ -60,6 +60,8 @@ class KDEPlot(MatrixPlot):
         for key in self.config["BINS"].keys()[:2]:
             bins[key] = np.array(self.config["BINS"][key])
             shape.append(len(bins[key]) - 1)
+        if len(shape) == 1:
+            shape.append(1)
         
         try:
             self.binlist = gp.bin_catalogue(cat, bin_params=config["BINS"], params=config["KEYS"]) 
