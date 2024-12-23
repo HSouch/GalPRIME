@@ -9,6 +9,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from ..utils import object_kde
+from ..utils.data_cleaning import check_and_remove_masked
 
 
 class BinList:
@@ -40,6 +41,11 @@ class BinList:
 
         if logger is not None:
             logger.info(f"Pruned {current_bin_count - len(self.bins)} bins with fewer than {min_objects} objects.")
+
+    def clean_bins(self):
+        """ Clean all bins in the binlist."""
+        for b in self.bins:
+            b.objects = check_and_remove_masked(b.objects)
     
     def get_bin_from_indices(self, indices):
         """ Get the FIRST instance of a bin that matches the indices provided (in order)."""
@@ -122,7 +128,9 @@ def bin_catalogue(table, bin_params = {},
     for key in bin_params:
         binlist.rebin(key, bin_params[key])
 
-    binlist.prune_bins(min_objects=min_objects, logger=logger)
+    binlist.clean_bins()                                            # Clean all bins of masked values
+    binlist.prune_bins(min_objects=min_objects, logger=logger)      # Remove bins with few objs
+
     return binlist
 
 
