@@ -3,6 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+GalPRIME
+========
+
 .. raw:: html
 
    <img src="_static/gprime_logo.png" width="90%"  style="margin-bottom: 32px;"/>
@@ -36,9 +39,6 @@ background images.
 
    papers
 
-
-Indices and tables
-==================
 
 * :ref:`genindex`
 * :ref:`modindex`
