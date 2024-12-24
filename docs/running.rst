@@ -12,8 +12,15 @@ To execute the script, use the following command in your terminal:
 
     run_galprime config.gprime
 
+GalPRIME also has a pipeline script for the extraction of real profiles. Note that while the configuration file is 
+mostly the same for both pipelines, there are some minor differences (please refer to the documentation section on 
+config files for more information).
 
-Developing your own simulation pipeline
----------------------------------------
 
+Extraction of Real Galaxy Light Profiles 
+----------------------------------------
+
+.. code-block:: bash
+
+    gp_extract extract_config.gprime
 

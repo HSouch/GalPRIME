@@ -17,3 +17,7 @@ Developing your own simulation pipeline
 ---------------------------------------
 
 
+Extraction of real galaxy light profiles 
+----------------------------------------
+
+
