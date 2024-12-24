@@ -8,7 +8,13 @@ GALaxy Profile Recovery from Images of Model Emission (GalPRIME) is a code desig
 elliptical isophotal analysis, tuned for large-scale surveys. It automatically handles masking, background subtraction,
 and isophotal analysis. It can also do batch extraction of profiles for real data.
 
+|logo|
+
 Documentation for the code can be found at https://galprime.readthedocs.io/en/latest/ 
+
+
+
+.. |logo| image:: https://galprime.readthedocs.io/en/latest/_static/gprime_logo.png
 
 Installation
 ------------
