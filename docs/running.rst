@@ -1,5 +1,5 @@
-Running GalPRIME
-================
+Running
+=======
 
 
 Running from main binary script

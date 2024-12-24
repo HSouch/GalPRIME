@@ -1,3 +1,3 @@
-GalPRIME Models
-===============
+Models
+======
 
