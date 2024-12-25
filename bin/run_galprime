@@ -113,10 +113,7 @@ if __name__ == '__main__':
     run_id = args.run_id
     config["RUN_ID"] = run_id
 
-    print(config["FILE_DIR"])
-
     logger = gp.setup_logging(run_id, args.log_level, log_filename=f'{config["DIRS"]["OUTDIR"]}output_{run_id}.log')
-
     logger.info(f"Starting run ID:{run_id}, GalPRIME Version: {gp.__version__}", )
 
     # Load in backgrounds, PSFS, and object catalogue
