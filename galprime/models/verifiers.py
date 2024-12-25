@@ -31,24 +31,24 @@ class DefaultVerifier(ParamVerifier):
 
     def __init__(self):
         super().__init__()
-        def mag_condition(p):
-            return p["MAG"] > 0
-
-        def reff_condition(p):
-            return p["REFF"] > 0
-
-        def n_condition(p):
-            return 0 < p["N"] < 10
-
-        def ellip_condition(p):
-            return 0 < p["ELLIP"] < 1
-
         self.conditions = [
-            mag_condition,
-            reff_condition,
-            n_condition,
-            ellip_condition,
+            self.mag_condition,
+            self.reff_condition,
+            self.n_condition,
+            self.ellip_condition,
         ]
+    
+    def mag_condition(self, p):
+        return p["MAG"] > 0
+
+    def reff_condition(self, p):
+        return p["REFF"] > 0
+
+    def n_condition(self, p):
+        return 0 < p["N"] < 10
+
+    def ellip_condition(self, p):
+        return 0 < p["ELLIP"] < 1
 
 class BulgeDiskVerifier(ParamVerifier):
 

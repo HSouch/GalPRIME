@@ -12,9 +12,9 @@ from . import verifiers
 class GalaxyModel:
     def __init__(self, defaults={}):
         self.defaults = defaults
-        self.verifier = verifiers.DefaultVerifier(parent_model=self)
+        self.verifier = verifiers.DefaultVerifier()
 
-    def generate(self, params):
+    def generate(self, params={}):
         """ Generate a model, and handle user-inputted and default parameters.
 
         Args:
@@ -65,6 +65,7 @@ class SingleSersicModel(GalaxyModel):
             "N": 1,
             "ELLIP": 0.3,
         }
+        self.verifier = verifiers.DefaultVerifier()
     
     def _generate(self, **params):
         mod, mod_params = gen_single_sersic(**params)
@@ -140,8 +141,8 @@ class BulgeDiskSersicModel(GalaxyModel):
     def _generate(self, **params):
         bulge_mag, disk_mag = self.get_bulge_disk_mags(**params)
 
-        pa = np.random.uniform(0, np.pi)
-        params["PA"] = pa
+        params["PA"] = params.get("PA", np.random.uniform(0, np.pi))
+
         # Generate the bulge model
         bulge_params = params.copy()
         bulge_params["MAG"] = bulge_mag
