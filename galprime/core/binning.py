@@ -6,7 +6,6 @@ This module contains all necessary methods for binning catalogues according to v
 
 from astropy.table import Table
 import numpy as np
-from matplotlib import pyplot as plt
 
 from ..utils import object_kde
 from ..utils.data_cleaning import check_and_remove_masked
