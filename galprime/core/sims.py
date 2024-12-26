@@ -1,20 +1,6 @@
 import galprime as gp
 
-from scipy.signal import convolve2d
-from scipy.interpolate import interp1d
-
-from astropy.io import fits
-from astropy.table import Table
-from astropy.visualization import ZScaleInterval
-
 import numpy as np
-
-import logging
-
-from matplotlib import pyplot as plt
-
-import time
-
 
 import warnings
 
@@ -78,8 +64,10 @@ class GPrimeSingle:
             for dataset in [self.convolved_model, 
                             np.ma.array(self.bg_added_model, mask=self.mask_bgadded), 
                             np.ma.array(self.bgsub, mask=self.mask_bgsub)]:
-                isolist = gp.isophote_fitting(dataset, self.config)
-                self.isophote_lists.append(isolist)
+                with warnings.catch_warnings():     # Suppress warnings from astropy fitting
+                    warnings.simplefilter("ignore")
+                    isolist = gp.isophote_fitting(dataset, self.config)
+                    self.isophote_lists.append(isolist)
 
         except Exception as e:
             raise RuntimeError(f'{self.id} failed extraction: {e}')
