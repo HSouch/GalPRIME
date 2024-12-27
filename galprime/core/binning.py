@@ -144,5 +144,7 @@ def trim_table(table, config=None, mag_key="i", r50_key="R50", n_key="n", ellip_
     else:
         keys = [config["KEYS"][key] for key in config["KEYS"].keys()] + config["BINS"].keys()
 
+    keys = list(set((keys)))
+
     t_trimmed = table[keys]
     return t_trimmed
