@@ -4,7 +4,6 @@ from photutils.segmentation import detect_sources
 from astropy.stats import sigma_clipped_stats, SigmaClip, gaussian_fwhm_to_sigma
 from astropy.convolution import convolve, Tophat2DKernel, Gaussian2DKernel
 
-from.masking import gen_mask
 
 import numpy as np
 

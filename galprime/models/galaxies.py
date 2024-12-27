@@ -4,7 +4,6 @@ from astropy.modeling.models import Sersic2D
 import numpy as np
 
 from .. import utils
-from .. import cutouts
 
 from . import verifiers
 

@@ -1,7 +1,7 @@
 import numpy as np
 from astropy.convolution import convolve
 from astropy.stats import sigma_clipped_stats
-from photutils import background, segmentation
+from photutils import segmentation
 
 
 def gen_mask(data, config=None, omit=[], omit_central=True):

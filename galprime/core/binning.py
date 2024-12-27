@@ -4,7 +4,6 @@ This module contains all necessary methods for binning catalogues according to v
 
 """
 
-from astropy.table import Table
 import numpy as np
 
 from ..utils import object_kde

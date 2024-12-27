@@ -1,6 +1,6 @@
 import galprime as gp
 
-from . import config, cutouts, binning, masking
+from . import config, cutouts, binning
 from .. import utils
 
 from scipy.signal import convolve2d
@@ -8,17 +8,13 @@ from scipy.interpolate import interp1d
 
 from astropy.io import fits
 from astropy.table import Table
-from astropy.visualization import ZScaleInterval
 
 import numpy as np
 
-import logging
 
-from matplotlib import pyplot as plt
 
 import time
 
-import multiprocessing as mp
 
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
@@ -93,7 +89,7 @@ class GPrime:
                     data = future.result(timeout=TIMEOUT)
                     results.append(data)
                 except TimeoutError:
-                    self.logger.warn(f"Timeout reached")
+                    self.logger.warn("Timeout reached")
                 except Exception as e:
                     self.logger.warn(f"Error in container: {e}")
 
@@ -198,7 +194,7 @@ class ContainerList:
                 elif prof == "bgsub":
                     combined[i] = self.process_profile(container.bgsub_profile, rs)
                 combined[i] = self.process_profile(container.model_profile, rs)
-            except Exception as e:
+            except Exception:
                 combined[i] = np.nan((len(self.keys), len(rs)))
         combined = np.transpose(combined, (1, 0, 2))
         return combined
