@@ -60,13 +60,14 @@ def isophote_fitting(data, config):
         except Exception as e:
             raise PoorFitException(f"Bad fit! {type(e)} {e}")
     
+    # TODO I should remove these bare exception clauses with logger handling eventually.
     # First try to get an extraction by estimating the morphology
     try:
         geo = estimate_morphology(data)
         fitting_list = attempt_fit(geo)
         if fitting_list is not None and len(fitting_list) > 0:
             return {"ISOLIST": fitting_list, "FIT_METHOD": 0, "GEO": geo}
-    except Exception as e:
+    except Exception:
         pass
 
     # If that fails, try a range of possible ellipses
@@ -78,7 +79,7 @@ def isophote_fitting(data, config):
                     fitting_list = attempt_fit(geo)
                     if fitting_list is not None and len(fitting_list) > 0:
                         return {"ISOLIST": fitting_list, "FIT_METHOD": 1, "GEO": geo}
-                except Exception as e:
+                except Exception:
                     continue
 
     
@@ -217,7 +218,7 @@ class IsophoteFitter:
             
             isolist = self._fit_single(geometry)
             
-        except Exception as e:
+        except Exception:
             self.fail_count += 1
 
         # If that fails, try a brute force search
@@ -233,11 +234,11 @@ class IsophoteFitter:
                             if len(isolist) > 0:
                                 break
                             
-                        except RuntimeError as e:
+                        except RuntimeError:
                             return []
-                        except Exception as e:
+                        except Exception:
                             continue
 
-        except Exception as e:
+        except Exception:
             self.fail_count += 1
         
