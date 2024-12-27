@@ -49,3 +49,5 @@ dev-token
 paper/plots
 
 *.pdf
+# Ignore linting outputs
+*.ruff
