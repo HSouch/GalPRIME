@@ -1,4 +1,4 @@
-from .. import cutouts
+from ..core import cutouts
 
 from astropy.modeling import models
 
