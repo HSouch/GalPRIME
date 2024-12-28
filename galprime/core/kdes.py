@@ -1,6 +1,6 @@
 from ..utils import object_kde
 
-from . import galaxies
+from ..models import galaxies
 
 
 def setup_kde(model, config, table):
