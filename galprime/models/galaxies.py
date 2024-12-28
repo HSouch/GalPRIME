@@ -99,7 +99,9 @@ class ExponentialDiskModel(GalaxyModel):
             "MAG": 1,
             "REFF": 1,
             "ELLIP": 0.3,
+            "N": 1,
         }
+        self.verifier = verifiers.DefaultVerifier()
 
     def _generate(self, **params):
         params["N"] = 1
@@ -115,7 +117,9 @@ class EllipticalGalaxyModel(GalaxyModel):
             "MAG": 21,
             "REFF": 1,
             "ELLIP": 0.3,
+            "N": 4,
         }
+        self.verifier = verifiers.DefaultVerifier()
 
     def _generate(self, **params):
         mod, mod_params = gen_single_sersic(**params)
@@ -205,6 +209,23 @@ class BulgeDiskSersicModel(GalaxyModel):
 
 
 def gen_single_sersic(**kwargs):
+    """
+    Generate a single Sersic model.
+    Args:
+        **kwargs: Arbitrary keyword arguments representing model parameters.
+            - "MAG" (int): Magnitude of the galaxy, default is 22.
+            - "REFF" (int): Effective radius of the galaxy, default is 1.
+            - "N" (int): Sersic index, default is 1.
+            - "ELLIP" (float): Ellipticity of the galaxy, default is 0.3.
+            - "PA" (float): Position angle of the galaxy, default is a random value between 0 and pi.
+            - "SHAPE" (tuple): Shape of the output array, default is (101, 101).
+            - "x_0" (float): X-coordinate of the galaxy center, default is half of the shape's width.
+            - "y_0" (float): Y-coordinate of the galaxy center, default is half of the shape's height.
+            - "M0" (int): Zero-point magnitude, default is 27.
+
+    Returns:
+        tuple: A tuple containing the generated model array and a dictionary of parameters.
+    """
     shape = kwargs.get("SHAPE", (101, 101))
     if not isinstance(shape, tuple):
         shape = (shape, shape)
@@ -234,4 +255,7 @@ def gen_single_sersic(**kwargs):
     return z, params
 
 
-galaxy_models = {1: SingleSersicModel, 2: BulgeDiskSersicModel, 3: ExponentialDiskModel, 4: EllipticalGalaxyModel}
+galaxy_models = {1: SingleSersicModel, 
+                 2: BulgeDiskSersicModel, 
+                 3: ExponentialDiskModel, 
+                 4: EllipticalGalaxyModel}
