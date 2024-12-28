@@ -12,3 +12,23 @@ class TestSingleSersicModel(ModelTestBase):
 class TestBulgeDiskModel(ModelTestBase):
     name = "BulgeDiskModel"
     model = galaxies.BulgeDiskSersicModel
+
+
+class TestExponentialDiskModel(ModelTestBase):
+    name = "ExponentialDiskModel"
+    model = galaxies.ExponentialDiskModel
+
+    def test_sersic_index(self):
+        mod, mod_params = self.model()._generate()
+
+        assert mod_params["N"] == 1
+
+
+class TestEllipticalGalaxyModel(ModelTestBase):
+    name = "EllipticalGalaxyModel"
+    model = galaxies.EllipticalGalaxyModel
+
+    def test_sersic_index(self):
+        mod, mod_params = self.model()._generate()
+
+        assert mod_params["N"] == 4
