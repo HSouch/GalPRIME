@@ -73,16 +73,53 @@ class SingleSersicModel(GalaxyModel):
     
     
 class ExponentialDiskModel(GalaxyModel):
+    """
+    A model representing an exponential disk galaxy.
+    Attributes:
+        params (dict): A dictionary to store model parameters.
+        defaults (dict): A dictionary containing default values for model parameters.
+            - "MAG" (int): Default magnitude value.
+            - "REFF" (int): Default effective radius value.
+            - "ELLIP" (float): Default ellipticity value.
+    Methods:
+        __init__():
+            Initializes the ExponentialDiskModel with default parameters.
+        _generate(**params):
+            Generates a single Sersic model with the given parameters.
+            Updates the model parameters with the generated values.
+            Args:
+                **params: Arbitrary keyword arguments for model parameters.
+            Returns:
+                tuple: A tuple containing the generated model and the updated parameters.
+    """
+    
     def __init__(self):
         self.params = {}
         self.defaults = {
-            "MAG": 22,
+            "MAG": 1,
+            "REFF": 1,
+            "ELLIP": 0.3,
+        }
+
+    def _generate(self, **params):
+        params["N"] = 1
+        mod, mod_params = gen_single_sersic(**params)
+        self.params.update(mod_params)
+        return mod, params
+    
+
+class EllipticalGalaxyModel(GalaxyModel):
+    def __init__(self):
+        self.params = {}
+        self.defaults = {
+            "MAG": 21,
             "REFF": 1,
             "ELLIP": 0.3,
         }
 
     def _generate(self, **params):
         mod, mod_params = gen_single_sersic(**params)
+        params["N"] = 4
         self.params.update(mod_params)
         return mod, params
 
@@ -197,7 +234,4 @@ def gen_single_sersic(**kwargs):
     return z, params
 
 
-
-
-
-galaxy_models = {1: SingleSersicModel, 2: BulgeDiskSersicModel}
+galaxy_models = {1: SingleSersicModel, 2: BulgeDiskSersicModel, 3: ExponentialDiskModel, 4: EllipticalGalaxyModel}
