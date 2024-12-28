@@ -49,5 +49,7 @@ dev-token
 paper/plots
 
 *.pdf
-# Ignore linting outputs
+
+# Ignore linting and codecov outputs
 *.ruff
+*.coverage
