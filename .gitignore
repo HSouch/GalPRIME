@@ -53,3 +53,5 @@ paper/plots
 # Ignore linting and codecov outputs
 *.ruff
 *.coverage
+
+docs/_build/latex
