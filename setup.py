@@ -13,6 +13,7 @@ setup(
     install_requires=[
         "astropy>=5",
         "photutils>=1.10",
+        "matplotlib>=3.8",
         "numpy>=1.26",
         "scikit-image>=0.19",
         "configobj",
