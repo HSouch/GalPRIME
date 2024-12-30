@@ -15,29 +15,38 @@ automatically extract real profiles from a set of images (given an input catalog
 is to determine the efficiency of profile extraction by injecting mock images into either real or simulated 
 background images.
 
+GalPRIME operates by generating N-dimensional KDEs from a set of input parameters (typically a galaxy catalogue with 
+requisite data columns to construct a morphological model. These KDEs are often generated from binned data, which is
+fully customizable by the user. 
+
+For example, you can use GalPRIME to:
+
+#. Test profile extraction performance for typical galaxies by creating mass and redshift bins.
+#. Test background subtraction performance by running GalPRIME with bins of size, ellipticity, and Sersic index.
+#. Extract profiles of real galaxies from a set of images, and an input catalogue.
 
 .. toctree::
    :maxdepth: 1
 
-   installation
-   config
+   1_intro/installation
+   1_intro/config
 
 .. toctree::
    :maxdepth: 2
 
-   running
-   models
+   2_processing/running
+   2_processing/models
 
 
 .. toctree::
    :maxdepth: 2
 
-   postprocessing
+   2_processing/postprocessing
 
 .. toctree::
    :maxdepth: 1
 
-   papers
+   3_misc/papers
 
 
 * :ref:`genindex`
