@@ -5,13 +5,16 @@ Running GalPRIME
 Running from main binary script
 -------------------------------
 
-GalPRIME automatically comes with a binary script that can be used to run simulations with a given configuration file. 
+GalPRIME automatically comes with a binary script that can be used to run simulations with a given configuration file.
+Once the code is installed, the ``run_galprime`` script should be included in your path and can be called directly from
+anywhere in a terminal. 
 To execute the script, use the following command in your terminal:
 
 .. code-block:: bash
 
     run_galprime config.gprime
 
+You can see the available arguments included in the binary script by adding ``-h`` to the command.
 
 
 

@@ -196,7 +196,6 @@ class, which defines the default parameters and invokes a unique method called `
 Generating Synthetic Images
 ---------------------------
 
-
 .. toctree::
     :maxdepth: 1
 
