@@ -1,5 +1,5 @@
-Configuration
-=============
+Config
+======
 
 GalPRIME primarily runs using a config file, which handles all key steps of the automated extraction process.
 You can automatically generate 

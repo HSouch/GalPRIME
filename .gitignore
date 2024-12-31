@@ -45,7 +45,7 @@ dev-token
 # Ignore Jupyter Notebook checkpoints
 .ipynb_checkpoints/
 
-
+paper/
 paper/plots
 
 *.pdf

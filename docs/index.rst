@@ -38,7 +38,6 @@ For example, you can use GalPRIME to:
    2_processing/running
    2_processing/models
 
-
 .. toctree::
    :maxdepth: 2
 

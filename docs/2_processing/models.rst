@@ -1,13 +1,14 @@
-Models
-======
+Models and Generators
+=====================
 
-**GalPRIME** is primarily designed to work with Sersic models, of the form 
+**GalPRIME** is primarily designed to work with `Sersic models <https://en.wikipedia.org/wiki/S%C3%A9rsic_profile>`_, 
+of the form 
 
 .. math:: 
     I(r) = I_{R_e}\exp\left\{b_n\left[1 - \left(\frac{r}{R_e}\right)^{1/n}\right]\right\}
 
 Where **n** is the *Sersic index* and sets the overall profile shape. For most galaxies, the Sersic index will lie 
-between 0.5 and 5. Disk galaxies typically have incides of **n=1**, which returns the typical exponential profile.
+between 0.5 and 5. Disk galaxies typically have incides of **n=1**, which returns the usual exponential profile.
 Elliptical galaxies typically have indices around **n=4**, which gives higher light buildup in the center and in the 
 outskirts of the galaxy.
 
@@ -100,3 +101,15 @@ Exponential Disk and Elliptical Models
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 These are Sersic models with a fixed Sersic index. N=1 for exponential disks, and N=4 for elliptical models. Thus,
 these parameters are not needed when using these models.
+
+
+Building Your Own Model 
+-----------------------
+
+If the user wishes to build their own 
+
+
+.. toctree::
+    :maxdepth: 1
+
+    generators

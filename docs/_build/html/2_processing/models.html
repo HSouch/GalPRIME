@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Models &#8212; GalPRIME  documentation</title>
+    <title>Models and Generators &#8212; GalPRIME  documentation</title>
   
   
   
@@ -46,7 +46,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = '2_processing/models';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Postprocessing" href="postprocessing.html" />
+    <link rel="next" title="Synthetic Everything" href="generators.html" />
     <link rel="prev" title="Running GalPRIME" href="running.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -155,7 +155,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    Models
+    Models and Generators
   </a>
 </li>
 
@@ -279,7 +279,7 @@
 
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="#">
-    Models
+    Models and Generators
   </a>
 </li>
 
@@ -340,7 +340,10 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"></div>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="generators.html">Synthetic Everything</a></li>
+</ul>
+</div>
 </nav></div>
         <div class="sidebar-primary-item">
 <div id="ethical-ad-placement"
@@ -386,7 +389,7 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Models</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Models and Generators</span></li>
   </ul>
 </nav>
 </div>
@@ -403,13 +406,14 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="models">
-<h1>Models<a class="headerlink" href="#models" title="Link to this heading">#</a></h1>
-<p><strong>GalPRIME</strong> is primarily designed to work with Sersic models, of the form</p>
+  <section id="models-and-generators">
+<h1>Models and Generators<a class="headerlink" href="#models-and-generators" title="Link to this heading">#</a></h1>
+<p><strong>GalPRIME</strong> is primarily designed to work with <a class="reference external" href="https://en.wikipedia.org/wiki/S%C3%A9rsic_profile">Sersic models</a>,
+of the form</p>
 <div class="math notranslate nohighlight">
 \[I(r) = I_{R_e}\exp\left\{b_n\left[1 - \left(\frac{r}{R_e}\right)^{1/n}\right]\right\}\]</div>
 <p>Where <strong>n</strong> is the <em>Sersic index</em> and sets the overall profile shape. For most galaxies, the Sersic index will lie
-between 0.5 and 5. Disk galaxies typically have incides of <strong>n=1</strong>, which returns the typical exponential profile.
+between 0.5 and 5. Disk galaxies typically have incides of <strong>n=1</strong>, which returns the usual exponential profile.
 Elliptical galaxies typically have indices around <strong>n=4</strong>, which gives higher light buildup in the center and in the
 outskirts of the galaxy.</p>
 <p><strong>GalPRIME</strong> has a set of builtin models that will cover most typical usages of the code. However, a user can define
@@ -487,6 +491,15 @@ models with a shared position angle.</p>
 these parameters are not needed when using these models.</p>
 </section>
 </section>
+<section id="building-your-own-model">
+<h2>Building Your Own Model<a class="headerlink" href="#building-your-own-model" title="Link to this heading">#</a></h2>
+<p>If the user wishes to build their own</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="generators.html">Synthetic Everything</a></li>
+</ul>
+</div>
+</section>
 </section>
 
 
@@ -509,11 +522,11 @@ these parameters are not needed when using these models.</p>
       </div>
     </a>
     <a class="right-next"
-       href="postprocessing.html"
+       href="generators.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Postprocessing</p>
+        <p class="prev-next-title">Synthetic Everything</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -542,6 +555,7 @@ these parameters are not needed when using these models.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-disk-and-elliptical-models">Exponential Disk and Elliptical Models</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-your-own-model">Building Your Own Model</a></li>
 </ul>
   </nav></div>
 
