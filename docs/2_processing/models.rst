@@ -1,6 +1,10 @@
 Models and Generators
 =====================
 
+
+GalPRIME Models
+---------------
+
 **GalPRIME** is primarily designed to work with `Sersic models <https://en.wikipedia.org/wiki/S%C3%A9rsic_profile>`_, 
 of the form 
 
@@ -43,7 +47,7 @@ with a Single Sersic model, the user might have the following config section:
         ELLIP = ELL_GIM2D
 
 Built-In Models
----------------
+^^^^^^^^^^^^^^^
 
 To change which model ``GalPRIME`` uses, the user must modify the ``config["MODEL"]["MODEL_TYPE"] = index`` parameter in the
 configuration file. These are the current builtin models and their respective indices:
@@ -55,7 +59,7 @@ configuration file. These are the current builtin models and their respective in
 
 
 Single-Sersic Model
-^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""
 
 The main model used in ``GalPRIME``. It is a single instance of a Sersic model, requiring keys of magnitude, effecitve
 radius in pixels, arcseconds or kpc, Sersic index, and ellipticity, given by
@@ -72,7 +76,7 @@ where b and a are the semiminor and semimajor axies of a given isophotal ellipse
     make a version of the table with effective radii given in pixels.
 
 Bulge-Disk Model
-^^^^^^^^^^^^^^^^
+""""""""""""""""
 
 The bulge-disk model is a combination of two Sersic models. It requires a slighlty different set of inputs which are
 shown below.
@@ -98,7 +102,7 @@ models with a shared position angle.
 
 
 Exponential Disk and Elliptical Models
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""""
 These are Sersic models with a fixed Sersic index. N=1 for exponential disks, and N=4 for elliptical models. Thus,
 these parameters are not needed when using these models.
 
@@ -106,8 +110,91 @@ these parameters are not needed when using these models.
 Building Your Own Model 
 -----------------------
 
-If the user wishes to build their own 
+If the user wishes to build their own model, they are required to create a subclass of the 
+``galprime.models.galaxies.GalaxyModel`` class. The subclass then needs to modify the following details. For example,
+if we wanted to instantiate a Gaussian model, it could be done using the following setup:
 
+.. code-block:: python
+    
+    import galprime as gp
+
+    def gen_gaussian(**kwargs):
+
+        shape = kwargs.get("SHAPE", (101, 101))
+        if not isinstance(shape, tuple):
+            shape = (shape, shape)
+        x_0 = kwargs.get("x_0", shape[0] / 2)
+        y_0 = kwargs.get("y_0", shape[1] / 2)
+        
+        ellip = kwargs.get("ELLIP", 0.1)
+        x_stddev = kwargs.get("STDDEV", 5)
+        y_stddev = x_stddev * (1 - ellip)
+        pa = kwargs.get("PA", 0)
+
+        mod = Gaussian2D(amplitude=1, x_mean=kwargs.get("x_0", shape[0] / 2), y_mean=kwargs.get("y_0", shape[1] / 2),
+                            x_stddev=x_stddev, y_stddev=y_stddev, theta=pa)
+        ys, xs = np.mgrid[:shape[0], :shape[1]]
+        z = mod(xs, ys) 
+        
+        mag, m0 = kwargs.get("MAG", 22), kwargs.get("M0", 27)
+
+        z *= gp.Ltot(mag, m0=m0) / np.sum(z)
+
+        params = {
+            "MAG": mag, "M0": m0,
+            "STDDEV": mod.x_stddev.value,
+            "ELLIP": ellip, "PA":  mod.theta.value,
+            "X0": x_0,  "Y0": y_0,
+            "SHAPE": shape,
+        }
+        
+        return z, params
+    
+    class GaussianVerifier(gp.ParamVerifier):
+    
+        def __init__(self):
+            super().__init__()
+            self.conditions = [
+                self.mag_condition,
+                self.stddev_condition,
+                self.ellip_condition,
+            ]
+
+        def mag_condition(self, p):
+            return p["MAG"] > 0
+        
+        def stddev_condition(self, p):
+            return p["STDDEV"] > 0
+
+        def ellip_condition(self, p):
+            return 0 <= p["ELLIP"] <= 1
+
+    class GaussianModel(gp.GalaxyModel):
+
+        def __init__(self):       
+            self.params = {}
+            self.defaults = {
+                "MAG": 20.0,
+                "STDDEV": 5.0,
+                "ELLIP": 0.0,
+            }
+            self.verifier = GaussianVerifier()
+        
+        def _generate(self, **params):
+            mod, mod_params = gen_gaussian(**params)
+            self.params.update(mod_params)
+            return mod, mod_params
+
+Here there are three things to consider. The first is the method ``gen_gaussian`` which actually invokes the Astropy
+model and handles all keyword arguments. The second class is a ``verifier`` class which will check if the input
+parameters are valid for model generation. This is especially helpful for parameters generated from a KDE, which can 
+sometimes return unphysical parameter sets (ellipticity < 0, for example). The last class is the actual GaussianModel
+class, which defines the default parameters and invokes a unique method called ``_generate``.
+
+
+
+Generating Synthetic Images
+---------------------------
 
 .. toctree::
     :maxdepth: 1

@@ -141,7 +141,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../1_intro/config.html">
-    Configuration
+    Config
   </a>
 </li>
 
@@ -265,7 +265,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../1_intro/config.html">
-    Configuration
+    Config
   </a>
 </li>
 
@@ -408,6 +408,8 @@
                   
   <section id="models-and-generators">
 <h1>Models and Generators<a class="headerlink" href="#models-and-generators" title="Link to this heading">#</a></h1>
+<section id="galprime-models">
+<h2>GalPRIME Models<a class="headerlink" href="#galprime-models" title="Link to this heading">#</a></h2>
 <p><strong>GalPRIME</strong> is primarily designed to work with <a class="reference external" href="https://en.wikipedia.org/wiki/S%C3%A9rsic_profile">Sersic models</a>,
 of the form</p>
 <div class="math notranslate nohighlight">
@@ -441,7 +443,7 @@ with a Single Sersic model, the user might have the following config section:</p
 </pre></div>
 </div>
 <section id="built-in-models">
-<h2>Built-In Models<a class="headerlink" href="#built-in-models" title="Link to this heading">#</a></h2>
+<h3>Built-In Models<a class="headerlink" href="#built-in-models" title="Link to this heading">#</a></h3>
 <p>To change which model <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code> uses, the user must modify the <code class="docutils literal notranslate"><span class="pre">config[&quot;MODEL&quot;][&quot;MODEL_TYPE&quot;]</span> <span class="pre">=</span> <span class="pre">index</span></code> parameter in the
 configuration file. These are the current builtin models and their respective indices:</p>
 <ol class="arabic simple">
@@ -451,7 +453,7 @@ configuration file. These are the current builtin models and their respective in
 <li><p>EllipticalModel: 4</p></li>
 </ol>
 <section id="single-sersic-model">
-<h3>Single-Sersic Model<a class="headerlink" href="#single-sersic-model" title="Link to this heading">#</a></h3>
+<h4>Single-Sersic Model<a class="headerlink" href="#single-sersic-model" title="Link to this heading">#</a></h4>
 <p>The main model used in <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code>. It is a single instance of a Sersic model, requiring keys of magnitude, effecitve
 radius in pixels, arcseconds or kpc, Sersic index, and ellipticity, given by</p>
 <div class="math notranslate nohighlight">
@@ -465,7 +467,7 @@ make a version of the table with effective radii given in pixels.</p>
 </div>
 </section>
 <section id="bulge-disk-model">
-<h3>Bulge-Disk Model<a class="headerlink" href="#bulge-disk-model" title="Link to this heading">#</a></h3>
+<h4>Bulge-Disk Model<a class="headerlink" href="#bulge-disk-model" title="Link to this heading">#</a></h4>
 <p>The bulge-disk model is a combination of two Sersic models. It requires a slighlty different set of inputs which are
 shown below.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>KEYS<span class="o">]</span>
@@ -486,14 +488,95 @@ decomposition work found in <a class="reference external" href="https://iopscien
 models with a shared position angle.</p>
 </section>
 <section id="exponential-disk-and-elliptical-models">
-<h3>Exponential Disk and Elliptical Models<a class="headerlink" href="#exponential-disk-and-elliptical-models" title="Link to this heading">#</a></h3>
+<h4>Exponential Disk and Elliptical Models<a class="headerlink" href="#exponential-disk-and-elliptical-models" title="Link to this heading">#</a></h4>
 <p>These are Sersic models with a fixed Sersic index. N=1 for exponential disks, and N=4 for elliptical models. Thus,
 these parameters are not needed when using these models.</p>
 </section>
 </section>
+</section>
 <section id="building-your-own-model">
 <h2>Building Your Own Model<a class="headerlink" href="#building-your-own-model" title="Link to this heading">#</a></h2>
-<p>If the user wishes to build their own</p>
+<p>If the user wishes to build their own model, they are required to create a subclass of the
+<code class="docutils literal notranslate"><span class="pre">galprime.models.galaxies.GalaxyModel</span></code> class. The subclass then needs to modify the following details. For example,
+if we wanted to instantiate a Gaussian model, it could be done using the following setup:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">galprime</span> <span class="k">as</span> <span class="nn">gp</span>
+
+<span class="k">def</span> <span class="nf">gen_gaussian</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;SHAPE&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+    <span class="n">x_0</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x_0&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">y_0</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;y_0&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">ellip</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;ELLIP&quot;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">x_stddev</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;STDDEV&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">y_stddev</span> <span class="o">=</span> <span class="n">x_stddev</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">ellip</span><span class="p">)</span>
+    <span class="n">pa</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;PA&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">mod</span> <span class="o">=</span> <span class="n">Gaussian2D</span><span class="p">(</span><span class="n">amplitude</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_mean</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x_0&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="n">y_mean</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;y_0&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+                        <span class="n">x_stddev</span><span class="o">=</span><span class="n">x_stddev</span><span class="p">,</span> <span class="n">y_stddev</span><span class="o">=</span><span class="n">y_stddev</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">pa</span><span class="p">)</span>
+    <span class="n">ys</span><span class="p">,</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[:</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">mod</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+
+    <span class="n">mag</span><span class="p">,</span> <span class="n">m0</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MAG&quot;</span><span class="p">,</span> <span class="mi">22</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;M0&quot;</span><span class="p">,</span> <span class="mi">27</span><span class="p">)</span>
+
+    <span class="n">z</span> <span class="o">*=</span> <span class="n">gp</span><span class="o">.</span><span class="n">Ltot</span><span class="p">(</span><span class="n">mag</span><span class="p">,</span> <span class="n">m0</span><span class="o">=</span><span class="n">m0</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;MAG&quot;</span><span class="p">:</span> <span class="n">mag</span><span class="p">,</span> <span class="s2">&quot;M0&quot;</span><span class="p">:</span> <span class="n">m0</span><span class="p">,</span>
+        <span class="s2">&quot;STDDEV&quot;</span><span class="p">:</span> <span class="n">mod</span><span class="o">.</span><span class="n">x_stddev</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="s2">&quot;ELLIP&quot;</span><span class="p">:</span> <span class="n">ellip</span><span class="p">,</span> <span class="s2">&quot;PA&quot;</span><span class="p">:</span>  <span class="n">mod</span><span class="o">.</span><span class="n">theta</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+        <span class="s2">&quot;X0&quot;</span><span class="p">:</span> <span class="n">x_0</span><span class="p">,</span>  <span class="s2">&quot;Y0&quot;</span><span class="p">:</span> <span class="n">y_0</span><span class="p">,</span>
+        <span class="s2">&quot;SHAPE&quot;</span><span class="p">:</span> <span class="n">shape</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">z</span><span class="p">,</span> <span class="n">params</span>
+
+<span class="k">class</span> <span class="nc">GaussianVerifier</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">ParamVerifier</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mag_condition</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stddev_condition</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ellip_condition</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">mag_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;MAG&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">stddev_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;STDDEV&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">ellip_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">return</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">p</span><span class="p">[</span><span class="s2">&quot;ELLIP&quot;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+
+<span class="k">class</span> <span class="nc">GaussianModel</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">GalaxyModel</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defaults</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;MAG&quot;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+            <span class="s2">&quot;STDDEV&quot;</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span>
+            <span class="s2">&quot;ELLIP&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verifier</span> <span class="o">=</span> <span class="n">GaussianVerifier</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">):</span>
+        <span class="n">mod</span><span class="p">,</span> <span class="n">mod_params</span> <span class="o">=</span> <span class="n">gen_gaussian</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">mod_params</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mod</span><span class="p">,</span> <span class="n">mod_params</span>
+</pre></div>
+</div>
+<p>Here there are three things to consider. The first is the method <code class="docutils literal notranslate"><span class="pre">gen_gaussian</span></code> which actually invokes the Astropy
+model and handles all keyword arguments. The second class is a <code class="docutils literal notranslate"><span class="pre">verifier</span></code> class which will check if the input
+parameters are valid for model generation. This is especially helpful for parameters generated from a KDE, which can
+sometimes return unphysical parameter sets (ellipticity &lt; 0, for example). The last class is the actual GaussianModel
+class, which defines the default parameters and invokes a unique method called <code class="docutils literal notranslate"><span class="pre">_generate</span></code>.</p>
+</section>
+<section id="generating-synthetic-images">
+<h2>Generating Synthetic Images<a class="headerlink" href="#generating-synthetic-images" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="generators.html">Synthetic Everything</a></li>
@@ -549,13 +632,17 @@ these parameters are not needed when using these models.</p>
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-models">Built-In Models</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-sersic-model">Single-Sersic Model</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bulge-disk-model">Bulge-Disk Model</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-disk-and-elliptical-models">Exponential Disk and Elliptical Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#galprime-models">GalPRIME Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-models">Built-In Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#single-sersic-model">Single-Sersic Model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#bulge-disk-model">Bulge-Disk Model</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-disk-and-elliptical-models">Exponential Disk and Elliptical Models</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-your-own-model">Building Your Own Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-synthetic-images">Generating Synthetic Images</a></li>
 </ul>
   </nav></div>
 
