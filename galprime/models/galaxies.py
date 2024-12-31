@@ -110,7 +110,7 @@ class ExponentialDiskModel(GalaxyModel):
         return mod, params
     
 
-class EllipticalGalaxyModel(GalaxyModel):
+class EllipticalModel(GalaxyModel):
     def __init__(self):
         self.params = {}
         self.defaults = {
@@ -258,4 +258,4 @@ def gen_single_sersic(**kwargs):
 galaxy_models = {1: SingleSersicModel, 
                  2: BulgeDiskSersicModel, 
                  3: ExponentialDiskModel, 
-                 4: EllipticalGalaxyModel}
+                 4: EllipticalModel}

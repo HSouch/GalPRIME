@@ -45,7 +45,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = '1_intro/config';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Running GalPRIME" href="../running.html" />
+    <link rel="next" title="Running GalPRIME" href="../2_processing/running.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -146,21 +146,21 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../running.html">
+  <a class="nav-link nav-internal" href="../2_processing/running.html">
     Running GalPRIME
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../models.html">
+  <a class="nav-link nav-internal" href="../2_processing/models.html">
     Models
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../postprocessing.html">
+  <a class="nav-link nav-internal" href="../2_processing/postprocessing.html">
     Postprocessing
   </a>
 </li>
@@ -174,7 +174,7 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../papers.html">
+  <a class="nav-link dropdown-item nav-internal" href="../3_misc/papers.html">
     Publications
   </a>
 </li>
@@ -270,28 +270,28 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../running.html">
+  <a class="nav-link nav-internal" href="../2_processing/running.html">
     Running GalPRIME
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../models.html">
+  <a class="nav-link nav-internal" href="../2_processing/models.html">
     Models
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../postprocessing.html">
+  <a class="nav-link nav-internal" href="../2_processing/postprocessing.html">
     Postprocessing
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../papers.html">
+  <a class="nav-link nav-internal" href="../3_misc/papers.html">
     Publications
   </a>
 </li>
@@ -415,6 +415,54 @@ You can automatically generate</p>
 <p>If parameters are missing, they are automatically handled by the CONFIGSPEC. The full config is dumped into the
 output directory as a pickled object under <strong>additional_data/</strong></p>
 </div>
+<section id="config-parameters">
+<h2>Config Parameters<a class="headerlink" href="#config-parameters" title="Link to this heading">#</a></h2>
+<p>In the following subsection we describe some of the paramters you will find in the default config.
+Please note that the format in the actual ConfigObj is a nested dict, so FILES.CATALOGUE in the
+configobj <em>config</em> is actually <code class="docutils literal notranslate"><span class="pre">config[&quot;FILES&quot;][&quot;CATALOGUE&quot;]</span></code>.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FILES.CATALOGUE</span></code>: The FITS catalogue containing necessary structural parameters for binning / modeling.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FILES.PSFS</span></code>: Filename of a FITS datacube containing PSFS for convolving input models.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FILES.BACKGROUNDS</span></code>: Filename of a FITS datacube containing the input backgrounds to add models to.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FILES.MAG_CATALOGUE</span></code>: Filename for a separate catalogue containing a set of magnitudes. Can be None.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DIRS.OUTDIR</span></code>: The output directory that everything is saved to (default is <code class="docutils literal notranslate"><span class="pre">gprime_out/</span></code>).</p></li>
+</ul>
+<section id="keys">
+<h3>KEYS<a class="headerlink" href="#keys" title="Link to this heading">#</a></h3>
+<p>The keys section contains all the necessary keys for model gen. <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code> cuts the input catalogue
+down to just these keys (as well as the columns used in binning) while running to save on memory. The
+format for this section is <code class="docutils literal notranslate"><span class="pre">[&quot;KEYS&quot;][&quot;KEY&quot;]</span> <span class="pre">=</span> <span class="pre">&quot;colname&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">KEY</span></code> is the structural parameter
+needed by GalPRIME, and <code class="docutils literal notranslate"><span class="pre">colname</span></code> is the corresponding column in the input catalogue. For example,
+the Sersic index might be passed into <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code> by including:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;KEYS&quot;</span><span class="p">][</span><span class="s2">&quot;N&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SERSIC_N_GIM2D&quot;</span>
+</pre></div>
+</div>
+<p>Where in this case, Sersic indices were measured using GIM2D.</p>
+</section>
+<section id="bins">
+<h3>BINS<a class="headerlink" href="#bins" title="Link to this heading">#</a></h3>
+<p>The bins section is where the user specifies how to bin the input catalogue. The format is as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;BINS&quot;</span><span class="p">][</span><span class="s2">&quot;COLNAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Where <code class="docutils literal notranslate"><span class="pre">COLNAME</span></code> is the column in the input catalogue to bin by, and the array contains a list of
+bin edges set by the user. For example, to bin by log stellar mass (<code class="docutils literal notranslate"><span class="pre">MASS_MED</span></code>) in steps of 0.5
+from 10 to 11.5, and then by redshift (<code class="docutils literal notranslate"><span class="pre">Z_BEST</span></code>) in steps of 0.2 from 0.1 to 0.9,
+the user would include the following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;BINS&quot;</span><span class="p">][</span><span class="s2">&quot;MASS_MED&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mf">11.5</span><span class="p">]</span>
+<span class="n">config</span><span class="p">[</span><span class="s2">&quot;BINS&quot;</span><span class="p">][</span><span class="s2">&quot;Z_BEST&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>which will create 3x4=12 bins of mass and redshift.</p>
+</section>
+<section id="model">
+<h3>MODEL<a class="headerlink" href="#model" title="Link to this heading">#</a></h3>
+<p>The MODEL section is where the user sets the size of the model, the number of models to generate per
+bin, as well as the type of model being generated. Other important structural parameters, including
+the zero-point magnitude and the pixel scale (arcseconds per pixel) are specified here.
+For more information on the models available in <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code>, please see <a class="reference internal" href="../2_processing/models.html"><span class="doc">Models</span></a>.</p>
+</section>
+</section>
 </section>
 
 
@@ -437,7 +485,7 @@ output directory as a pickled object under <strong>additional_data/</strong></p>
       </div>
     </a>
     <a class="right-next"
-       href="../running.html"
+       href="../2_processing/running.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
@@ -455,6 +503,23 @@ output directory as a pickled object under <strong>additional_data/</strong></p>
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#config-parameters">Config Parameters</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keys">KEYS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bins">BINS</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">MODEL</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">

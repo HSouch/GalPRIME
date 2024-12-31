@@ -1,0 +1,3 @@
+Plotting Routines (``galprime.plotting``)
+=========================================
+

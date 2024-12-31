@@ -36,6 +36,7 @@ def default_config():
     config["BINS"]["sfProb"] = [0, 0.5, 1.]
 
     config["MODEL"] = {}
+    config["MODEL"]["MODEL_TYPE"] = 1
     config["MODEL"]["N_MODELS"] = 50
     config["MODEL"]["SIZE"] = 451
     config["MODEL"]["ARCCONV"] = 0.168

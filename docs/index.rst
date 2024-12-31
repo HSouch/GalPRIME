@@ -24,12 +24,13 @@ For example, you can use GalPRIME to:
 #. Test profile extraction performance for typical galaxies by creating mass and redshift bins.
 #. Test background subtraction performance by running GalPRIME with bins of size, ellipticity, and Sersic index.
 #. Extract profiles of real galaxies from a set of images, and an input catalogue.
+#. Test profile extraction performance for disk (n ~ 1) vs elliptical (n ~ 4) galaxies.
 
 .. toctree::
    :maxdepth: 1
 
    1_intro/installation
-   1_intro/config
+   1_intro/config 
 
 .. toctree::
    :maxdepth: 2

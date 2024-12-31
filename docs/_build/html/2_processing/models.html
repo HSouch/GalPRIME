@@ -42,6 +42,7 @@
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '2_processing/models';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -165,6 +166,23 @@
   </a>
 </li>
 
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../3_misc/papers.html">
+    Publications
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
   </ul>
 </nav></div>
       
@@ -269,6 +287,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="postprocessing.html">
     Postprocessing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../3_misc/papers.html">
+    Publications
   </a>
 </li>
 
@@ -380,6 +405,88 @@
                   
   <section id="models">
 <h1>Models<a class="headerlink" href="#models" title="Link to this heading">#</a></h1>
+<p><strong>GalPRIME</strong> is primarily designed to work with Sersic models, of the form</p>
+<div class="math notranslate nohighlight">
+\[I(r) = I_{R_e}\exp\left\{b_n\left[1 - \left(\frac{r}{R_e}\right)^{1/n}\right]\right\}\]</div>
+<p>Where <strong>n</strong> is the <em>Sersic index</em> and sets the overall profile shape. For most galaxies, the Sersic index will lie
+between 0.5 and 5. Disk galaxies typically have incides of <strong>n=1</strong>, which returns the typical exponential profile.
+Elliptical galaxies typically have indices around <strong>n=4</strong>, which gives higher light buildup in the center and in the
+outskirts of the galaxy.</p>
+<p><strong>GalPRIME</strong> has a set of builtin models that will cover most typical usages of the code. However, a user can define
+their own model, but it will require some additional work to modify the simulation pipeline.</p>
+<p><strong>GalPRIME</strong> models (<code class="docutils literal notranslate"><span class="pre">galprime.models.galaxies.GalaxyModel</span></code>) are essentially wrappers for 2D
+<a class="reference external" href="https://docs.astropy.org/en/stable/modeling/predef_models2D.html">Astropy</a> models.
+These models are designed to be automatically generated using KDEs and therefore require a few additional bells and
+whistles.</p>
+<p>Each model has a directory of <strong>defaults</strong> set by the user. If the user does not modify any paramters for the model,
+each model creation will use the default parameters instead. You can see what defaults exist by:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">galprime</span> <span class="k">as</span> <span class="nn">gp</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">SingleSersicModel</span><span class="p">()</span>
+<span class="n">mod</span><span class="o">.</span><span class="n">defaults</span>
+</pre></div>
+</div>
+<p>Furthermore, in order for a given <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code> sim to work, the input catalogue is required to have all of the
+parameters specified under the defaults. Setting up a config file properly involves checking what parameters are
+requested by the model, and customizing the <code class="docutils literal notranslate"><span class="pre">config[&quot;KEYS&quot;]</span></code> section of the config file accordingly. For example,
+with a Single Sersic model, the user might have the following config section:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>KEYS<span class="o">]</span>
+<span class="w">    </span><span class="nv">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>i
+<span class="w">    </span><span class="nv">REFF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>R_GIM2D
+<span class="w">    </span><span class="nv">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SERSIC_N_GIM2D
+<span class="w">    </span><span class="nv">ELLIP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ELL_GIM2D
+</pre></div>
+</div>
+<section id="built-in-models">
+<h2>Built-In Models<a class="headerlink" href="#built-in-models" title="Link to this heading">#</a></h2>
+<p>To change which model <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code> uses, the user must modify the <code class="docutils literal notranslate"><span class="pre">config[&quot;MODEL&quot;][&quot;MODEL_TYPE&quot;]</span> <span class="pre">=</span> <span class="pre">index</span></code> parameter in the
+configuration file. These are the current builtin models and their respective indices:</p>
+<ol class="arabic simple">
+<li><p>SingleSersicModel: 1</p></li>
+<li><p>BulgeDiskSersicModel: 2</p></li>
+<li><p>ExponentialDiskModel: 3</p></li>
+<li><p>EllipticalModel: 4</p></li>
+</ol>
+<section id="single-sersic-model">
+<h3>Single-Sersic Model<a class="headerlink" href="#single-sersic-model" title="Link to this heading">#</a></h3>
+<p>The main model used in <code class="docutils literal notranslate"><span class="pre">GalPRIME</span></code>. It is a single instance of a Sersic model, requiring keys of magnitude, effecitve
+radius in pixels, arcseconds or kpc, Sersic index, and ellipticity, given by</p>
+<div class="math notranslate nohighlight">
+\[\epsilon = 1 - \frac{b}{a}\]</div>
+<p>where b and a are the semiminor and semimajor axies of a given isophotal ellipse.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the effective radius unit is given as kpc by specifying <code class="docutils literal notranslate"><span class="pre">config[&quot;MODEL&quot;][&quot;REFF_UNIT&quot;]</span> <span class="pre">=</span> <span class="pre">&quot;kpc&quot;</span></code>, note that a
+redshift must always be specified to convert the effective radius into units of pixels. It is preferable to
+make a version of the table with effective radii given in pixels.</p>
+</div>
+</section>
+<section id="bulge-disk-model">
+<h3>Bulge-Disk Model<a class="headerlink" href="#bulge-disk-model" title="Link to this heading">#</a></h3>
+<p>The bulge-disk model is a combination of two Sersic models. It requires a slighlty different set of inputs which are
+shown below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>KEYS<span class="o">]</span>
+<span class="w">    </span><span class="nv">MAG</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>gg2d
+<span class="w">    </span><span class="nv">FBULGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>__B_T_g
+<span class="w">    </span><span class="nv">REFF_BULGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Rd
+<span class="w">    </span><span class="nv">N_BULGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>nb
+<span class="w">    </span><span class="nv">REFF_DISK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Re
+<span class="w">    </span><span class="nv">ELLIP_DISK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ellip_d
+<span class="w">    </span><span class="nv">ELLIP_BULGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>ellip_b
+</pre></div>
+</div>
+<p>These include the TOTAL magnitude and the bulge fraction (i.e. how much of the light belongs to to the bulge between 0
+and 1). All other paramters should be explanatory.
+This setup is designed to work with catalogues such as the bulge-disk
+decomposition work found in <a class="reference external" href="https://iopscience.iop.org/article/10.1088/0067-0049/196/1/11/pdf">Simard+2011</a>.
+<strong>GalPRIME</strong> automatically determines the magnitudes of each component, and will add together two separate Sersic
+models with a shared position angle.</p>
+</section>
+<section id="exponential-disk-and-elliptical-models">
+<h3>Exponential Disk and Elliptical Models<a class="headerlink" href="#exponential-disk-and-elliptical-models" title="Link to this heading">#</a></h3>
+<p>These are Sersic models with a fixed Sersic index. N=1 for exponential disks, and N=4 for elliptical models. Thus,
+these parameters are not needed when using these models.</p>
+</section>
+</section>
 </section>
 
 
@@ -420,6 +527,23 @@
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-models">Built-In Models</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-sersic-model">Single-Sersic Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bulge-disk-model">Bulge-Disk Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exponential-disk-and-elliptical-models">Exponential Disk and Elliptical Models</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
