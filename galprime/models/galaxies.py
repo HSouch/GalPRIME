@@ -1,5 +1,5 @@
 
-from astropy.modeling.models import Sersic2D
+from astropy.modeling.models import Sersic2D, Gaussian2D
 
 import numpy as np
 
@@ -22,6 +22,9 @@ class GalaxyModel:
         for key in self.defaults:
             if key not in params:
                 params[key] = self.defaults[key]
+        
+        if not self.verifier.verify(params):
+            raise ValueError("Invalid parameters")
 
         return(self._generate(**params))
     
@@ -248,6 +251,55 @@ def gen_single_sersic(**kwargs):
         "MAG": mag, "M0": m0,
         "REFF": mod.r_eff.value, "N": mod.n.value,
         "ELLIP": mod.ellip.value, "PA":  mod.theta.value,
+        "X0": x_0,  "Y0": y_0,
+        "SHAPE": shape,
+    }
+    
+    return z, params
+
+
+def gen_gaussian(**kwargs):
+    """
+    Generate a single 2D Gaussian model.
+    Args:
+        **kwargs: Arbitrary keyword arguments representing model parameters.
+            - "MAG" (int): Magnitude of the galaxy, default is 22.
+            - "STDDEV" (int): Effective radius of the galaxy, default is 1.
+            - "ELLIP" (float): Ellipticity of the galaxy, default is 0.3.
+            - "PA" (float): Position angle of the galaxy, default is a random value between 0 and pi.
+            - "SHAPE" (tuple): Shape of the output array, default is (101, 101).
+            - "X_0" (float): X-coordinate of the galaxy center, default is half of the shape's width.
+            - "Y_0" (float): Y-coordinate of the galaxy center, default is half of the shape's height.
+            - "M0" (int): Zero-point magnitude, default is 27.
+
+    Returns:
+        tuple: A tuple containing the generated model array and a dictionary of parameters.
+    """
+    shape = kwargs.get("SHAPE", (101, 101))
+    if not isinstance(shape, tuple):
+        shape = (shape, shape)
+    x_0 = kwargs.get("x_0", shape[0] / 2)
+    y_0 = kwargs.get("y_0", shape[1] / 2)
+    
+    ellip = kwargs.get("ELLIP", 0.1)
+    x_stddev = kwargs.get("STDDEV", 5)
+    y_stddev = x_stddev * (1 - ellip)
+    pa = kwargs.get("PA", 0)
+
+    mod = Gaussian2D(amplitude=1, x_mean=x_0, y_mean=y_0, 
+                     x_stddev=x_stddev, y_stddev=y_stddev, 
+                     theta=pa)
+    ys, xs = np.mgrid[:shape[0], :shape[1]]
+    z = mod(xs, ys) 
+    
+    mag, m0 = kwargs.get("MAG", 22), kwargs.get("M0", 27)
+
+    z *= utils.Ltot(mag, m0=m0) / np.sum(z)
+
+    params = {
+        "MAG": mag, "M0": m0,
+        "REFF": mod.x_stddev.value,
+        "ELLIP": ellip, "PA":  mod.theta.value,
         "X0": x_0,  "Y0": y_0,
         "SHAPE": shape,
     }
