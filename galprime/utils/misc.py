@@ -15,7 +15,7 @@ def object_kde(columns):
     return gaussian_kde(columns)
 
 
-def gen_filestructure(outdir):
+def gen_filestructure(outdir, generate=True):
     os.makedirs(outdir, exist_ok=True)
 
     file_dict = {"MODEL_PROFS": f"{outdir}model_profiles/",
@@ -25,10 +25,9 @@ def gen_filestructure(outdir):
                  "ADDL_DATA": f"{outdir}additional_data/",
                  "PLOTS": f"{outdir}plots/",
                  "TEMP": f"{outdir}tempfiles/"}
-    
-    for key, value in file_dict.items():
-        os.makedirs(value, exist_ok=True)
-
+    if generate:
+        for key, value in file_dict.items():
+            os.makedirs(value, exist_ok=True)
     return file_dict
     
 
