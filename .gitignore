@@ -39,7 +39,8 @@ notebooks/temp
 notebooks/*.gprime
 notebooks/gprime_out
 notebooks/gprime_out_diskbulge
-
+notebooks/gprime_sims
+notebooks/gprime_primary
 dev-token
 
 # Ignore Jupyter Notebook checkpoints
