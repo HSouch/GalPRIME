@@ -1,0 +1,31 @@
+[project]
+name = "galprime"
+authors = [
+    {name = "Harrison Souchereau", email = "harrison.souchereau@yale.edu"},
+]
+description = "Automated radial light profile fitting."
+readme = "README.rst"
+requires-python = ">=3.9"
+dependencies = [
+    "astropy>=5",
+    "photutils>=1.10",
+    "matplotlib>=3.8",
+    "numpy>=1.26",
+    "scikit-image>=0.19",
+    "configobj",
+    "pebble",
+    "tqdm",
+]
+dynamic = ["version"]
+
+[tool.poetry.scripts]
+run_galprime = "bin.run_galprime"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Documentation = "https://https://galprime.readthedocs.io/en/latest/"
+Repository = "https://github.com/HSouch/GalPRIME"
+
