@@ -16,7 +16,12 @@ To execute the script, use the following command in your terminal:
 
 You can see the available arguments included in the binary script by adding ``-h`` to the command.
 
+Number of objects and multiple sims
+"""""""""""""""""""""""""""""""""""
 
+It is recommended to have a maximum of ~500 objects per bin for a given GalPRIME simulation. For users who wish to have
+more, they should run multiple individual runs and them combine the outputs together 
+(See  :doc:`../2_processing/postprocessing` for info on combining sim outputs).
 
 Extraction of Real Galaxy Light Profiles 
 ----------------------------------------

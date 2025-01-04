@@ -46,7 +46,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Medians and Bootstrapping" href="medians.html" />
-    <link rel="prev" title="Models" href="models.html" />
+    <link rel="prev" title="Synthetic Everything" href="generators.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -140,7 +140,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../1_intro/config.html">
-    Configuration
+    Config
   </a>
 </li>
 
@@ -154,7 +154,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="models.html">
-    Models
+    Models and Generators
   </a>
 </li>
 
@@ -264,7 +264,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../1_intro/config.html">
-    Configuration
+    Config
   </a>
 </li>
 
@@ -278,7 +278,7 @@
 
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="models.html">
-    Models
+    Models and Generators
   </a>
 </li>
 
@@ -416,6 +416,24 @@ the Github for other uses of the code.</p>
 <li class="toctree-l1"><a class="reference internal" href="plotting.html">Plotting Routines (<code class="docutils literal notranslate"><span class="pre">galprime.plotting</span></code>)</a></li>
 </ul>
 </div>
+<section id="combining-outputs">
+<h2>Combining Outputs<a class="headerlink" href="#combining-outputs" title="Link to this heading">#</a></h2>
+<p>Sometimes it helps to run multiple instances of <code class="docutils literal notranslate"><span class="pre">run_galprime</span></code> with a smaller number of objects per bin. In this case,
+the outputs need to be combined together for plotting and analysis. To do this, you can use the GalPRIME function
+<code class="docutils literal notranslate"><span class="pre">combine_outputs</span></code>. Below is an example of combining together two seperate outputs with their respective run IDs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">galprime</span> <span class="k">as</span> <span class="nn">gp</span>
+
+<span class="n">output_1</span> <span class="o">=</span> <span class="s2">&quot;test/gprime_1/&quot;</span>
+<span class="n">output_2</span> <span class="o">=</span> <span class="s2">&quot;test/gprime_2/&quot;</span>
+
+<span class="n">run_id_1</span><span class="p">,</span> <span class="n">run_id_2</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+
+<span class="n">gp</span><span class="o">.</span><span class="n">combine_outputs</span><span class="p">(</span><span class="n">output_1</span><span class="p">,</span> <span class="n">output_2</span><span class="p">,</span> <span class="n">run_id_1</span><span class="p">,</span> <span class="n">run_id_2</span><span class="p">,</span> <span class="s2">&quot;output_combined/&quot;</span>
+</pre></div>
+</div>
+<p>This will generate unified sets of profiles (in FITS file format) as well as new sets of medians based on the combined
+data.</p>
+</section>
 </section>
 
 
@@ -429,12 +447,12 @@ the Github for other uses of the code.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="models.html"
+       href="generators.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Models</p>
+        <p class="prev-next-title">Synthetic Everything</p>
       </div>
     </a>
     <a class="right-next"
@@ -456,6 +474,18 @@ the Github for other uses of the code.</p>
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#combining-outputs">Combining Outputs</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
