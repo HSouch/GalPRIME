@@ -2,16 +2,25 @@ import numpy as np
 from scipy.interpolate import interp1d
 
 
-def highest_sma(profile_list):
-    return np.min([max(profile.sma) for profile in profile_list])
+def highest_sma(profile_list, dtype="isolist"):
+    if dtype == "isolist":
+        return np.min([max(profile.sma) for profile in profile_list])
+    elif dtype == "table":
+        return np.min([max(profile["sma"]) for profile in profile_list])
 
 
-def profiles_norm_sma(profile_list):
-    sma_max = highest_sma(profile_list)
+def profiles_norm_sma(profile_list, dtype="isolist"):
+    sma_max = highest_sma(profile_list, dtype=dtype)
     sma_interp = np.arange(1, sma_max, 2)
-    profile_interps = [interp1d(profile.sma, profile.intens, kind="linear", 
-                                fill_value=0, bounds_error=False,
-                                ) for profile in profile_list]
+
+    if dtype == "isolist":
+        profile_interps = [interp1d(profile.sma, profile.intens, kind="linear", 
+                                    fill_value=0, bounds_error=False,
+                                    ) for profile in profile_list]
+    elif dtype == "table":
+        profile_interps = [interp1d(profile["sma"], profile["intens"], kind="linear", 
+                                    fill_value=0, bounds_error=False,
+                                    ) for profile in profile_list]
     profiles_stacked = np.vstack([interp(sma_interp) for interp in profile_interps])
     return sma_interp, profiles_stacked
 
@@ -25,8 +34,8 @@ def gen_median(profile_list):
     return _median(profile_stack)
 
 
-def bootstrap_median(profile_list, n_bootstraps=10000):
-    smas, profile_stack = profiles_norm_sma(profile_list)
+def bootstrap_median(profile_list, n_bootstraps=10000, dtype="isolist"):
+    smas, profile_stack = profiles_norm_sma(profile_list, dtype=dtype)
 
     # plt.imshow(profile_stack, aspect="auto", vmin=-0.005, vmax=0.005)
 
