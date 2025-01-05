@@ -4,7 +4,7 @@ from astropy.table import Table
 from astropy.io import fits
 
 from tqdm import tqdm
-import os
+import os, shutil
 
 
 good_colnames = ['sma', 'intens', 'intens_err', 'ellipticity', 'ellipticity_err', 'pa', 'pa_err',
@@ -100,7 +100,8 @@ def handle_output(results, outdirs, config, bin_id="0"):
     coadd_table = gen_median_table(*gp.bootstrap_median(coadd_profiles))
     bgsub_table = gen_median_table(*gp.bootstrap_median(bare_profiles))
 
-    gen_median_hdul(bare_table, coadd_table, bgsub_table, f'{outdirs["MEDIANS"]}{config["RUN_ID"]}_{bin_id}.fits')
+    gen_median_hdul(bare_table, coadd_table, bgsub_table, 
+                    f'{outdirs["MEDIANS"]}{config["RUN_ID"]}_{bin_id}.fits')
 
 
 def hdul_to_table(hdul):
@@ -153,7 +154,7 @@ def combine_profile_sets(loc_1, loc_2, run_id_1, run_id_2, outdir):
 
                 hdul_out_new.extend(data_1)
                 hdul_out_new.extend(data_2)
-                hdul_out_new.writeto(f"{outdir}/{f}", overwrite=True)
+                hdul_out_new.writeto(f"{outdir}/{run_id_1}{f}", overwrite=True)
 
                 profiles = [hdul_to_table(hdul) for hdul in data_1]
                 profiles.extend([hdul_to_table(hdul) for hdul in data_2])
@@ -165,7 +166,7 @@ def combine_profile_sets(loc_1, loc_2, run_id_1, run_id_2, outdir):
     return medians
 
 
-def combine_outputs(filedir_1, filedir_2, run_id_1, run_id_2, outdir):
+def combine_outputs(filedir_1, filedir_2, run_id_1, run_id_2, outdir, suffix=""):
     """
     Combine output profiles from two different runs and generate median tables and HDUs.
     Parameters
@@ -187,9 +188,15 @@ def combine_outputs(filedir_1, filedir_2, run_id_1, run_id_2, outdir):
 
     output_files = gp.gen_filestructure(outdir)
 
+    
+
     files_1 = gp.gen_filestructure(filedir_1, generate=False)
     files_2 = gp.gen_filestructure(filedir_2, generate=False)
     
+    for fset in [files_1, files_2]:
+        for f in os.listdir(fset["ADDL_DATA"]):
+            shutil.copy(f"{fset['ADDL_DATA']}{f}", f"{output_files['ADDL_DATA']}{f}")
+
     to_combine = ["MODEL_PROFS", "COADD_PROFS", "BGSUB_PROFS"]
     median_sets = []
     for key in to_combine:
