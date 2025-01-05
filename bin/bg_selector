@@ -1,0 +1,203 @@
+#!/usr/bin/env python
+import sys
+import numpy as np
+import galprime as gp
+
+import argparse
+from astropy.io import fits 
+from astropy.nddata import Cutout2D
+from astropy.stats import sigma_clipped_stats
+from astropy.table import Table 
+from astropy.wcs import WCS
+
+from matplotlib import pyplot as plt
+
+
+from matplotlib.widgets import Button, Slider
+
+import warnings
+warnings.filterwarnings("ignore")
+
+
+parser = argparse.ArgumentParser(description="Run GalPRIME simulation")
+parser.add_argument("img_filename", type=str, help="Path to image file")
+parser.add_argument("--output_filename", type=str, default="backgrounds.fits", help="Output to save backgrounds to.")
+parser.add_argument("-i", type=int, default=1, help="Index of input image to pull data from.")
+parser.add_argument("--size", type=int, default=251, help="Size of cutout")
+parser.add_argument("--nbgs", type=int, default=50, help="Run ID")
+parser.add_argument("--cmap", type=str, default='Greys_r', help="Colormap to use for plotting")
+parser.add_argument("--tc", type=str, default="black", help="Text color")
+parser.add_argument("--overwrite", action='store_true', help="Overwrite output file")
+
+args = parser.parse_args()
+
+
+def get_random_bg(image, image_wcs):
+    x = np.random.randint(0, image.shape[0] - args.size // 2)
+    y = np.random.randint(0, image.shape[1] - args.size // 2)
+
+    return Cutout2D(image, (x, y), args.size, wcs=image_wcs)
+
+
+
+def add_bg_info(bg, axis):
+    xmin, xmax = axis.get_xlim()
+    ymin, ymax = axis.get_ylim()
+    dx, dy = xmax - xmin, ymax - ymin
+
+    bg_mean, bg_median, bg_std = sigma_clipped_stats(bg.data)
+
+    out_text = ""
+    out_text += f"Mean: {bg_mean:.3e}\n"
+    out_text += f"Median: {bg_median:.3e}\n"
+    out_text += f"STD: {bg_std:.3e}"
+
+    props = dict(boxstyle='round', facecolor='white', alpha=0.5)
+    axis.text(xmin + 0.02 * dx, ymax - 0.02 * dy, out_text, color=args.tc, ha='left', va='top', bbox=props)
+
+    return [bg_mean, bg_median, bg_std]
+
+
+def bbox_xy(bbox):
+    xmin, xmax = bbox[1]
+    ymin, ymax = bbox[0]
+
+    return [xmin, xmax, xmax, xmin, xmin], [ymin, ymin, ymax, ymax, ymin]
+
+
+
+def gen_interactive_widget(image, bgs):
+    fig = plt.figure(figsize=(12, 6))
+    
+    pad = 0.01
+    width = 0.9 / 3 - 2 * pad
+    height = width * 2
+
+    hist_ax = fig.add_axes([0.05, 0.95 - height, width, height])
+    bgs_ax = fig.add_axes([0.05 + width + pad + 0.05 , 0.95 - height, width, height])
+    img_ax = fig.add_axes([0.05 + 2 * (width + pad) + 0.05, 0.95 - height, width, height])
+    info_ax = fig.add_axes([0.05 + 2 * (width + pad) + 0.05, 0.1, width, 0.2])
+
+    ax = [hist_ax, img_ax, bgs_ax, info_ax]
+
+    for axis in ax[1:]:
+        axis.set(xticks=[], yticks=[])
+
+    ax_add = fig.add_axes([0.4, 0.21, 0.2, 0.05])
+    ax_pass = fig.add_axes([0.4, 0.15, 0.2, 0.05])
+    ax_goback = fig.add_axes([0.4, 0.09, 0.2, 0.05])
+    ax_savecurrent = fig.add_axes([0.4, 0.03, 0.2, 0.05])
+
+    button_axes = [ax_add, ax_pass, ax_goback, ax_savecurrent]
+
+    return fig, ax, button_axes
+
+
+class BackgroundSelector:
+    def __init__(self, image, wcs, axes):
+        self.image = image
+        self.image_wcs = wcs
+
+        self.bgs = []
+        self.bg_info = []
+
+        self.hist_ax, self.img_ax, self.bgs_ax, self.info_ax = axes
+        
+        self.img_stats = sigma_clipped_stats(image)
+        self.hist_min = self.img_stats[0] - 3 * self.img_stats[2]
+        self.hist_max = self.img_stats[0] + 3 * self.img_stats[2]
+
+        self.img_ax.imshow(np.log10(image), cmap=args.cmap)
+
+        self.current_bbox = None
+
+        self.current_bg = None
+        self.load_new_bg()
+        
+
+    def load_new_bg(self, current_bg=None, del_bbox=True):
+        self.bgs_ax.cla()
+
+        self.update_info_ax()
+        
+        if current_bg is None:
+            self.current_bg = get_random_bg(self.image, self.image_wcs)
+        else:
+            self.current_bg = current_bg
+        self.bgs_ax.imshow(np.log10(self.current_bg.data), cmap=args.cmap)
+        
+        bg_stats = add_bg_info(self.current_bg, self.bgs_ax)
+        
+        # Plot the bounding box
+        if self.current_bbox is not None and del_bbox:
+            self.current_bbox.pop(0).remove()
+        
+        self.draw_bbox(self.current_bg.bbox_original)
+        
+        self.hist_ax.cla()
+        self.hist_ax.hist(self.current_bg.data.flatten(), bins=np.linspace(self.hist_min, self.hist_max, 100), 
+                          histtype='step', color='k')
+
+        plt.pause(0.01)
+
+    def add(self, event):
+        self.bgs.append(self.current_bg)
+        self.load_new_bg(del_bbox=False)
+        
+    def new_bg(self, event):
+        self.load_new_bg(del_bbox=True)
+
+    def goback(self, event):
+        try:
+            last_bg = self.bgs.pop()
+            self.load_new_bg(last_bg)
+        except IndexError:
+            print("No backgrounds to go back to.")
+
+    def save(self, event):
+        hdul = fits.HDUList()
+        for i, bg in enumerate(self.bgs):
+            hdul.append(fits.ImageHDU(bg.data, header=bg.wcs.to_header(), name=f'BG_{i}'))
+        hdul.writeto(args.output_filename, overwrite=args.overwrite)
+
+    def save_current(self, event):
+        # Save the current generated stuff
+        print(f'Saving {len(self.bgs)} backgrounds to {args.output_filename}')
+        self.save(event)
+
+    def draw_bbox(self, bbox):
+        bbox_x, bbox_y = bbox_xy(bbox)
+        self.current_bbox = self.img_ax.plot(bbox_x, bbox_y, color='r')
+
+    def update_info_ax(self):
+        self.info_ax.cla()
+        self.info_ax.axis('off')
+        self.info_ax.text(0.5, 0.5, f"Number of backgrounds: {len(self.bgs)}", 
+                          ha='center', va='center', color=args.tc)
+
+
+    
+
+if __name__ == '__main__':
+    with fits.open(args.img_filename) as hdul:
+        image = hdul[args.i].data
+        wcs = WCS(hdul[args.i].header)
+
+    fig, ax, button_axes = gen_interactive_widget(image, None)
+
+    fig.canvas.manager.set_window_title('GalPRIME Background Selector')
+
+
+    b_add = Button(button_axes[0], 'Add')
+    b_pass = Button(button_axes[1], 'Pass')
+    b_goback = Button(button_axes[2], 'Go Back')
+    b_savecurrent = Button(button_axes[3], 'Save Current')
+
+    bghandler = BackgroundSelector(image=image, wcs=wcs, axes=ax)
+
+    b_add.on_clicked(bghandler.add)
+    b_pass.on_clicked(bghandler.new_bg)
+    b_goback.on_clicked(bghandler.goback)
+    b_savecurrent.on_clicked(bghandler.save_current)
+
+    plt.show()
