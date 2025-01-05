@@ -1,6 +1,8 @@
 from configobj import ConfigObj, validate
 import numpy as np
 
+from ..utils import load_object
+
 def default_config():
 
     config = ConfigObj()
@@ -133,12 +135,25 @@ def dump_default_config_file(outname="default.gprime"):
 
 
 def read_config_file(filename):
-    config = ConfigObj(filename, interpolation=True, configspec=galprime_configspec(), indent_type = '    ')
+    try:
+        config = ConfigObj(filename, interpolation=True, configspec=galprime_configspec(), indent_type = '    ')
+        
+        vtor = validate.Validator()
+        test = config.validate(vtor)
+
+        for key in config["BINS"]:
+            config["BINS"][key] = np.array(config["BINS"][key], dtype=float)
+        
+        return config
     
-    vtor = validate.Validator()
-    test = config.validate(vtor)
+    except Exception as e:
+        pass
 
-    for key in config["BINS"]:
-        config["BINS"][key] = np.array(config["BINS"][key], dtype=float)
+    try:
+        config = load_object(filename)
+        return config
+    except Exception as e:
+        pass
 
-    return config
+    print(f"Failed to read config file: {filename}")
+    return None
