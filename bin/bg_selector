@@ -125,6 +125,8 @@ class BackgroundSelector:
         else:
             self.current_bg = current_bg
         self.bgs_ax.imshow(np.log10(self.current_bg.data), cmap=args.cmap)
+        self.bgs_ax.scatter(self.current_bg.shape[0] // 2, self.current_bg.shape[1] // 2, 
+                            color='r', s=self.current_bg.shape[0] / 10, marker='x')
         
         bg_stats = add_bg_info(self.current_bg, self.bgs_ax)
         
@@ -137,6 +139,9 @@ class BackgroundSelector:
         self.hist_ax.cla()
         self.hist_ax.hist(self.current_bg.data.flatten(), bins=np.linspace(self.hist_min, self.hist_max, 100), 
                           histtype='step', color='k')
+        self.hist_ax.axvline(bg_stats[1], color='r', linestyle='--')
+        self.hist_ax.axvline(bg_stats[1] - bg_stats[2], color='r', linestyle='--', alpha=0.3)
+        self.hist_ax.axvline(bg_stats[1] + bg_stats[2], color='r', linestyle='--', alpha=0.3)
 
         plt.pause(0.01)
 
