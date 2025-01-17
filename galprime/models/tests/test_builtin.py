@@ -37,9 +37,9 @@ class TestExponentialDiskModel(ModelTestBase):
         assert mod_params["N"] == 1
 
 
-class TestEllipticalGalaxyModel(ModelTestBase):
+class TestEllipticalModel(ModelTestBase):
     name = "EllipticalGalaxyModel"
-    model = galaxies.EllipticalGalaxyModel
+    model = galaxies.EllipticalModel
 
     def test_sersic_index(self):
         mod, mod_params = self.model()._generate()
