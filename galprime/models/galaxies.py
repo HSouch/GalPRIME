@@ -234,8 +234,12 @@ def gen_single_sersic(**kwargs):
         shape = (shape, shape)
     x_0 = kwargs.get("x_0", shape[0] / 2)
     y_0 = kwargs.get("y_0", shape[1] / 2)
+    
+    mag, m0 = kwargs.get("MAG", 22), kwargs.get("M0", 27)
 
-    mod = Sersic2D(amplitude=1, r_eff=kwargs.get("REFF", 1), 
+    amp = utils.I_e(mag, kwargs.get("REFF", 1), kwargs.get("N", 1), m0=m0)
+
+    mod = Sersic2D(amplitude=amp, r_eff=kwargs.get("REFF", 1), 
                    n=kwargs.get("N", 1), 
                    x_0=x_0, 
                    y_0=y_0, 
@@ -243,9 +247,8 @@ def gen_single_sersic(**kwargs):
     ys, xs = np.mgrid[:shape[0], :shape[1]]
     z = mod(xs, ys) 
 
-    mag, m0 = kwargs.get("MAG", 22), kwargs.get("M0", 27)
-
-    z *= utils.Ltot(mag, m0=m0) / np.sum(z)
+    # mag, m0 = kwargs.get("MAG", 22), kwargs.get("M0", 27)
+    # z *= utils.Ltot(mag, m0=m0) / np.sum(z)
 
     params = {
         "MAG": mag, "M0": m0,
@@ -285,6 +288,7 @@ def gen_gaussian(**kwargs):
     x_stddev = kwargs.get("STDDEV", 5)
     y_stddev = x_stddev * (1 - ellip)
     pa = kwargs.get("PA", 0)
+
 
     mod = Gaussian2D(amplitude=1, x_mean=x_0, y_mean=y_0, 
                      x_stddev=x_stddev, y_stddev=y_stddev, 
