@@ -52,3 +52,16 @@ def sb(intens, A_pix=1, mu_0=27):
     """
     
     return mu_0 - 2.5 * np.log10(intens / A_pix)
+
+
+def closest_to(sma, val):
+    """
+    Find the index of the element in the array that is closest to the given value.
+    Parameters:
+    sma (array-like): Semi-major axis values.
+    val (float): The value to find the closest element to.
+    Returns:
+    int: The index of the element in the array that is closest to the given value.
+    """
+    
+    return np.argmin(np.abs(sma - val))
