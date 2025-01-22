@@ -46,6 +46,18 @@ def flatten_dict(d):
 
 
 def header_from_config(config):
+
+
+    """
+    Create a FITS header from a configuration dictionary.
+    This function takes a configuration dictionary, flattens it, and creates
+    a FITS header using the keys and values from the flattened dictionary.
+        :param config: The configuration dictionary to be converted into a FITS header.
+        :type config: dict
+        :return: A FITS header object created from the configuration dictionary.
+        :rtype: astropy.io.fits.Header
+    """
+
     keys, vals = flatten_dict(config)
     header = fits.Header()
     for key, val in zip(keys, vals):
@@ -64,6 +76,28 @@ def load_object(filename):
     with open(filename, "rb") as f:
         return pickle.load(f)
 
+
 def get_dt_intlabel():
+    """
+    Generate an integer label based on the current date and time.
+    The label is constructed using the current month, day, hour, and minute,
+    formatted as MMDDHHMM and scaled to fit into an integer.
+    Returns:
+        int: An integer representing the current date and time in the format MMDDHHMM.
+    """
+    
     dt = datetime.datetime.now()
     return int(1e6 * dt.month + 1e4 * dt.day + 100 * dt.hour + dt.minute)
+
+
+def get_arcconv(wcs):
+    """
+    Calculate the arcsecond per pixel conversion factor from a WCS object.
+    Parameters:
+    wcs (astropy.wcs.WCS): A WCS (World Coordinate System) object containing the pixel scale matrix.
+    Returns:
+    float: The arcsecond per pixel conversion factor, rounded to 6 decimal places.
+    """
+
+    dx = wcs.pixel_scale_matrix[0,0]    
+    return np.round(abs(dx * 3600), 6)
