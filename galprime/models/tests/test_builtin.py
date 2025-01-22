@@ -1,7 +1,7 @@
 # Test all built-in GalPRIME models
 
 import numpy as np
-from.helpers import ModelTestBase
+from .helpers import ModelTestBase
 from .. import galaxies
 
 
