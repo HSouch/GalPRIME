@@ -35,6 +35,8 @@ galprime-old/
 deprecated
 pdata
 
+notebooks/
+
 notebooks/figures
 notebooks/temp
 notebooks/*.gprime
