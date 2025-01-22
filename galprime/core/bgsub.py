@@ -73,5 +73,10 @@ def estimate_background_2D(data, config={}, tophat_sizes=[3, 5, 7],
     return source_mask, bkg
 
 
-def estimate_background_sigclip(cutout, config=None):
-    nsigma = config.get("MASKING", {}).get("NSIGMA", 1)
+
+def estimate_background_sigclip(data, config):
+    source_mask = bgsub_source_mask(data, config)
+
+    bg_stats = sigma_clipped_stats(data, mask=source_mask, sigma=3)
+
+    return bg_stats
