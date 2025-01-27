@@ -22,8 +22,9 @@ parser.add_argument("--max_bins", type=int, default=None, help="Maximum number o
 parser.add_argument("--run_id", type=int, default=gp.get_dt_intlabel(), help="Run ID")
 parser.add_argument("--log_level", type=int, default=20, help="Logging level. 10=DEBUG, 20=INFO, 30=WARNING")
 parser.add_argument("--verbose", action="store_true", help="Verbose output")
-parser.add_argument("--keep_temp", action="store_true", help="Delete temporary files")
+parser.add_argument("--keep_temp", action="store_true", help="Save temporary files auto deleted after running.")
 parser.add_argument("--save_objs", action="store_true", help="Save output GPrimeSingle files.")
+parser.add_argument("--outdir", type=str, default=None, help="Output directory (overrides config)")
 args = parser.parse_args()
 
 start_time = time.perf_counter()
@@ -106,6 +107,10 @@ def process_bin(b):
 
 if __name__ == '__main__':
     config = gp.read_config_file(args.config_filename)
+
+    if args.outdir is not None:
+        config["DIRS"]["OUTDIR"] = args.outdir
+
     outfiles = gp.gen_filestructure(config["DIRS"]["OUTDIR"])
 
     gp.save_object(config, f'{outfiles["ADDL_DATA"]}config_{args.run_id}.pkl')
