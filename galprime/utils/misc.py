@@ -101,3 +101,19 @@ def get_arcconv(wcs):
 
     dx = wcs.pixel_scale_matrix[0,0]    
     return np.round(abs(dx * 3600), 6)
+
+
+def get_output_id(outdir):
+    """ Get the unique run IDs of the output files in the specified directory
+        It does so by extracting the IDs from any saved config files in the additional_data directory.
+    Args:
+        outdir (str): The output directory.
+
+    Returns:
+        array: An array of the unique run IDs. 
+    """
+    ids = []
+    for fn in os.listdir(f'{outdir}/additional_data/'):
+        ids.append(int(fn.split('_')[1].split('.')[0]))
+    
+    return np.unique(ids)
