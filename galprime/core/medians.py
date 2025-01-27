@@ -2,58 +2,63 @@ import numpy as np
 from scipy.interpolate import interp1d
 
 
-def highest_sma(profile_list, dtype="isolist"):
-    if dtype == "isolist":
-        return np.min([max(profile.sma) for profile in profile_list])
-    elif dtype == "table":
-        return np.min([max(profile["sma"]) for profile in profile_list])
+def common_sma(profiles, step=1, method='exact', dtype='isolist'):
+    if dtype == 'isolist':
+        profile_set = [profiles[i].sma[-1] for i in range(len(profiles))]
+    elif dtype == 'table':
+        profile_set = [profiles[i]['sma'][-1] for i in range(len(profiles))]
+
+    if method == 'exact':
+        max_sma = np.argmax(profile_set)
+        return profiles[max_sma]["sma"]
+    elif method == 'interpolate':
+        max_sma = np.nanmax(profile_set)
+        return np.arange(1, max_sma, step)
+    else:
+        raise ValueError('Method not recognized')
+    
+
+def gen_profile_image(profiles, dtype='isolist'):
+    sma = common_sma(profiles, dtype=dtype)
+
+    prof_img = np.zeros((len(profiles), len(sma)))
+    for i in range(len(profiles)):
+        f = interp1d(profiles[i]['sma'], profiles[i]['intens'], kind='linear', fill_value='extrapolate')
+        prof_img[i] = f(sma)
+
+    return sma, prof_img
 
 
-def profiles_norm_sma(profile_list, dtype="isolist"):
-    sma_max = highest_sma(profile_list, dtype=dtype)
-    sma_interp = np.arange(1, sma_max, 2)
+def profile_median(profiles, dtype='isolist'):
+    med_sma, prof_img = gen_profile_image(profiles, dtype=dtype)
 
-    if dtype == "isolist":
-        profile_interps = [interp1d(profile.sma, profile.intens, kind="linear", 
-                                    fill_value=0, bounds_error=False,
-                                    ) for profile in profile_list]
-    elif dtype == "table":
-        profile_interps = [interp1d(profile["sma"], profile["intens"], kind="linear", 
-                                    fill_value=0, bounds_error=False,
-                                    ) for profile in profile_list]
-    profiles_stacked = np.vstack([interp(sma_interp) for interp in profile_interps])
-    return sma_interp, profiles_stacked
+    median = np.median(prof_img, axis=0)
+
+    return med_sma, median
 
 
-def _median(profile_stack):
-    return np.median(profile_stack, axis=0)
+def bootstrap_median(profiles, samples=100, dtype='isolist'):
+    med_sma, prof_img = gen_profile_image(profiles, dtype=dtype)
 
+    medians = np.zeros((samples, len(med_sma)))
+    for i in range(samples):
+        sample_indices = np.random.choice(len(prof_img), len(prof_img), replace=True)
+        sample = prof_img[sample_indices]
+        medians[i] = np.median(sample, axis=0)
+    
+    medians = np.sort(medians, axis=0)
 
-def gen_median(profile_list):
-    profile_stack = profiles_norm_sma(profile_list)[1]
-    return _median(profile_stack)
+    bootstrapped_median = np.median(medians, axis=0)
 
+    lower_index_1sig, upper_index_1sig = int(samples * 0.159), int(samples * 0.841)
+    lower_index_2sig, upper_index_2sig = int(samples * 0.023), int(samples * 0.977)
+    lower_index_3sig, upper_index_3sig = int(samples * 0.002), int(samples * 0.998)
 
-def bootstrap_median(profile_list, n_bootstraps=10000, dtype="isolist"):
-    smas, profile_stack = profiles_norm_sma(profile_list, dtype=dtype)
-
-    # plt.imshow(profile_stack, aspect="auto", vmin=-0.005, vmax=0.005)
-
-    sample_indices = np.random.choice(profile_stack.shape[0], (n_bootstraps, profile_stack.shape[0]), replace=True)
-
-    medians = np.vstack([_median(profile_stack[sample]) for sample in sample_indices])
-
-    sorted = np.sort(medians, axis=0)
-
-    lower_index_1sig, upper_index_1sig = int(n_bootstraps * 0.159), int(n_bootstraps * 0.841)
-    lower_index_2sig, upper_index_2sig = int(n_bootstraps * 0.023), int(n_bootstraps * 0.977)
-    lower_index_3sig, upper_index_3sig = int(n_bootstraps * 0.002), int(n_bootstraps * 0.998)
-
-    lower_1sig, upper_1sig = sorted[lower_index_1sig], sorted[upper_index_1sig]
-    lower_2sig, upper_2sig = sorted[lower_index_2sig], sorted[upper_index_2sig]
-    lower_3sig, upper_3sig = sorted[lower_index_3sig], sorted[upper_index_3sig]
-
+    lower_1sig, upper_1sig = medians[lower_index_1sig], medians[upper_index_1sig]
+    lower_2sig, upper_2sig = medians[lower_index_2sig], medians[upper_index_2sig]
+    lower_3sig, upper_3sig = medians[lower_index_3sig], medians[upper_index_3sig]
+    
     upper = np.vstack([upper_1sig, upper_2sig, upper_3sig])
     lower = np.vstack([lower_1sig, lower_2sig, lower_3sig])
 
-    return smas, _median(profile_stack), lower, upper
+    return med_sma, bootstrapped_median, lower, upper
