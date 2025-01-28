@@ -34,9 +34,12 @@ def isophote_fitting(data, config):
     maxit = config.get("EXTRACTION", {}).get("MAXIT", 100)
 
     cutout_halfwidth = max((data.shape[0] // 2, data.shape[1] // 2))
+    minit = config.get("EXTRACTION", {}).get("MINIT", 10)
+    maxit = config.get("EXTRACTION", {}).get("MAXIT", 50)
     maxrit = config.get("EXTRACTION", {}).get("MAXRIT", cutout_halfwidth / 3)
     minsma = config.get("EXTRACTION", {}).get("MINSMA", 1)
     maxsma = config.get("EXTRACTION", {}).get("MAXSMA", cutout_halfwidth)
+    maxgerr = config.get("EXTRACTION", {}).get("MAXGERR", 0.5)
     conver = config.get("EXTRACTION", {}).get("CONVER", 0.05)
     
     integrmode = config.get("EXTRACTION", {}).get("INTEGRMODE", "bilinear")
@@ -46,12 +49,14 @@ def isophote_fitting(data, config):
         # Attempt to fit the ellipse with the given imput geometry
         flux = Ellipse(data, geo )
         try:
-            fitting_list = flux.fit_image(maxit=maxit, 
-                                          minsma=minsma,
+            fitting_list = flux.fit_image(minsma=minsma,
                                           maxsma=maxsma, 
                                           step=step, 
                                           linear=linear,
+                                          minit=minit,
+                                          maxit=maxit,
                                           maxrit=maxrit, 
+                                          maxgerr=maxgerr,
                                           conver=conver,
                                           fix_center=fix_center,
                                           integrmode=integrmode)

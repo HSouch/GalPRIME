@@ -54,12 +54,15 @@ def default_config():
     config["EXTRACTION"] = {}
     config["EXTRACTION"]["LINEAR"] = False
     config["EXTRACTION"]["STEP"] = 0.1
-    config["EXTRACTION"]["MAXIT"] = 100
+    config["EXTRACTION"]["MINIT"] = 10
+    config["EXTRACTION"]["MAXIT"] = 50
     config["EXTRACTION"]["FIX_CENTER"] = False
     config["EXTRACTION"]["MINSMA"] = 1
     config["EXTRACTION"]["MAXSMA"] = config["MODEL"]["SIZE"] // 2
+    config["EXTRACTION"]["MAXRIT"] = config["MODEL"]["SIZE"] // 3
+    config["EXTRACTION"]["MAXGERR"] = 0.5
     config["EXTRACTION"]["CONVER"] = 0.05
-
+    config["EXTRACTION"]["INTEGRMODE"] = "bilinear"
 
     config["BGSUB"] = {}
     config["BGSUB"]["BOX_SIZE"] = 42
