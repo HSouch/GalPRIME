@@ -17,6 +17,7 @@ setup(
         "matplotlib>=3.8",
         "numpy>=1.26",
         "scikit-image>=0.19",
+        "tqdm",
         "configobj",
         "pebble",
     ],
