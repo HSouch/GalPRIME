@@ -15,13 +15,14 @@ class MatrixPlot:
         self.nrows = kwargs.get("nrows", 1)
         self.ncols = kwargs.get("ncols", 1)
 
+        self.use_run_id = kwargs.get("use_run_id", True)
+
         self.outname = kwargs.get("outname", "plot.pdf")
 
         self.ylims = kwargs.get("ylims", None)
 
     def auto_figsize(self, width=12):
         return (width, width/self.ncols*self.nrows)
-    
     
     def _populate(self, i, j, axis, **kwargs):
         pass
@@ -35,7 +36,7 @@ class MatrixPlot:
         for i in range(self.nrows):
             for j in range(self.ncols):
                 i_plot = self.nrows - i - 1 if kwargs.get("reverse_y", False) else i
-                j_plot = j if kwargs.get("reverse_x", False) else j
+                j_plot = j if kwargs.get("reverse_x", False) else -j
 
                 ind = i_plot*self.ncols + j_plot
                 axis = ax.flatten()[ind]
@@ -142,7 +143,7 @@ class ProfilePlot(MatrixPlot):
         if self.config_filename is None:
             raise ValueError("Could not find config file in ADDL_DATA directory")
         
-        self.run_id = int(self.config_filename.split(".")[0].split("/")[-1].split("_")[1])
+        self.run_id = gp.get_run_id(self.outdir)
         self.config = gp.read_config_file(self.config_filename)
 
         self.x_index = kwargs.get("x_index", 0)
@@ -229,7 +230,9 @@ class ProfilePlot(MatrixPlot):
         for suffix in bin_indices:
             bin_suffix += "_{}".format(suffix)
         
-        median_set = f'{self.files["MEDIANS"]}{self.run_id}{bin_suffix}.fits'
+        run_id = self.run_id if self.use_run_id else ""
+
+        median_set = f'{self.files["MEDIANS"]}{run_id}{bin_suffix}.fits'
 
         with fits.open(median_set) as hdul:
             bare = Table.read(hdul[1])[1:]
@@ -272,6 +275,9 @@ class DiffPlot(ProfilePlot):
             low_1sig, up_1sig = tab["LOW_1SIG"], tab["UP_1SIG"]
             low_2sig, up_2sig = tab["LOW_2SIG"], tab["UP_2SIG"]
             low_3sig, up_3sig = tab["LOW_3SIG"], tab["UP_3SIG"]
+
+            if len(bare_median) != len(median):
+                continue
 
             diff = (median - bare_median) / bare_median
             diff_low_1sig = (low_1sig - bare_low_1sig) / bare_median
