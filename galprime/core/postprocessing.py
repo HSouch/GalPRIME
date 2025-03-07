@@ -79,17 +79,16 @@ def handle_output(results, outdirs, config, bin_id="0"):
     None
     """
     
-    bare_profiles = [n["ISOLISTS"][0] for n in results]
-    coadd_profiles = [n["ISOLISTS"][1] for n in results]
-    bgsub_profiles = [n["ISOLISTS"][2] for n in results]
+    bare_profiles  = [n["ISOLISTS"][0].to_table() for n in results]
+    coadd_profiles = [n["ISOLISTS"][1].to_table() for n in results]
+    bgsub_profiles = [n["ISOLISTS"][2].to_table() for n in results]
 
     mod_params = [n["PARAMS"] for n in results]
 
     # Save individual profiles
     model_hdul, coadd_hdul, bgsub_hdul = fits.HDUList(), fits.HDUList(), fits.HDUList()
     for isolists, hdul in zip([bare_profiles, coadd_profiles, bgsub_profiles], [model_hdul, coadd_hdul, bgsub_hdul]):
-        for i in range(len(isolists)):
-            t = isolists[i].to_table()
+        for i, t in enumerate(isolists):
             for col in t.colnames:
                 if col not in good_colnames:
                     t.remove_column(col)
@@ -99,9 +98,9 @@ def handle_output(results, outdirs, config, bin_id="0"):
     coadd_hdul.writeto(f'{outdirs["COADD_PROFS"]}{config["RUN_ID"]}_{bin_id}.fits', overwrite=True)
     bgsub_hdul.writeto(f'{outdirs["BGSUB_PROFS"]}{config["RUN_ID"]}_{bin_id}.fits', overwrite=True)
 
-    bare_table = gen_median_table(*gp.bootstrap_median(bare_profiles, dtype="isolist"))
-    coadd_table = gen_median_table(*gp.bootstrap_median(coadd_profiles, dtype="isolist"))
-    bgsub_table = gen_median_table(*gp.bootstrap_median(bare_profiles, dtype="isolist"))
+    bare_table = gen_median_table(*gp.bootstrap_median(bare_profiles, dtype="table"))
+    coadd_table = gen_median_table(*gp.bootstrap_median(coadd_profiles, dtype="table"))
+    bgsub_table = gen_median_table(*gp.bootstrap_median(bare_profiles, dtype="table"))
 
     gen_median_hdul(bare_table, coadd_table, bgsub_table, 
                     f'{outdirs["MEDIANS"]}{config["RUN_ID"]}_{bin_id}.fits')
