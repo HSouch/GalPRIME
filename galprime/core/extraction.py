@@ -25,7 +25,7 @@ class PoorFitException(Exception):
     pass
 
 
-def isophote_fitting(data, config):
+def isophote_fitting(data, config, geo_init=None):
     
     fail_count, max_fails = 0, 100
     linear = config.get("EXTRACTION", {}).get("LINEAR", False)
@@ -67,6 +67,17 @@ def isophote_fitting(data, config):
     
     # TODO I should remove these bare exception clauses with logger handling eventually.
     # First try to get an extraction by estimating the morphology
+    
+    # If a geometry is provided, try fitting with that first
+    if geo_init is not None:
+        try:
+            fitting_list = attempt_fit(geo_init)
+            if fitting_list is not None and len(fitting_list) > 0:
+                return {"ISOLIST": fitting_list, "FIT_METHOD": 0, "GEO": geo_init}
+        except Exception:
+            pass
+
+    # Else try to estimate the morphology directly
     try:
         geo = estimate_morphology(data)
         fitting_list = attempt_fit(geo)
