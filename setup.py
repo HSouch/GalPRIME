@@ -33,7 +33,8 @@ setup(
     ],
     scripts=[
         "bin/run_galprime",
-        "bin/bg_selector"
+        "bin/bg_selector",
+        "bin/gp_combine"
     ],
 )
 
