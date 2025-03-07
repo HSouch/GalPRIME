@@ -83,6 +83,8 @@ def handle_output(results, outdirs, config, bin_id="0"):
     coadd_profiles = [n["ISOLISTS"][1] for n in results]
     bgsub_profiles = [n["ISOLISTS"][2] for n in results]
 
+    mod_params = [n["PARAMS"] for n in results]
+
     # Save individual profiles
     model_hdul, coadd_hdul, bgsub_hdul = fits.HDUList(), fits.HDUList(), fits.HDUList()
     for isolists, hdul in zip([bare_profiles, coadd_profiles, bgsub_profiles], [model_hdul, coadd_hdul, bgsub_hdul]):
@@ -91,14 +93,15 @@ def handle_output(results, outdirs, config, bin_id="0"):
             for col in t.colnames:
                 if col not in good_colnames:
                     t.remove_column(col)
-            hdul.append(fits.BinTableHDU(data = t, name=f"ISOLIST_{i}"))
+            hdul.append(fits.BinTableHDU(data = t, name=f"ISOLIST_{i}", header=dict_to_header(mod_params[i])))
+            
     model_hdul.writeto(f'{outdirs["MODEL_PROFS"]}{config["RUN_ID"]}_{bin_id}.fits', overwrite=True)
     coadd_hdul.writeto(f'{outdirs["COADD_PROFS"]}{config["RUN_ID"]}_{bin_id}.fits', overwrite=True)
     bgsub_hdul.writeto(f'{outdirs["BGSUB_PROFS"]}{config["RUN_ID"]}_{bin_id}.fits', overwrite=True)
 
-    bare_table = gen_median_table(*gp.bootstrap_median(bare_profiles))
-    coadd_table = gen_median_table(*gp.bootstrap_median(coadd_profiles))
-    bgsub_table = gen_median_table(*gp.bootstrap_median(bare_profiles))
+    bare_table = gen_median_table(*gp.bootstrap_median(bare_profiles, dtype="isolist"))
+    coadd_table = gen_median_table(*gp.bootstrap_median(coadd_profiles, dtype="isolist"))
+    bgsub_table = gen_median_table(*gp.bootstrap_median(bare_profiles, dtype="isolist"))
 
     gen_median_hdul(bare_table, coadd_table, bgsub_table, 
                     f'{outdirs["MEDIANS"]}{config["RUN_ID"]}_{bin_id}.fits')
@@ -107,6 +110,18 @@ def handle_output(results, outdirs, config, bin_id="0"):
 def hdul_to_table(hdul):
     # Convert HDUList to Astropy Table
     return Table.read(hdul, format='fits')
+
+
+def dict_to_header(test):
+    # For converting model params to a FITS header file
+    header = fits.Header()
+    for key, val in test.items():
+        if isinstance(val, tuple):
+            header[key] = val[0]
+            header.comments[key] = val[1]
+        else:
+            header[key] = val
+    return header
 
 
 def combine_profile_sets(loc_1, loc_2, run_id_1, run_id_2, outdir):
@@ -166,7 +181,41 @@ def combine_profile_sets(loc_1, loc_2, run_id_1, run_id_2, outdir):
     return medians
 
 
-def combine_outputs(filedir_1, filedir_2, run_id_1, run_id_2, outdir, suffix=""):
+def get_run_id(outdir):
+    """ Automatically determine the run IDs for a given directory
+
+    Args:
+        outdir (str): GalPRIME output directory
+
+    Raises:
+        ValueError: If no run ID is found, the method will raise a ValueError./
+
+    Returns:
+        int: The largest run ID found for the given output directory.
+    """
+
+    directory = gp.gen_filestructure(outdir, generate=False)
+    
+    config_dir = directory["ADDL_DATA"]
+    run_ids = []
+    try:
+        for fn in os.scandir(config_dir):
+            fn = fn.name
+            if not fn.startswith("config"):
+                continue
+            
+            run_id = int(fn.split(".")[0].split("_")[1])
+            run_ids.append(run_id)
+    except Exception as e:
+        print(f"Error getting run IDs: {e}")
+    
+    if len(run_ids) == 0:
+        raise ValueError("Could not find any index in this output directory.")
+    else:
+        return max(run_ids)
+
+
+def combine_outputs(filedir_1, filedir_2, outdir, run_id_1=None, run_id_2=None, suffix=""):
     """
     Combine output profiles from two different runs and generate median tables and HDUs.
     Parameters
@@ -191,7 +240,13 @@ def combine_outputs(filedir_1, filedir_2, run_id_1, run_id_2, outdir, suffix="")
     
 
     files_1 = gp.gen_filestructure(filedir_1, generate=False)
+    if run_id_1 is None:
+        run_id_1 = get_run_id(filedir_1)
+    
     files_2 = gp.gen_filestructure(filedir_2, generate=False)
+    if run_id_2 is None:
+        run_id_2 = get_run_id(filedir_2)
+
     
     for fset in [files_1, files_2]:
         for f in os.listdir(fset["ADDL_DATA"]):
