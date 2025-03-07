@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import galprime as gp
+
+import argparse
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run GalPRIME simulation")
+    parser.add_argument("gprun_1", type=str, help="Path to first GPRIME output")
+    parser.add_argument("gprun_2", type=str, help="Path to second GPRIME output")
+    parser.add_argument("--run_id_1", type=int, default=None, help="Run ID for first simulation.")
+    parser.add_argument("--run_id_2", type=int, default=None, help="Run ID for second simulation.")
+
+    parser.add_argument("output")
+
+    args = parser.parse_args()
+
+
+    gp.combine_outputs(args.gprun_1, args.gprun_2, args.output, 
+                       run_id_1=args.run_id_1, run_id_2=args.run_id_2)
+
