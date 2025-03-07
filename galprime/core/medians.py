@@ -3,6 +3,7 @@ from scipy.interpolate import interp1d
 
 
 def common_sma(profiles, step=1, method='exact', dtype='isolist'):
+
     if dtype == 'isolist':
         profile_set = [profiles[i].sma[-1] for i in range(len(profiles))]
     elif dtype == 'table':
@@ -10,7 +11,11 @@ def common_sma(profiles, step=1, method='exact', dtype='isolist'):
 
     if method == 'exact':
         max_sma = np.argmax(profile_set)
-        return profiles[max_sma]["sma"]
+        if dtype == 'isolist':
+            return profiles[max_sma].sma
+        elif dtype == 'table':
+            return profiles[max_sma]["sma"]
+    
     elif method == 'interpolate':
         max_sma = np.nanmax(profile_set)
         return np.arange(1, max_sma, step)
