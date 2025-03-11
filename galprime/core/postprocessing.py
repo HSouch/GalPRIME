@@ -61,6 +61,19 @@ def gen_median_hdul(bare_table, coadd_table, bgsub_table, outname):
     hdul.writeto(outname, overwrite=True)
 
 
+
+def dict_to_header(test):
+    # For converting model params to a FITS header file
+    header = fits.Header()
+    for key, val in test.items():
+        if isinstance(val, tuple):
+            header[key] = val[0]
+            header.comments[key] = val[1]
+        else:
+            header[key] = val
+    return header
+
+
 def handle_output(results, outdirs, config, bin_id="0"):
     """
     Handles the output of the processing results by saving individual profiles and generating median tables.
@@ -79,6 +92,7 @@ def handle_output(results, outdirs, config, bin_id="0"):
     None
     """
     
+    # Grab all of the tables and sort them into the appropriate locations
     bare_profiles  = [n["ISOLISTS"][0].to_table() for n in results]
     coadd_profiles = [n["ISOLISTS"][1].to_table() for n in results]
     bgsub_profiles = [n["ISOLISTS"][2].to_table() for n in results]
@@ -92,7 +106,8 @@ def handle_output(results, outdirs, config, bin_id="0"):
             for col in t.colnames:
                 if col not in good_colnames:
                     t.remove_column(col)
-            hdul.append(fits.BinTableHDU(data = t, name=f"ISOLIST_{i}", header=dict_to_header(mod_params[i])))
+            header = dict_to_header(mod_params[i])
+            hdul.append(fits.BinTableHDU(data = t, name=f"ISOLIST_{i}", header=header))
             
     model_hdul.writeto(f'{outdirs["MODEL_PROFS"]}{config["RUN_ID"]}_{bin_id}.fits', overwrite=True)
     coadd_hdul.writeto(f'{outdirs["COADD_PROFS"]}{config["RUN_ID"]}_{bin_id}.fits', overwrite=True)
@@ -111,16 +126,6 @@ def hdul_to_table(hdul):
     return Table.read(hdul, format='fits')
 
 
-def dict_to_header(test):
-    # For converting model params to a FITS header file
-    header = fits.Header()
-    for key, val in test.items():
-        if isinstance(val, tuple):
-            header[key] = val[0]
-            header.comments[key] = val[1]
-        else:
-            header[key] = val
-    return header
 
 
 def combine_profile_sets(loc_1, loc_2, run_id_1, run_id_2, outdir):
