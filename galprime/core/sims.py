@@ -42,6 +42,10 @@ class GPrimeSingle:
         try:    
             self.stop_code = 2
             self.bg_added_model = self.convolved_model + self.bg
+
+            self.bg_params = gp.estimate_background_sigclip(self.bg_added_model, self.config)
+            self.params["BG_MEAN"], self.params["BG_MED"], self.params["BG_STD"] =  self.bg_params
+
             self.source_mask, self.background = gp.estimate_background_2D(self.bg_added_model, self.config)
             
             self.bg_model = self.background.background
@@ -77,7 +81,7 @@ class GPrimeSingle:
     def condensed_output(self):
         try:
             output = {"ISOLISTS": [n["ISOLIST"] for n in self.isophote_lists],
-                "PARAMS": self.model_params, 
+                "PARAMS": self.params,
                 "ITERATION": self.metadata.get("ITERATION", 999),
                 "BG_INDEX": self.metadata.get("BG_INDEX", 999),
                 "PSF_INDEX": self.metadata.get("PSF_INDEX", 999)}
