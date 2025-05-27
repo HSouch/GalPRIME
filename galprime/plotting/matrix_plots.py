@@ -16,9 +16,7 @@ class MatrixPlot:
         self.ncols = kwargs.get("ncols", 1)
 
         self.use_run_id = kwargs.get("use_run_id", True)
-
         self.outname = kwargs.get("outname", "plot.pdf")
-
         self.ylims = kwargs.get("ylims", None)
 
     def auto_figsize(self, width=12):
@@ -143,7 +141,7 @@ class ProfilePlot(MatrixPlot):
         if self.config_filename is None:
             raise ValueError("Could not find config file in ADDL_DATA directory")
         
-        self.run_id = gp.get_run_id(self.outdir)
+        self.run_id = kwargs.get("run_id", gp.get_run_id(self.outdir))
         self.config = gp.read_config_file(self.config_filename)
 
         self.x_index = kwargs.get("x_index", 0)
