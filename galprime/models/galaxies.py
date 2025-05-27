@@ -119,8 +119,6 @@ class SingleSersicModel(GalaxyModel):
             "REFF": 1,
             "N": 1,
             "ELLIP": 0.3,
-            "UNITS": "pix",
-            "ARCCONV": 1,
         }
         self.verifier = verifiers.DefaultVerifier()
     
@@ -158,6 +156,8 @@ class ExponentialDiskModel(GalaxyModel):
             "REFF": 1,
             "ELLIP": 0.3,
             "N": 1,
+            "REFF_UNIT": "pix",
+            "ARCCONV": 1,
         }
         self.verifier = verifiers.DefaultVerifier()
 
