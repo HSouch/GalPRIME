@@ -1,3 +1,6 @@
+
+import os
+
 from astropy.io import fits
 import numpy as np
 
@@ -93,9 +96,59 @@ class Cutouts:
         return Cutouts(cutouts=cutouts, cutout_data=cutout_data, metadata=metadata, min_index=min_index)
     
 
+    @staticmethod
+    def from_directory(directory, logger=None, template=None, cutout_index=0):
+        def verify_fits(filename):
+            return any(filename.endswith(ext) for ext in (".fits", ".fit", ".fts"))
+
+        suffixes = [".fits", ".fits.gz"]
+        
+        filenames = [os.path.join(directory, f) for f in os.listdir(directory) if verify_fits(f)]
+        
+        cutouts = Cutouts()
+
+        for fn in filenames:
+            try:
+                hdul = fits.open(fn)
+                cutout = hdul[cutout_index].data
+                header = hdul[cutout_index].header
+
+                # Add the primary header to the cutout header if values not already present
+                if cutout_index is not 0:
+                    primary_header = hdul[0].header
+                    for key in primary_header.keys():
+                        if key not in header:
+                            header[key] = primary_header[key]
+
+                cutouts.cutouts.append(cutout)
+                cutouts.cutout_data.append(header)
+
+            except Exception as e:
+                if logger:
+                    logger.error(f"Error reading {fn}: {e}")
+                continue
+        
+        return cutouts
+
+    
+    def save(self, filename="cutouts.fits", overwrite=False):
+        if not filename.endswith(".fits"):
+            filename += ".fits"
+        
+        hdul = fits.HDUList()
+        for cutout, header in zip(self.cutouts, self.cutout_data):
+            hdu = fits.ImageHDU(data=cutout, header=fits.Header(header))
+            
+            hdul.append(hdu)
+
+        hdul = fits.HDUList(hdul)
+        hdul.writeto(filename, overwrite=overwrite)
+
+
     def show_cutouts(self, ncols=10, **kwargs):
         nrows = len(self.cutouts) // ncols
         plotting.show_cutouts(self, ncols=ncols, nrows=nrows, **kwargs)
     
     def copy(self):
         return copy.deepcopy(self)
+    
