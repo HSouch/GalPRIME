@@ -43,7 +43,8 @@ def default_config():
     config["MODEL"]["SIZE"] = 451
     config["MODEL"]["ARCCONV"] = 0.168
     config["MODEL"]["ZPM"] = 27.0
-    config["MODEL"]["REFF_UNIT"] = "pixel"
+    config["KEYS"]["REFF_UNIT"] = "pix"
+
 
     config["MASKING"] = {}
     config["MASKING"]["NSIGMA"] = 1
