@@ -13,15 +13,20 @@ class GalaxyModel:
         self.defaults = defaults
         self.verifier = verifiers.DefaultVerifier()
 
-    def generate(self, params={}):
+    def generate(self, params={}, **kwargs):
         """ Generate a model, and handle user-inputted and default parameters.
 
         Args:
             params (_type_): _description_
         """
+        
+        # Set model parameters
         for key in self.defaults:
             if key not in params:
                 params[key] = self.defaults[key]
+        # Override params directly specified by the user in keyword arguments
+        for key in kwargs:
+            params[key] = kwargs[key]
         
         if not self.verifier.verify(params):
             raise ValueError("Invalid parameters")
@@ -35,6 +40,54 @@ class GalaxyModel:
     def _generate(self, **params):
         # Subclass-specific implementation of the model generation
         raise NotImplementedError("Abstract class")
+    
+
+    def generate_param_text(self, exclude=[]):
+        """ Generate a text representation of the model parameters.
+
+        Args:
+            exclude (list, optional): The parameters to exclude from the text. Defaults to [].
+
+        Returns:
+            str: A string representation of the model parameters
+        """
+        text = ""
+        for key, val in self.params.items():
+            if key in exclude:
+                continue
+            try:
+                text += f"{key}: {val:.4f}\n"
+            except Exception as e:
+                print("Error formatting parameter:", key, val)
+                continue
+        return text.removesuffix("\n")
+
+
+    def plot_model_params(self, axis, exclude=[], loc="upper right", pad=0.02, fontsize=10):
+        """ Plot the model parameters on the given axis.
+
+        Args:
+            axis (matplotlib.axis): The axis to plot the parameters on.
+            exclude (list, optional): The parameters to exclude from the plot. Defaults to [].
+            loc (str, optional): The location of the text. Defaults to "upper right".
+            pad (float, optional): The padding from the axis limits. Defaults to 0.02.
+            fontsize (int, optional): The font size of the text. Defaults to 10.
+        """
+        
+        ul, lr = loc.lower().split(" ")
+
+        ha = "left" if lr == "left" else "right"
+        va = "top" if ul == "upper" else "bottom"
+
+        x = 0.02 if lr == "left" else 0.98
+        y = 0.98 if ul == "upper" else 0.02
+
+        text = self.generate_param_text(exclude=exclude)
+        axis.text(x, y, text,
+                    ha = ha, va = va,
+                    fontsize=fontsize, 
+                    transform=axis.transAxes,
+                    bbox=dict(facecolor='white', alpha=0.5))
 
 
 class SingleSersicModel(GalaxyModel):
@@ -66,6 +119,8 @@ class SingleSersicModel(GalaxyModel):
             "REFF": 1,
             "N": 1,
             "ELLIP": 0.3,
+            "UNITS": "pix",
+            "ARCCONV": 1,
         }
         self.verifier = verifiers.DefaultVerifier()
     
@@ -99,7 +154,7 @@ class ExponentialDiskModel(GalaxyModel):
     def __init__(self):
         self.params = {}
         self.defaults = {
-            "MAG": 1,
+            "MAG": 21,
             "REFF": 1,
             "ELLIP": 0.3,
             "N": 1,
@@ -213,7 +268,8 @@ class BulgeDiskSersicModel(GalaxyModel):
 
 def gen_single_sersic(**kwargs):
     """
-    Generate a single Sersic model.
+    Generate a single Sersic model. This method is configured to more easily work with GalPRIME model classes,
+    instead of just calling the Sersic2D model directly.
     Args:
         **kwargs: Arbitrary keyword arguments representing model parameters.
             - "MAG" (int): Magnitude of the galaxy, default is 22.
@@ -237,18 +293,30 @@ def gen_single_sersic(**kwargs):
     
     mag, m0 = kwargs.get("MAG", 22), kwargs.get("M0", 27)
 
-    amp = utils.I_e(mag, kwargs.get("REFF", 1), kwargs.get("N", 1), m0=m0)
+    ELLIP = kwargs.get("ELLIP", 0.3)
 
-    mod = Sersic2D(amplitude=amp, r_eff=kwargs.get("REFF", 1), 
+    REFF = kwargs.get("REFF", 1)
+    # REFF_CIRC = utils.r_circ(REFF, ELLIP)
+
+    mod = Sersic2D(amplitude=1, r_eff=REFF, 
                    n=kwargs.get("N", 1), 
                    x_0=x_0, 
                    y_0=y_0, 
-                   ellip=kwargs.get("ELLIP", 0.3), theta=kwargs.get("PA", np.random.uniform(0, np.pi)))
+                   ellip=ELLIP, theta=kwargs.get("PA", np.random.uniform(0, np.pi)))
     ys, xs = np.mgrid[:shape[0], :shape[1]]
+    
     z = mod(xs, ys) 
 
-    # mag, m0 = kwargs.get("MAG", 22), kwargs.get("M0", 27)
-    # z *= utils.Ltot(mag, m0=m0) / np.sum(z)
+    # TODO : Modularize this so it can be more easily modified by the user.
+    z_within_10Re = np.copy(z)
+    ys, xs = np.indices(z_within_10Re.shape)
+    rs = np.sqrt((xs - x_0)**2 + (ys - y_0)**2)
+    z_within_10Re[rs > 10 * REFF] = np.nan
+
+    multiplier = utils.Ltot(mag, m0=m0) / np.nansum(z_within_10Re)
+
+    z *= multiplier
+
 
     params = {
         "MAG": mag, "M0": m0,
