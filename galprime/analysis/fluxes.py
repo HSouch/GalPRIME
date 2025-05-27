@@ -40,6 +40,32 @@ def r50(sma, intens):
     return rX(sma, intens, 0.5)
 
 
+def integrated_rX(sma, intens, ellip, width=1, x=0.5):
+    """ Returns the rX value taking into account the INTEGRATED light profile, in annuli of width 'width'.
+        So ellipticity is also needed, as it calculates the circularized profile.
+
+        This is a slightly more accurate estimate of rX.
+
+    Args:
+        sma (arr): Semi-major axis values.
+        intens (arr): Average intensity values.
+        ellip (arr): Ellipticity values
+        width (int, optional): Annulus width. Defaults to 1. 
+            NOTE: If using linear scaling in the isophotes, it is recommended to use a width of the isophote step.
+        x (float, optional): Fraction of light contained in rX. Defaults to 0.5. (50%)
+
+    Returns:
+        tuple: The index of rX and the value of rX.
+    """
+    sma_circ = np.sqrt(sma ** 2 * (1 - ellip))
+
+    annuli = np.pi * ((sma_circ + width /2) ** 2 - (sma_circ - width / 2) ** 2)
+    intens_integrated = annuli * intens
+
+    return rX(sma_circ, intens_integrated, x)
+
+
+
 def sb(intens, A_pix=1, mu_0=27):
     """
     Calculate the surface brightness.
