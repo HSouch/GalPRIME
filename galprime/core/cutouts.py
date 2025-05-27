@@ -114,7 +114,7 @@ class Cutouts:
                 header = hdul[cutout_index].header
 
                 # Add the primary header to the cutout header if values not already present
-                if cutout_index is not 0:
+                if cutout_index != 0:
                     primary_header = hdul[0].header
                     for key in primary_header.keys():
                         if key not in header:
