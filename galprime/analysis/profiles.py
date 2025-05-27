@@ -2,7 +2,7 @@
 from scipy.stats import norm
 from photutils.isophote import IsophoteList
 
-from .fluxes import r50
+from .fluxes import integrated_rX
 
 from numpy import argmin, clip
 
@@ -29,7 +29,7 @@ def profile_quality(profile, bg_info, r50_mult=5, alpha=0.05):
     profile = ensure_profile_format(profile)
     sma, intens = profile['sma'], profile['intens']
     
-    r50_val = r50(profile['sma'], profile['intens'])[1]
+    r50_val = integrated_rX(profile['sma'], profile['intens'], profile["ellipticity"], x=0.5)[1]
 
     sf = 1 - norm.cdf(intens, loc=bg_info[1], scale=bg_info[2])
     
