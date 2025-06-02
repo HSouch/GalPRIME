@@ -97,7 +97,12 @@ def handle_output(results, outdirs, config, bin_id="0"):
     coadd_profiles = [n["ISOLISTS"][1].to_table() for n in results]
     bgsub_profiles = [n["ISOLISTS"][2].to_table() for n in results]
 
-    mod_params = [n["PARAMS"] for n in results]
+    # mod_params = [n["PARAMS"] for n in results]
+    mod_params = []
+    for n in results:
+        row = n["PARAMS"]
+        row.update(n["METADATA"])
+        mod_params.append(row)
 
     # Save individual profiles
     model_hdul, coadd_hdul, bgsub_hdul = fits.HDUList(), fits.HDUList(), fits.HDUList()
@@ -119,6 +124,22 @@ def handle_output(results, outdirs, config, bin_id="0"):
 
     gen_median_hdul(bare_table, coadd_table, bgsub_table, 
                     f'{outdirs["MEDIANS"]}{config["RUN_ID"]}_{bin_id}.fits')
+    
+
+    # Generate metadata file
+    meta_file = gen_model_data_file(mod_params)
+    meta_file.write(f'{outdirs["MODEL_PARAMS"]}{config["RUN_ID"]}_{bin_id}_MODEL_PARAMS.fits', 
+                    format='fits', overwrite=True)
+
+
+def gen_model_data_file(param_list):
+    params = list(param_list[0].keys())
+
+    rows = []
+    for p in param_list:
+        rows.append([p[param] for param in params])
+
+    return Table(rows=rows, names=params)
 
 
 def hdul_to_table(hdul):
