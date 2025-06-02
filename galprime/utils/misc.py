@@ -23,6 +23,7 @@ def gen_filestructure(outdir, generate=True):
                  "BGSUB_PROFS": f"{outdir}bgsub_profiles/",
                  "MEDIANS": f"{outdir}medians/",
                  "ADDL_DATA": f"{outdir}additional_data/",
+                 "MODEL_PARAMS": f"{outdir}additional_data/model_params/",
                  "PLOTS": f"{outdir}plots/",
                  "TEMP": f"{outdir}tempfiles/"}
     if generate:
