@@ -23,37 +23,37 @@ def common_sma(profiles, step=1, method='exact', dtype='isolist'):
         raise ValueError('Method not recognized')
     
 
-def gen_profile_image(profiles, dtype='isolist'):
+def gen_profile_image(profiles, dtype='isolist', fill_value='extrapolate'):
     sma = common_sma(profiles, dtype=dtype)
 
     prof_img = np.zeros((len(profiles), len(sma)))
     for i in range(len(profiles)):
-        f = interp1d(profiles[i]['sma'], profiles[i]['intens'], kind='linear', fill_value='extrapolate')
+        f = interp1d(profiles[i]['sma'], profiles[i]['intens'], kind='linear', fill_value=fill_value, bounds_error=False)
         prof_img[i] = f(sma)
 
     return sma, prof_img
 
 
-def profile_median(profiles, dtype='isolist'):
-    med_sma, prof_img = gen_profile_image(profiles, dtype=dtype)
+def profile_median(profiles, dtype='isolist', fill_value='extrapolate'):
+    med_sma, prof_img = gen_profile_image(profiles, dtype=dtype, fill_value=fill_value)
 
-    median = np.median(prof_img, axis=0)
+    median = np.nanmedian(prof_img, axis=0)
 
     return med_sma, median
 
 
-def bootstrap_median(profiles, samples=100, dtype='isolist'):
-    med_sma, prof_img = gen_profile_image(profiles, dtype=dtype)
+def bootstrap_median(profiles, samples=100, dtype='isolist', fill_value='extrapolate'):
+    med_sma, prof_img = gen_profile_image(profiles, dtype=dtype, fill_value=fill_value)
 
     medians = np.zeros((samples, len(med_sma)))
     for i in range(samples):
         sample_indices = np.random.choice(len(prof_img), len(prof_img), replace=True)
         sample = prof_img[sample_indices]
-        medians[i] = np.median(sample, axis=0)
+        medians[i] = np.nanmedian(sample, axis=0)
     
     medians = np.sort(medians, axis=0)
 
-    bootstrapped_median = np.median(medians, axis=0)
+    bootstrapped_median = np.nanmedian(medians, axis=0)
 
     lower_index_1sig, upper_index_1sig = int(samples * 0.159), int(samples * 0.841)
     lower_index_2sig, upper_index_2sig = int(samples * 0.023), int(samples * 0.977)
