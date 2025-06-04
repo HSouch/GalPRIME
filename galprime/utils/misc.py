@@ -9,6 +9,8 @@ import numpy as np
 
 import datetime
 
+from scipy.interpolate import interp1d
+
 
 def object_kde(columns):
     """ Generate a gaussian kernel density estimate for the columns of a bin. """
@@ -118,3 +120,23 @@ def get_output_id(outdir):
         ids.append(int(fn.split('_')[1].split('.')[0]))
     
     return np.unique(ids)
+
+
+def fill_nans(x, y):
+    """
+    Fill NaN values in the y array using linear interpolation based on the x array.
+    
+    Parameters:
+    x (array-like): The x values corresponding to the y values.
+    y (array-like): The y values, which may contain NaN values.
+    
+    Returns:
+    array: The y array with NaN values filled using linear interpolation.
+    """
+    
+    mask = np.isnan(y)
+    if np.all(mask):
+        return y  # If all values are NaN, return the original array
+    
+    interp_func = interp1d(x[~mask], y[~mask], bounds_error=False, fill_value="extrapolate")
+    return interp_func(x)
