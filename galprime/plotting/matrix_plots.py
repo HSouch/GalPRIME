@@ -126,23 +126,26 @@ class KDEPlot(MatrixPlot):
 
 
 class ProfilePlot(MatrixPlot):
-    def __init__(self, outdir=None, **kwargs):
+    def __init__(self, outdir=None, config=None, **kwargs):
         self.outdir = outdir
         
-        if outdir is None:
+        if outdir is None and config is None:
             raise ValueError("Outdir must be specified")
 
-        self.files = gp.gen_filestructure(outdir, generate=False)
-        self.config_filename = None
-        for f in os.listdir(self.files["ADDL_DATA"]):
-            if f.startswith("config_"):
-                self.config_filename = os.path.join(self.files["ADDL_DATA"], f)
-        
-        if self.config_filename is None:
-            raise ValueError("Could not find config file in ADDL_DATA directory")
-        
-        self.run_id = kwargs.get("run_id", gp.get_run_id(self.outdir))
-        self.config = gp.read_config_file(self.config_filename)
+        if config is None:
+            self.files = gp.gen_filestructure(outdir, generate=False)
+            self.config_filename = None
+            for f in os.listdir(self.files["ADDL_DATA"]):
+                if f.startswith("config_"):
+                    self.config_filename = os.path.join(self.files["ADDL_DATA"], f)
+            
+            if self.config_filename is None:
+                raise ValueError("Could not find config file in ADDL_DATA directory")
+            
+            self.run_id = kwargs.get("run_id", gp.get_run_id(self.outdir))
+            self.config = gp.read_config_file(self.config_filename)
+        else:
+            self.config = gp.read_config_file(config)
 
         self.x_index = kwargs.get("x_index", 0)
         self.y_index = kwargs.get("y_index", 1)
@@ -181,8 +184,8 @@ class ProfilePlot(MatrixPlot):
         ylabel = kwargs.get("ylabel", r'$\log_{10}\left(\frac{F}{A_{pix}}\right)$ [mag / arcsec $^2$]')
         xlabel = kwargs.get("xlabel", r'$\log_{10}(R)$ [pix]')
 
-        rows_param = "z"
-        cols_param = r"$\log_{10}(M_*)$"
+        rows_param = kwargs.get("row_label", "z")
+        cols_param = kwargs.get("col_label", r"$\log_{10}(M_*)$")
 
         for i in range(self.nrows):
             ax[i, 0].set_ylabel(ylabel, fontsize=kwargs.get("fontsize", 12))
@@ -198,7 +201,7 @@ class ProfilePlot(MatrixPlot):
         ax[-1, -1].legend(fontsize=kwargs.get("legend_fontsize", 10), frameon=False)
 
 
-    def plot_profs(self, tabs, axis, colors=None, labels=None):
+    def plot_profs(self, tabs, axis, colors=None, labels=None, to_sb=True):
         for i in range(len(tabs)):
             tab = tabs[i]
             color = colors[i]
@@ -209,14 +212,15 @@ class ProfilePlot(MatrixPlot):
             low_2sig, up_2sig = tab["LOW_2SIG"], tab["UP_2SIG"]
             low_3sig, up_3sig = tab["LOW_3SIG"], tab["UP_3SIG"]
             
-            median_sb = gp.to_sb(median, m_0=self.config["MODEL"]["ZPM"], arcconv=self.config["MODEL"]["ARCCONV"])
-            axis.plot(sma, median_sb, color=color, label=label)
+            if to_sb:
+                median = gp.to_sb(median, m_0=self.config["MODEL"]["ZPM"], arcconv=self.config["MODEL"]["ARCCONV"])
+            axis.plot(sma, median, color=color, label=label)
             
             for low, up in zip([low_1sig, low_2sig, low_3sig], [up_1sig, up_2sig, up_3sig]):
-                low_sb = gp.to_sb(low, m_0=self.config["MODEL"]["ZPM"])
-                up_sb = gp.to_sb(up, m_0=self.config["MODEL"]["ZPM"])
-                
-                axis.fill_between(sma, low_sb, up_sb, color=color, alpha=0.2)
+                if to_sb:
+                    low = gp.to_sb(low, m_0=self.config["MODEL"]["ZPM"])
+                    up = gp.to_sb(up, m_0=self.config["MODEL"]["ZPM"])
+                axis.fill_between(sma, low, up, color=color, alpha=0.2)
 
 
     def _populate(self, i, j, axis, **kwargs):
@@ -249,7 +253,8 @@ class ProfilePlot(MatrixPlot):
 
         self.plot_profs([bare, coadd, bgsub], axis, 
                         colors=[bare_color, coadd_color, bgsub_color], 
-                        labels=["Model", "Coadd", "BG Sub"])
+                        labels=["Model", "Coadd", "BG Sub"],
+                        to_sb=kwargs.get("to_sb", True))
         
         if kwargs.get("grid", True):
             axis.grid(zorder=0, which="both", linestyle="--", alpha=0.3)
