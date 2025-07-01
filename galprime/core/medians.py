@@ -2,26 +2,59 @@ import numpy as np
 from scipy.interpolate import interp1d
 
 
-def common_sma(profiles, step=1, method='exact', dtype='isolist'):
+def common_sma_old(profiles, step=1, method='exact', dtype='isolist'):
 
     if dtype == 'isolist':
-        profile_set = [profiles[i].sma[-1] for i in range(len(profiles))]
+        profile_mins = [profiles[i].sma[0] for i in range(len(profiles))]
+        profile_maxes = [profiles[i].sma[-1] for i in range(len(profiles))]
     elif dtype == 'table':
-        profile_set = [profiles[i]['sma'][-1] for i in range(len(profiles))]
+        profile_mins = [profiles[i]["sma"][0] for i in range(len(profiles))]
+        profile_maxes = [profiles[i]['sma'][-1] for i in range(len(profiles))]
 
     if method == 'exact':
-        max_sma = np.argmax(profile_set)
+        min_sma = np.nanmax(profile_mins)
+        max_sma = np.argmax(profile_maxes)
         if dtype == 'isolist':
             return profiles[max_sma].sma
         elif dtype == 'table':
             return profiles[max_sma]["sma"]
     
     elif method == 'interpolate':
-        max_sma = np.nanmax(profile_set)
+        max_sma = np.nanmax(profile_maxes)
         return np.arange(1, max_sma, step)
     else:
         raise ValueError('Method not recognized')
-    
+
+
+def common_sma(profiles, step=1, method='exact', dtype='isolist'):
+
+    if dtype == 'isolist':
+        profile_mins = [profiles[i].sma[0] for i in range(len(profiles))]
+        profile_maxes = [profiles[i].sma[-1] for i in range(len(profiles))]
+    elif dtype == 'table':
+        profile_mins = [profiles[i]["sma"][0] for i in range(len(profiles))]
+        profile_maxes = [profiles[i]['sma'][-1] for i in range(len(profiles))]
+
+    if method == 'exact':
+        min_sma = np.argmin(profile_mins)
+        max_sma = np.argmax(profile_maxes)
+
+        if dtype == 'isolist':
+            sma_mins = profiles[min_sma].sma
+            sma_maxes = profiles[max_sma].sma
+        elif dtype == 'table':
+            sma_mins = np.array(profiles[min_sma]["sma"])
+            sma_maxes = np.array(profiles[max_sma]["sma"])
+        
+        sma_mins = sma_mins[sma_mins < np.nanmin(sma_maxes)]
+        return np.concatenate((sma_mins, sma_maxes))
+
+    elif method == 'interpolate':
+        max_sma = np.nanmax(profile_maxes)
+        return np.arange(1, max_sma, step)
+    else:
+        raise ValueError('Method not recognized')
+
 
 def gen_profile_image(profiles, dtype='isolist', fill_value='extrapolate'):
     sma = common_sma(profiles, dtype=dtype)
