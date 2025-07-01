@@ -151,6 +151,7 @@ class ProfilePlot(MatrixPlot):
         self.y_index = kwargs.get("y_index", 1)
         self.bin_keys = self.config["BINS"].keys()
 
+
         self.xbins = self.config["BINS"][self.bin_keys[self.x_index]]
         self.ybins = self.config["BINS"][self.bin_keys[self.y_index]]
 
@@ -177,8 +178,10 @@ class ProfilePlot(MatrixPlot):
         if kwargs.get("plot_nmodels", True):
             outtext += r'$N_{models}$' + f' = {kwargs.get("nmodels", self.config["MODEL"]["N_MODELS"])}\n'
 
-        ax[0, -1].text(xmax - 0.05 * dx, ymin + 0.98 * dy, outtext, 
+        ax[0, -1].text(0.95, 0.95, outtext, transform=ax[0, -1].transAxes,
                                     fontsize=kwargs.get("fontsize", 10), ha="right", va="top")
+        
+        return fig, ax
 
     def draw_bin_labels(self, ax, **kwargs):
         ylabel = kwargs.get("ylabel", r'$\log_{10}\left(\frac{F}{A_{pix}}\right)$ [mag / arcsec $^2$]')
@@ -233,8 +236,9 @@ class ProfilePlot(MatrixPlot):
             bin_suffix += "_{}".format(suffix)
         
         run_id = self.run_id if self.use_run_id else ""
-
+        
         median_set = f'{self.files["MEDIANS"]}{run_id}{bin_suffix}.fits'
+        # print(median_set)
 
         with fits.open(median_set) as hdul:
             bare = Table.read(hdul[1])[1:]
@@ -263,9 +267,9 @@ class ProfilePlot(MatrixPlot):
 class DiffPlot(ProfilePlot):
     def __init__(self, outdir=None, **kwargs):
         super().__init__(outdir, **kwargs)
-        self.ylims = [-1, 1]
+        self.ylims = kwargs.get("ylims", [-1, 1])
 
-    def plot_profs(self, tabs, axis, colors=None, labels=None):
+    def plot_profs(self, tabs, axis, colors=None, labels=None, **kwargs):
         bare_tab = tabs[0]
         bare_sma, bare_median = bare_tab["SMA"], bare_tab["MEDIAN"]
         bare_low_1sig, bare_up_1sig = bare_tab["LOW_1SIG"], bare_tab["UP_1SIG"]
@@ -296,3 +300,69 @@ class DiffPlot(ProfilePlot):
             axis.fill_between(sma, diff_low_3sig, diff_up_3sig, color=colors[i], alpha=0.2)
 
         axis.axhline(0, color="black", linestyle="--", alpha=0.5, zorder=0)
+
+
+
+class EdgeRowMatrixPlot(ProfilePlot):
+    """
+    A custom version of ProfilePlot, but ONLY for the first and last rows.
+    """
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.row_label = "n"
+        self.col_label = "R"
+        self.reverse_x = True
+        self.to_sb = False
+
+    def plot(self, *args, **kwargs):
+        figsize = kwargs.get("figsize", self.auto_figsize(width=kwargs.get("width", 12)))
+        fig, ax = plt.subplots(2, self.ncols, facecolor="white", figsize=figsize, 
+                               sharey=kwargs.get("sharey", True), sharex=kwargs.get("sharex", True))
+        
+        ax = np.asanyarray(ax)
+        for i in [0, 1]:
+            for j in range(self.ncols):
+                i_plot = i * self.nrows
+                if i_plot > 0:
+                    i_plot -= 1
+                i_plot = -i_plot if kwargs.get("reverse_y", False) else i_plot
+                j_plot = j if kwargs.get("reverse_x", False) else -j
+
+                axis = ax[i, j_plot] if self.nrows > 1 else ax[j_plot]
+                
+                self._populate(i_plot, j, axis, **kwargs)
+        
+        if kwargs.get("title", None):
+            fig.suptitle(kwargs.get("title"), fontsize=kwargs.get("title_size", 16))
+        
+        self.draw_bin_labels(ax, **kwargs)
+        self.cleanup()
+
+        return fig, ax
+
+    def draw_bin_labels(self, ax, **kwargs):
+        ylabel = kwargs.get("ylabel", r'$\log_{10}\left(\frac{F}{A_{pix}}\right)$ [mag / arcsec $^2$]')
+        xlabel = kwargs.get("xlabel", r'$\log_{10}(R)$ [pix]')
+
+        rows_param = kwargs.get("row_label", "z")
+        cols_param = kwargs.get("col_label", r"$\log_{10}(M_*)$")
+
+        ax[0, 0].set_ylabel(ylabel, fontsize=kwargs.get("fontsize", 12))
+
+        ax[0, -1].set_ylabel(f'{self.xbins[0]} < {rows_param} < {self.xbins[1]}',
+                            fontsize=kwargs.get("fontsize", 12))
+        ax[0, -1].yaxis.set_label_position("right")
+
+        ax[1, 0].set_ylabel(ylabel, fontsize=kwargs.get("fontsize", 12))
+        ax[1, -1].set_ylabel(f'{self.xbins[-2]} < {rows_param} < {self.xbins[-1]}',
+                            fontsize=kwargs.get("fontsize", 12))
+        ax[1, -1].yaxis.set_label_position("right")
+
+        for j in range(self.ncols):
+            ax[-1, j].set_xlabel(xlabel, fontsize=kwargs.get("fontsize", 12))
+            ax[0, j].set_title(f'{self.ybins[j]} < {cols_param} < {self.ybins[j + 1]}')
+        
+        ax[-1, -1].legend(fontsize=kwargs.get("legend_fontsize", 10), frameon=False)
+
+
