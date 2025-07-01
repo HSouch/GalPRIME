@@ -1,5 +1,8 @@
 import galprime as gp
 
+import numpy as np
+from scipy.interpolate import interp1d
+
 from astropy.table import Table
 from astropy.io import fits
 
@@ -293,3 +296,61 @@ def combine_outputs(filedir_1, filedir_2, outdir, run_id_1=None, run_id_2=None, 
 
         gp.gen_median_hdul(bare_table, coadd_table, bgsub_table, 
                            outname=f'{output_files["MEDIANS"]}{f}')
+
+
+def calc_deviation_overlap(m1, m2, color="blue", step=0.5, pad=0.05):
+    """
+    Calculate the deviation at which two profiles no longer overlap.
+    m1 and m2 are outputs from gp.bootstraop_medianm with the following structure:
+    m[0] = sma values
+    m[1]: median values
+    m[2]: The set of lower bounds (so m[2][2] is the 3-sigma lower bound)
+    m[3]: The set of upper bounds (so m[3][2] is the 3-sigma upper bound)
+    This function interpolates the profiles onto a fine grid and determines the first point
+    where the two profiles no longer overlap, returning that value.
+    Parameters
+    ----------
+    m1 : tuple or list of arrays
+        The first profile, expected to be a tuple or list where:
+            - m1[0]: array-like, the x-values (e.g., semi-major axes)
+            - m1[2][2]: array-like, the lower bound values for the profile
+            - m1[3][2]: array-like, the upper bound values for the profile
+    m2 : tuple or list of arrays
+        The second profile, structured identically to `m1`.
+    color : str, optional
+        Color for plotting (not used in this function), default is "blue".
+    step : float, optional
+        Step size for the fine grid interpolation, default is 0.5.
+    pad : float, optional
+        Padding to apply to the lower and upper bounds, default is 0.05.
+    Returns
+    -------
+    deviation : float
+        The value along the fine grid where the two profiles first cease to overlap.
+        If the profiles always overlap, returns the last value of the fine grid.
+    Raises
+    ------
+    ValueError
+        If the input profiles do not have the same length.
+    """
+    
+    if len(m1) != len(m2):
+        raise ValueError("Profiles must have the same length.")
+    fine_smas = np.arange(np.min(m1[0]) + step, np.max(m1[0]) - step, step)
+
+    def oversampled(x, y):
+        return interp1d(x, y)(fine_smas)
+
+    m1_low = oversampled(m1[0], m1[2][2] - pad)
+    m1_up = oversampled(m1[0], m1[3][2] + pad)
+
+    m2_low = oversampled(m2[0], m2[2][2] - pad)
+    m2_up = oversampled(m2[0], m2[3][2] + pad)
+
+    not_overlapping = np.logical_or(m1_low >= m2_up, m1_up <= m2_low)
+    first_non_overlap = np.argmax(not_overlapping)
+
+    deviation = fine_smas[first_non_overlap] if first_non_overlap != 0 else fine_smas[-1]
+
+    return deviation
+
