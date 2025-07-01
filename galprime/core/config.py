@@ -47,10 +47,10 @@ def default_config():
 
 
     config["MASKING"] = {}
-    config["MASKING"]["NSIGMA"] = 1
+    config["MASKING"]["NSIGMA"] = 2
     config["MASKING"]["GAUSS_WIDTH"] = 2
     config["MASKING"]["NPIX"] = 5
-    config["MASKING"]["BG_BOXSIZE"] = 50
+    config["MASKING"]["BG_BOXSIZE"] = 42
 
     config["EXTRACTION"] = {}
     config["EXTRACTION"]["LINEAR"] = False
