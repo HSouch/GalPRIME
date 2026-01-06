@@ -42,6 +42,7 @@ For example, you can use GalPRIME to:
    :maxdepth: 2
 
    2_processing/postprocessing
+   2_processing/backgrounds
 
 .. toctree::
    :maxdepth: 1
