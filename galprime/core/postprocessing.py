@@ -298,6 +298,12 @@ def combine_outputs(filedir_1, filedir_2, outdir, run_id_1=None, run_id_2=None, 
                            outname=f'{output_files["MEDIANS"]}{f}')
 
 
+def columns_from_median_table(med_table):
+    return [med_table["SMA"].data, med_table["MEDIAN"].data,
+                     [med_table["LOW_1SIG"].data, med_table["LOW_2SIG"].data, med_table["LOW_3SIG"].data],
+                     [med_table["UP_1SIG"].data, med_table["UP_2SIG"].data, med_table["UP_3SIG"].data]]
+
+
 def calc_deviation_overlap(m1, m2, color="blue", step=0.5, pad=0.05):
     """
     Calculate the deviation at which two profiles no longer overlap.
@@ -334,13 +340,21 @@ def calc_deviation_overlap(m1, m2, color="blue", step=0.5, pad=0.05):
         If the input profiles do not have the same length.
     """
     
+    if isinstance(m1, Table):
+        m1 = columns_from_median_table(m1)
+        m2 = columns_from_median_table(m2)
+
     if len(m1) != len(m2):
         raise ValueError("Profiles must have the same length.")
-    fine_smas = np.arange(np.min(m1[0]) + step, np.max(m1[0]) - step, step)
+    
+    # Create a unified oversampled sma array 
+    sma_min = np.max([np.min(m1[0]), np.min(m2[0])])
+    sma_max = np.min([np.max(m1[0]), np.max(m2[0])])
+    fine_smas = np.arange(sma_min, sma_max, step)
 
     def oversampled(x, y):
         return interp1d(x, y)(fine_smas)
-
+    
     m1_low = oversampled(m1[0], m1[2][2] - pad)
     m1_up = oversampled(m1[0], m1[3][2] + pad)
 
