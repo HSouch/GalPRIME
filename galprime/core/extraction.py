@@ -28,6 +28,7 @@ class PoorFitException(Exception):
 def isophote_fitting(data, config, geo_init=None):
     
     fail_count, max_fails = 0, 100
+    
     linear = config.get("EXTRACTION", {}).get("LINEAR", False)
     step = config.get("EXTRACTION", {}).get("STEP", 0.1)
     fix_center = config.get("EXTRACTION", {}).get("FIX_CENTER", False)
@@ -100,93 +101,6 @@ def isophote_fitting(data, config, geo_init=None):
 
     
     return None
-
-
-
-def isophote_fitting_old(data, config={}, centre_method='standard'):
-    """ Wrapper for photutils.isophote methods
-
-    Generates a table of results from isophote fitting analysis. This uses photutils Isophote procedure, which is
-    effectively IRAF's Ellipse() method.
-    Iterates over many possible input ellipses to force a higher success rate.
-
-    Args:
-        data: The input cutout
-        config: The configuration parameters, which contains details like STEP and LINEAR for profile extraction.
-        centre_method: Which method to use to determine where to place the centre of the first ellipse.
-            'standard': place at the exact centre of the cutout
-            'max': place at the maximum pixel in the cutout
-
-    Returns:
-        The table of results, or an empty list if not fitted successfully.
-
-    """
-    # Set-up failsafe in case of strange infinte loops in photutils
-    # warnings.filterwarnings("error")
-
-    fail_count, max_fails = 0, 1000
-    linear = config.get("EXTRACTION", {}).get("LINEAR", False)
-    step = config.get("EXTRACTION", {}).get("STEP", 0.1)
-    fix_center = config.get("EXTRACTION", {}).get("FIX_CENTER", False)
-
-    # Get centre of image and cutout halfwidth
-    if centre_method == 'standard':
-        centre = (data.shape[0]/2, data.shape[1]/2)
-    elif centre_method == 'max':
-        centre = np.unravel_index(np.argmax(data), data.shape)
-    else:
-        centre = (data.shape[0] / 2, data.shape[1] / 2)
-
-    cutout_halfwidth = max((np.ceil(data.shape[0] / 2), np.ceil(data.shape[1] / 2)))
-
-    fitting_list = []
-
-    # First, try obtaining morphological properties from the data and fit using that starting ellipse
-    try:
-        morph_cat = data_properties(data)
-        r = 2.0
-        pos = (morph_cat.xcentroid, morph_cat.ycentroid)
-        a = morph_cat.semimajor_sigma.value * r
-        b = morph_cat.semiminor_sigma.value * r
-        theta = morph_cat.orientation.value
-
-        geometry = EllipseGeometry(pos[0], pos[1], sma=a, eps=(1 - (b / a)), pa=theta)
-        flux = Ellipse(data, geometry)
-        fitting_list = flux.fit_image(maxit=100, maxsma=cutout_halfwidth, step=step, linear=linear,
-                                      maxrit=cutout_halfwidth / 3, fix_center=fix_center)
-        if len(fitting_list) > 0:
-            return fitting_list
-
-    except KeyboardInterrupt:
-        sys.exit(1)
-    except (RuntimeWarning, RuntimeError, ValueError, OverflowError, IndexError):
-        fail_count += 1
-        if fail_count >= max_fails:
-            return []
-
-    # If that fails, test a parameter space of starting ellipses
-    try:
-        for angle in range(0, 180, 45):
-            for sma in range(2, 26, 5):
-                for eps in (0.3, 0.5, 0.9):
-                    geometry = EllipseGeometry(float(centre[0]), float(centre[1]), eps=eps,
-                                               sma=sma, pa=angle * np.pi / 180.)
-                    flux = Ellipse(data, geometry)
-                    fitting_list = flux.fit_image(maxsma=cutout_halfwidth, step=step, linear=linear,
-                                                  maxrit=cutout_halfwidth / 3, fix_center=fix_center)
-                    if len(fitting_list) > 0:
-                        return fitting_list
-
-    except KeyboardInterrupt:
-        sys.exit(1)
-    except (RuntimeWarning, RuntimeError, ValueError, OverflowError, IndexError):
-
-        # print("RuntimeError or ValueError")
-        fail_count += 1
-        if fail_count >= max_fails:
-            return []
-
-    return fitting_list
 
 
 class IsophoteFitter:
