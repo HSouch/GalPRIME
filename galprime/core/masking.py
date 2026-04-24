@@ -4,6 +4,23 @@ from astropy.stats import sigma_clipped_stats
 from photutils import segmentation
 
 
+import maskfill
+
+
+def mask_image_fill(data, mask):
+    """ Use maskfill (van Dokkum & Pasha) to fill in the masked values.
+    
+
+    Args:
+        data (Array-like): Input image data
+        mask (Array-like): Mask array indicating which pixels to fill
+
+    Returns:
+        _type_: Filled image data
+    """
+    return maskfill.maskfill(np.copy(data), mask=mask)[0]
+
+
 def gen_mask(data, config=None, omit=[], omit_central=True):
     """
     Generate a mask based on the input data.
@@ -27,9 +44,13 @@ def gen_mask(data, config=None, omit=[], omit_central=True):
         nsigma = float(config["MASKING"]["NSIGMA"])
         gauss_width = float(config["MASKING"]["GAUSS_WIDTH"])
         npix = int(config["MASKING"]["NPIX"])
+        contrast = float(config["MASKING"]["CONTRAST"])
+        nlevels = int(config["MASKING"]["NLEVELS"])
     else:
         nsigma, gauss_width, npix = 2., 5., 5
         bg_boxsize = 50
+        contrast = 0.001
+        nlevels = 32
     
     bg_mean, bg_median, bg_std = sigma_clipped_stats(data)
     threshold = bg_median + nsigma * bg_std 
@@ -39,7 +60,7 @@ def gen_mask(data, config=None, omit=[], omit_central=True):
 
     segment_map = segmentation.detect_sources(convolved_data, threshold, npixels=10)
     segm_deblend = segmentation.deblend_sources(convolved_data, segment_map,
-                                                npixels=npix, nlevels=32, contrast=0.001,
+                                                npixels=npix, nlevels=nlevels, contrast=contrast,
                                                 progress_bar=False)
 
     central_pix = (data.shape[0] // 2, data.shape[1] // 2)

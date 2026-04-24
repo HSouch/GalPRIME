@@ -110,6 +110,15 @@ class GPrimeSingle:
             self.stop_code = 3
             self.mask_bgadded, self.mask_data_bgadded = gp.gen_mask(self.bg_added_model, config=self.config)
             self.mask_bgsub, self.mask_data_bgsub = gp.gen_mask(self.bgsub, config=self.config)
+
+            # If we want to fill in images with MaskFill, we fill in the values then set the masks to zeros
+            if self.config["MASKING"]["METHOD"] == "fill":
+                self.mask_bgadded = gp.mask_image_fill(self.bg_added_model, self.mask_bgadded)
+                self.mask_bgsub = gp.mask_image_fill(self.bgsub, self.mask_bgsub)
+
+                self.mask_bgadded = self.mask_bgsub = np.zeros(self.bg_added_model.shape, dtype=bool)
+            
+
         except Exception as e:
             raise RuntimeError(f'{self.id} failed masking: {e}')
         
