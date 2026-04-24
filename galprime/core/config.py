@@ -3,6 +3,7 @@ import numpy as np
 
 from ..utils import load_object
 
+
 def default_config():
 
     config = ConfigObj()
@@ -47,10 +48,13 @@ def default_config():
 
 
     config["MASKING"] = {}
+    config["MASKING"]["METHOD"] = "exclude"
     config["MASKING"]["NSIGMA"] = 2
     config["MASKING"]["GAUSS_WIDTH"] = 2
     config["MASKING"]["NPIX"] = 5
     config["MASKING"]["BG_BOXSIZE"] = 42
+    config["MASKING"]["CONTRAST"] = 0.001
+    config["MASKING"]["NLEVELS"] = 32
 
     config["EXTRACTION"] = {}
     config["EXTRACTION"]["LINEAR"] = False
@@ -107,10 +111,13 @@ def galprime_configspec():
     cspec["DIRS"]["OUTDIR"] = "string(default='gprime_out/')"
 
     cspec["MASKING"] = {}
+    cspec["MASKING"]["METHOD"] = "string(default='exclude')"
     cspec["MASKING"]["NSIGMA"] = "float(default=1)"
     cspec["MASKING"]["GAUSS_WIDTH"] = "float(default=2)"
     cspec["MASKING"]["NPIX"] = "integer(default=5)"
     cspec["MASKING"]["BG_BOXSIZE"] = "integer(default=50)"
+    cspec["MASKING"]["CONTRAST"] = "float(default=0.001)"
+    cspec["MASKING"]["NLEVELS"] = "integer(default=32)"
 
     cspec["EXTRACTION"] = {}
     cspec["EXTRACTION"]["LINEAR"] = "boolean(default=False)"
