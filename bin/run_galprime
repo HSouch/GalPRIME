@@ -19,6 +19,7 @@ global logger
 parser = argparse.ArgumentParser(description="Run GalPRIME simulation")
 parser.add_argument("config_filename", type=str, help="Path to config file")
 parser.add_argument("--max_bins", type=int, default=None, help="Maximum number of bins to process")
+parser.add_argument("--min_objs_per_bin", type=int, default=10, help="Minimum number of objects required for a valid bin.")
 parser.add_argument("--run_id", type=int, default=gp.get_dt_intlabel(), help="Run ID")
 parser.add_argument("--log_level", type=int, default=20, help="Logging level. 10=DEBUG, 20=INFO, 30=WARNING")
 parser.add_argument("--verbose", action="store_true", help="Verbose output")
@@ -143,7 +144,8 @@ if __name__ == '__main__':
     print(f"GalPRIME v{gp.__version__} -- Starting run ID:{run_id}")
     print(f'Logfile saved to: {config["DIRS"]["OUTDIR"]}output_{run_id}.log')
 
-    binlist = gp.bin_catalogue(object_catalogue, bin_params=config["BINS"], params=config["KEYS"], logger=logger)
+    binlist = gp.bin_catalogue(object_catalogue, min_objects=args.min_objs_per_bin, 
+                               bin_params=config["BINS"], params=config["KEYS"], logger=logger)
     max_bins = len(binlist.bins) if args.max_bins is None else min(args.max_bins, len(binlist.bins))
 
     model = gp.galaxy_models[config["MODEL"]["MODEL_TYPE"]]
