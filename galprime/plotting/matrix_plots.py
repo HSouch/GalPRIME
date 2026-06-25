@@ -19,6 +19,8 @@ class MatrixPlot:
         self.outname = kwargs.get("outname", "plot.pdf")
         self.ylims = kwargs.get("ylims", None)
 
+        self.cutoff_table = []
+        
     def auto_figsize(self, width=12):
         return (width, width/self.ncols*self.nrows)
     
@@ -151,7 +153,6 @@ class ProfilePlot(MatrixPlot):
         self.y_index = kwargs.get("y_index", 1)
         self.bin_keys = self.config["BINS"].keys()
 
-
         self.xbins = self.config["BINS"][self.bin_keys[self.x_index]]
         self.ybins = self.config["BINS"][self.bin_keys[self.y_index]]
 
@@ -169,9 +170,6 @@ class ProfilePlot(MatrixPlot):
         self.draw_bin_labels(ax, **kwargs)
         self.cleanup()
 
-        xmin, xmax = ax[0, 0].get_xlim()
-        ymin, ymax = ax[0, 0].get_ylim()
-        dx, dy = xmax - xmin, ymax - ymin
         outtext = ""
         if kwargs.get("plot_run_id", True):
             outtext += f'Run ID = {self.run_id}\n'
@@ -245,6 +243,7 @@ class ProfilePlot(MatrixPlot):
             coadd = Table.read(hdul[2])[1:]
             bgsub = Table.read(hdul[3])[1:]
 
+
         bare_color = kwargs.get("bare_color", "red")
         coadd_color = kwargs.get("coadd_color", "blue")
         bgsub_color = kwargs.get("bgsub_color", "gold")
@@ -257,9 +256,25 @@ class ProfilePlot(MatrixPlot):
 
         self.plot_profs([bare, coadd, bgsub], axis, 
                         colors=[bare_color, coadd_color, bgsub_color], 
-                        labels=["Model", "Coadd", "BG Sub"],
+                        labels=["Model", "BG Added", "BG Sub"],
                         to_sb=kwargs.get("to_sb", True))
-        
+
+        if kwargs.get("calc_deviations", True):
+            dev_coadd = gp.calc_deviation_overlap(bare, coadd)
+            dev_bgsub = gp.calc_deviation_overlap(bare, bgsub)
+
+            self.cutoff_table.append([i, j, dev_coadd, dev_bgsub])
+
+            axis.axvline(dev_coadd, color=coadd_color, ls="dashed", lw=2, alpha=0.7,
+                        )
+            axis.axvline(dev_bgsub, color=bgsub_color, ls="dashed", lw=2, alpha=0.7,
+                        )
+            
+            dev_text = f'BG-Added:  {dev_coadd:.1f}\nBG-Sub:      {dev_bgsub:.1f}'
+            axis.text(0.02, 0.02, dev_text, transform=axis.transAxes,
+                      fontsize=kwargs.get("fontsize", 10), ha="left", va="bottom")
+
+
         if kwargs.get("grid", True):
             axis.grid(zorder=0, which="both", linestyle="--", alpha=0.3)
     
@@ -364,5 +379,4 @@ class EdgeRowMatrixPlot(ProfilePlot):
             ax[0, j].set_title(f'{self.ybins[j]} < {cols_param} < {self.ybins[j + 1]}')
         
         ax[-1, -1].legend(fontsize=kwargs.get("legend_fontsize", 10), frameon=False)
-
 
