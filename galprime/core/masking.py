@@ -3,7 +3,6 @@ from astropy.convolution import convolve
 from astropy.stats import sigma_clipped_stats
 from photutils import segmentation
 
-
 import maskfill
 
 
@@ -45,12 +44,12 @@ def gen_mask(data, config=None, omit=[], omit_central=True):
         gauss_width = float(config["MASKING"]["GAUSS_WIDTH"])
         npix = int(config["MASKING"]["NPIX"])
         contrast = float(config["MASKING"]["CONTRAST"])
-        nlevels = int(config["MASKING"]["NLEVELS"])
+        n_levels = int(config["MASKING"]["NLEVELS"])
     else:
         nsigma, gauss_width, npix = 2., 5., 5
         bg_boxsize = 50
         contrast = 0.001
-        nlevels = 32
+        n_levels = 32
     
     bg_mean, bg_median, bg_std = sigma_clipped_stats(data)
     threshold = bg_median + nsigma * bg_std 
@@ -58,9 +57,9 @@ def gen_mask(data, config=None, omit=[], omit_central=True):
     kernel = segmentation.make_2dgaussian_kernel(gauss_width, size=5)  # FWHM = 3.0
     convolved_data = convolve(data_masked, kernel)
 
-    segment_map = segmentation.detect_sources(convolved_data, threshold, npixels=10)
+    segment_map = segmentation.detect_sources(convolved_data, threshold, n_pixels=10)
     segm_deblend = segmentation.deblend_sources(convolved_data, segment_map,
-                                                npixels=npix, nlevels=nlevels, contrast=contrast,
+                                                n_pixels=npix, n_levels=n_levels, contrast=contrast,
                                                 progress_bar=False)
 
     central_pix = (data.shape[0] // 2, data.shape[1] // 2)
