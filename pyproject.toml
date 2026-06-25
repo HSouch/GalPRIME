@@ -6,6 +6,20 @@ requires = ["setuptools >= 77.0.3"]
 [project]
 dynamic = ["version"]
 name = "galprime"
+description="GALaxy Profile Recovery from Images of Model Emission"
+readme="README.rst"
+
+authors = [
+    {name = "Harrison Souchereau", email = "harrison.souchereau@yale.edu"}
+]
+
+maintainers = [
+    {name = "Harrison Souchereau", email = "harrison.souchereau@yale.edu"}
+]
+
+classifiers = [
+    "Development Status :: 5 - Stable",
+]
 
 
 dependencies = [
@@ -26,3 +40,10 @@ requires-python = ">=3.9"
 bg_selector = "galprime.scripts.bg_selector:main"
 run_galprime = "galprime.scripts.run_galprime:main"
 gp_combine = "galprime.scripts.gp_combine:main"
+
+
+[tool.setuptools]
+packages = ["galprime"]
+
+[tool.setuptools.dynamic]
+version = {attr = "galprime.__version__"}
