@@ -19,9 +19,9 @@ def rX(sma, intens, X=0.5):
     if X < 0 or X > 1:
         raise ValueError("X must be between 0 and 1")
     
-    Ltot = np.trapz(intens, sma)
+    Ltot = np.trapezoid(intens, sma)
     for i in range(len(sma)):
-        L = np.trapz(intens[:i], sma[:i])
+        L = np.trapezoid(intens[:i], sma[:i])
         if L > X * Ltot:
             return i, sma[i]
     return len(sma) - 1, sma[-1]
