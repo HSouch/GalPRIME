@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 import sys
 import numpy as np
 import galprime as gp
@@ -181,9 +181,10 @@ class BackgroundSelector:
                           ha='center', va='center', color=args.tc)
 
 
+
     
 
-if __name__ == '__main__':
+def main():
     with fits.open(args.img_filename) as hdul:
         image = hdul[args.i].data
         wcs = WCS(hdul[args.i].header)

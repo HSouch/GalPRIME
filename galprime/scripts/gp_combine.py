@@ -1,11 +1,9 @@
-#!/usr/bin/env python
 
 import galprime as gp
 
 import argparse
 
-
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Run GalPRIME simulation")
     parser.add_argument("gprun_1", type=str, help="Path to first GPRIME output")
     parser.add_argument("gprun_2", type=str, help="Path to second GPRIME output")
